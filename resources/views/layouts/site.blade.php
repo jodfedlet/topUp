@@ -6,10 +6,9 @@
       @include('layouts._site._nav')
     </header>
 
-
     <main>
         @yield('content')
     </main>
 
-@include('layouts._site._footer_links')
+@include('layouts._site._footer')
 

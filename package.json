@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.5.2",
+        "materialize-css": "^1.0.0-rc.2",
         "pug": "^3.0.0",
         "vue": "^2.6.12",
         "vue-resource": "^1.5.1"

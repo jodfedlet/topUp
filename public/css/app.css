@@ -1,0 +1,27 @@
+*{
+    box-sizing:border-box;
+}
+body{
+    overflow: hidden;
+}
+
+
+a,a:hover{
+    text-decoration: none;
+
+}
+
+.modal-header,.modal-footer{
+    background: lightblue;
+}
+
+.modal-header{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Kaushan Script', cursive;
+}
+
