@@ -10,10 +10,10 @@
 
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="languages">
                     <li><a class="dropdown-item" href="">Français</a></li>
-                    <li><a class="dropdown-item" href="">Créole</a></li>
-                    <li><a class="dropdown-item" href="">Anglais</a></li>
-                    <li><a class="dropdown-item" href="">Portuguais</a></li>
-                    <li><a class="dropdown-item" href="">Espagnol</a></li>
+                    <li><a class="dropdown-item" href="">Kreyòl</a></li>
+                    <li><a class="dropdown-item" href="">English</a></li>
+                    <li><a class="dropdown-item" href="">Português</a></li>
+                    <li><a class="dropdown-item" href="">Español</a></li>
                 </ul>
             </li>
             <li style="padding-left:1em; padding-right:1em">
