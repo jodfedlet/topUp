@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\System;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class SettingsController extends Controller
 {
@@ -38,6 +39,7 @@ class SettingsController extends Controller
         try{
             $system->save();
             $response = response()->json(['message' => 'Settings Saved. Operator Sync Started!']);
+            Artisan::call('schedule:run');
         }catch (QueryException $e){
             $response = response()->json(['errors' => ['Error' => $e->getMessage()]], 422);;
         }finally {

@@ -3,6 +3,7 @@
 
 namespace App\Traits;
 use App\Log;
+use App\Operator;
 
 trait SystemTrait{
 
