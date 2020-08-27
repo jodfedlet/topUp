@@ -1,131 +1,168 @@
-<header>
-<nav class="navbar navbar-expand-lg navbar-dark">
-  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse  navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+<header >
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <a class="navbar-brand" href="/">Top Up</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <li class="nav-item">
-        <a class="nav-link" href="">Prensipal</a>
-      </li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+        <li class="dropdown" style="padding-right:1em">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">Langues<span id="languages"></span></a>
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><Span>Kategori</span></a>
-        <div class="dropdown-menu">
-
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="">Pwomosyon</a>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="mega-two" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lòt Sèvis</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">...</a>
-          <a class="dropdown-item" href="#">...</a>
-          <a class="dropdown-item" href="#">...</a>
-          <a class="dropdown-item" href="#">...</a>
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" >Vann</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" >Kontak</a>
-      </li>
-
-    </ul>
-  </div>
-</nav>
-
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="languages">
+                <li><a class="dropdown-item" href="">Français</a></li>
+                <li><a class="dropdown-item" href="">Kreyòl</a></li>
+                <li><a class="dropdown-item" href="">English</a></li>
+                <li><a class="dropdown-item" href="">Português</a></li>
+                <li><a class="dropdown-item" href="">Español</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" data-toggle="modal" data-target="#login">Login</a>
+        </li>
+        </ul>
+    </div>
+  </nav>
 </header>
 
-<!-- Modal seller -->
-<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+<form class="modal fade" id="login">
+
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
-          <div class="modal-header">
-          <h5 class="modal-title">Enfomasyon Adisyonel</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-             <div class="container">
-                <form action="" id="sellerForm" class="sellerForm form">
-                    <div class="form">
-                      <label for="cpf">CPF<span class="req"> *</span> </label>
-                      <input id="sellerCPF" name="CPF" placeholder="778.351.240-25" class="form-control input-md @error('CPF') is-invalid @enderror" type="text" value="{{old('CPF')}}" onfocusout="validateSellerCPF()">
-                      <i class="fa fa-check-circle"></i>
-                      <i class="fa fa-exclamation-circle"></i><br>
-                      <small>Error message</small>
-                    </div>
 
-                    <div class="form">
-                        <label for="Date">Dat nesans <span class="req">*</span> </label>
-                        <input type="date" id="birthday" name="birthday" class="form-control input-md @error('birthday') is-invalid @enderror" value="{{old('birthday')}}">
-                        <i class="fa fa-check-circle"></i>
-                        <i class="fa fa-exclamation-circle"></i><br>
-                        <small>Error message</small>
-                    </div>
+            <!-- header -->
+            <div class="modal-header">
+                <p>Log In &nbsp;<small>or</small> &nbsp; <a href="" data-toggle="modal" data-target="#create"><em>Create an account</em></a></p>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div><br>
 
-                    <div class="form">
-                        <label for="phone">Telefòn</label>
-                        <input type="txt" class="form-control" id="phone" name="telephone" value="{{old('telephone')}}" onfocusout="phoneValidation()">
-                        <i class="fa fa-check-circle"></i>
-                        <i class="fa fa-exclamation-circle"></i>
-                        <small>Error message</small>
-                    </div>
+            <!-- body -->
+            <div class="modal-body">
 
-                    <fieldset>
-                            <div id="address" class="container-fluid tab-pane "><br>
-                                <h3>Adrès</h3>
-                                <div class="form">
-                                    <label for="cep">CEP</label>
-                                    <input id="cep" name="CEP"  class="form-control input-md" type="text" maxlength="8" value="{{old('CEP')}}" onfocusout="cepValidation()">
-                                    <i class="fa fa-check-circle"></i>
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <small>Error message</small>
-                                </div>
-                                <button type="button" class="btn btn-primary pull-right" onclick="pesquisacep(cep.value)">Rechèche</button>
-                                <br>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="email" placeholder="Enter your username" required>
+                </div>
 
-                                <label for="adres">Adrès</label>
-                                <input type="text" class="form-control" id="rua" name="address" required="" readonly="readonly" value="{{old('address')}}">
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="form-control btn btn-outline-success" id="btn-login" value="Log In">
+                </div>
 
-                                <label for="numero">No</label>
-                                <input id="number" name="number" class="form-control" placeholder="" type="text" value="{{old('number')}}">
-
-                                <label for="bairro">Katye</label>
-                                <input id="bairro" name="neighborhood" class="form-control" placeholder="" required="" readonly="readonly" type="text" >
-
-                                <label for="cidade">Vil</label>
-                                <input id="cidade" name="city" class="form-control" placeholder="" required=""  readonly="readonly" type="text">
-
-                                <label for="estado">Eta</label>
-                                <input id="estado" name="state" class="form-control" placeholder="" required=""  readonly="readonly" type="text">
-                            </div>
-
-
-                            <br><div class="form-group form-check">
-                              <input type="checkbox" name="term" id="term" class="form-check-input">
-                              <label class="form-check-label" for="exampleCheck1">I Agree Terms & Coditions</label>
-                            </div>
-                      <button type="submit" class="btn btn-primary pull-right" id="btn-sellerModal">
-                        Aksepte
-                      </button>
-                        </fieldset>
-
-                </form>
             </div>
-          </div>
-      </div>
-      </div>
-    </div>
-<!--End  Modal seller -->
 
+            <!-- footer -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-sm-6 ">
+
+                        <p id="forget-password">Forget your <a href="" onclick="showForgotModal(event)"><em>password?</em></a></p>
+
+                    </div>
+
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form class="modal fade" id="create">
+    <fieldset>
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- header -->
+                <div class="modal-header head">
+                    <p class="text-center"><em> Create my account</em></p>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div><br>
+
+                <!-- body -->
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="name">Complete Name:</label>
+                        <input type="text" class="form-control" id="name" required placeholder="Your complete name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" required placeholder="Your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pswd">Password:</label>
+                        <input type="password" class="form-control" id="password" required placeholder="Your password">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="form-control btn btn-outline-success" id="btn-create" value="Create">
+                    </div>
+
+
+                </div>
+                <!-- footer -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+
+                            <p id="has-account">Have you already had an <a href="" data-toggle="modal" data-dismiss="modal"><em>account?</em></a></p>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-danger"> Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<form class="modal fade" id="forgot">
+    <fieldset>
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- header -->
+                <div class="modal-header head">
+                    <p class="text-center"><em> Forgot password</em></p>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div><br>
+
+                <!-- body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="form-control btn btn-outline-success" id="btn-create" value="Send email">
+                    </div>
+                </div>
+                <!-- footer -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-danger can">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </fieldset>
+</form>
