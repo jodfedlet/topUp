@@ -1,9 +1,9 @@
 <div id="page-home">
-  
+
 
     <div class="banner-content text-center">
         <h1>Nous fournissons des recharges mobiles à des millions de personnes dans le monde</h1>
-        <p>Recharges mobiles en ligne et 
+        <p>Recharges mobiles en ligne et
           rester connecté avec les personnes qui comptent le plus.
         </p>
 
@@ -13,10 +13,11 @@
             <form id="get_operator_form">
                 <div class="form-group row">
                   <select class="form-control" id="country">
-                      <option selected disabled value="">Pays</option>
-                      <option value="saab">Saab</option>
-                      <option value="vw">VW</option>
-                      <option value="audi" >Audi</option>
+                      @foreach ($countries as $country)
+                          <option value="{{$country->isoName}}">
+                              {{$country->name}}
+                          </option>
+                      @endforeach
                   </select>
                 </div>
                 <div class="form-group row">
@@ -30,6 +31,6 @@
         </div>
 
 </div>
-      
+
     </div>
 </div>
