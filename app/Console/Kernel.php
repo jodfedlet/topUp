@@ -25,6 +25,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        //$schedule->command('sync:topups')->runInBackground();
+       // $schedule->command('process:files')->runInBackground()->withoutOverlapping(30);
+        $schedule->command('sync:countries')->everyMinute()->runInBackground();
+        $schedule->command('sync:operators')->everyMinute()->runInBackground();
+        $schedule->command('sync:tokens')->daily()->runInBackground();
     }
 
     /**

@@ -31,10 +31,11 @@
                             <div class="form-group row">
                                 <label for="country" class="w-100">Country</label>
                                 <select class="form-control" id="country">
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="vw">VW</option>
-                                    <option value="audi" selected>Audi</option>
+                                    @foreach ($countries as $country)
+                                    <option value="{{$country->isoName}}">
+                                        {{$country->name}}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group row">
