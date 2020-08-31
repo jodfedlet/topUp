@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+
+Route::get('countries', 'CountriesController@getAll');
+Route::get('operators/{id}', 'OperatorsController@get');
+Route::get('countries/{id}/operators/detect/{number}', 'OperatorController@detect');

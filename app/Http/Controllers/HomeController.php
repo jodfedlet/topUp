@@ -12,4 +12,9 @@ class HomeController extends Controller
        $countries = Country::all();
        return view('welcome',compact('countries'));
     }
+
+    public function checkout()
+    {
+       return view('checkout');
+    }
 }

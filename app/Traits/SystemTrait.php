@@ -90,7 +90,6 @@ trait SystemTrait{
 
     public function autoDetectOperator($phone,$iso,$fileId){
         $ch = curl_init();
-
         curl_setopt($ch, CURLOPT_URL, $this['api_url']."/operators/auto-detect/phone/$phone/country-code/".$iso."?&includeBundles=true");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
@@ -102,7 +101,7 @@ trait SystemTrait{
         $response = curl_exec($ch);
         curl_close($ch);
         $this->createLog('AUTO_DETECT', $response,'FILE:'.$fileId);
-        $response = \GuzzleHttp\json_decode($response);
+        $response = json_decode($response);
 
         return isset($response->operatorId)?Operator::where('rid',$response->operatorId)->first():null;
     }
