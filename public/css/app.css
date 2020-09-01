@@ -2,19 +2,19 @@
     margin: 0;
     padding: 0;
   }
-  
+
   body, input, button {
     -webkit-font-smoothing: antialiased;
     font: 400 14px Roboto, sans-serif;
     background: var(--site-backgroud);
     color: #6C6C80;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     color: var(--title-color);
     font-family: Ubuntu;
   }
-  
+
   :root {
     --site-backgroud: #f5f5f5;
     --primary-color: #4cb69f;
@@ -23,7 +23,7 @@
     --title: #322153;
   }
 
-  
+
 /* Navbar */
 nav{
     position: fixed;
@@ -32,24 +32,24 @@ nav{
     border-bottom: 2px solid red;
     transition: ease-in-out 5s;
   } */
-  
+
   .navbar-light .navbar-brand {
     color: var(--title);
     font-family: ubuntu;
   }
-  
-  
+
+
   nav.sticky {
     box-shadow:0 5px 5px rgba(2, 77, 33, 0.1);
-    
+
     color: white;
   }
-  
-  
+
+
   .sticky .navbar-brand {
     color:#fff;
   }
-  
+
   .navbar-light .navbar-nav .nav-link:focus{
     font-weight: 5px;
   }
@@ -105,7 +105,7 @@ p{
     background: url('/../img/saving.svg') no-repeat 700px bottom;
     width: 100%;
   }
-  
+
   #page-home .banner-content{
     flex: 1;
     max-width: 600px;
@@ -116,13 +116,13 @@ p{
     top: 25%;
     left: 2%;
   }
-  
+
   #page-home .banner-content h1 {
     font-size: 35px;
     color: var(--title);
-  
+
   }
-  
+
   #page-home .banner-content p {
     font-size: 15px;
     margin-top: 24px;
@@ -130,7 +130,7 @@ p{
     font-style: italic;
     color: gray;
   }
-  
+
   #page-home .banner-content a {
       width: 50%;
       max-width: 360px;
@@ -144,7 +144,7 @@ p{
       text-align: center;
       color:var(--text-color);
   }
-  
+
   #page-home .banner-content a i {
     display: block;
     background: rgba(48, 43, 43, 0.08);
@@ -160,7 +160,7 @@ p{
     text-align: center;
     color: #FFF;
   }
-  
+
 
   #page-home .banner-content .card {
     position: relative;
@@ -187,8 +187,12 @@ p{
     box-shadow: none;
     margin-bottom: 15px;
   }
-  
+
   #page-home .form-control:focus{
     border-color: var(--primary-color);
-  
+
+  }
+
+  .msg-error{
+      color: red;
   }

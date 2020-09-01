@@ -1,4 +1,4 @@
-
+countErrors = 0;
 function showForgotModal(e){
     e.preventDefault();
     $("#login").modal('hide')
@@ -21,7 +21,6 @@ $('#pn_form').submit(function (e) {
 
     $.ajax({
         type: 'GET',
-        //url: 'operators/detect/'+phone+'/'+country,
         url: 'countries/'+country+'/operators/detect/'+phone,
         success: function (operator) {
 
@@ -184,5 +183,22 @@ function endRequest(event) {
             $("#deliveredAmount").html(response.deliveredAmount+ " " + response.deliveredAmountCurrencyCode)
         }
     });
+}
+
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').prop('content')
+    }
+});
+
+function showError(idError, message){
+    idError.style.display = "block";
+    idError.innerHTML = message;
+    countErrors++;
+}
+
+function hideError(idError){
+    idError.style.display = "none";
 }
 

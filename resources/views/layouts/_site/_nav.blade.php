@@ -26,9 +26,9 @@
   </nav>
 </header>
 
-<form class="modal fade" id="login">
+<form class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
 
             <!-- header -->
@@ -42,16 +42,21 @@
             <!-- body -->
             <div class="modal-body">
 
-                <div class="form-group">
-                    <input type="text" class="form-control" id="email" placeholder="Enter your username" required>
-                </div>
+                <form id="login-form">
+                    <div>
+                    <span class="msg-error text-center" id="msg-error-login"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter your username" required>
+                    </div>
 
-                <div class="form-group">
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="form-control btn btn-outline-success" id="btn-login" value="Log In">
-                </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="form-control btn btn-outline-success" id="btn-login" onclick="return logon(event)" value="Log In">
+                    </div>
+                </form>
 
             </div>
 

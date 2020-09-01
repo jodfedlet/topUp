@@ -11,3 +11,5 @@ Route::get('countries/{id}/operators/detect/{number}', 'OperatorController@detec
 Route::get('/checkout', 'HomeController@checkout');
 Route::post('/checkout', 'PaymentController@stripePayment');
 
+Route::post('/users','UsersController@logon');
+
