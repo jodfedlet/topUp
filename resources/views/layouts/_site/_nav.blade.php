@@ -1,3 +1,4 @@
+
 <header >
   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <a class="navbar-brand" href="/">Top Up</a>
@@ -7,6 +8,20 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
+            @if(\Illuminate\Support\Facades\Auth::guest())
+            <li style="padding-right:1em">
+                <a href="#" data-toggle="modal" data-target="#login">Login</a>
+            </li>
+            @else
+                <li class="dropdown" style="padding-right:1em">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{\Illuminate\Support\Facades\Auth::user()->name}}<span id="languages"></span></a>
+
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="languages">
+                        <li><a class="dropdown-item" href="">Settings</a></li>
+                        <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+                    </ul>
+                </li>
+            @endif
         <li class="dropdown" style="padding-right:1em">
             <a href="" class="dropdown-toggle" data-toggle="dropdown">Langues<span id="languages"></span></a>
 
@@ -17,9 +32,6 @@
                 <li><a class="dropdown-item" href="">Português</a></li>
                 <li><a class="dropdown-item" href="">Español</a></li>
             </ul>
-        </li>
-        <li>
-            <a href="#" data-toggle="modal" data-target="#login">Login</a>
         </li>
         </ul>
     </div>
@@ -45,7 +57,7 @@
                 <form id="login-form">
                     <div>
                     <span class="msg-error text-center" id="msg-error-login"></span>
-                    </div>
+                    </div><br>
                     <div class="form-group">
                         <input type="text" class="form-control" id="email" name="email" placeholder="Enter your username" required>
                     </div>

@@ -1,12 +1,11 @@
 function logon(event){
     event.preventDefault();
-
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
     let error = document.getElementById("msg-error-login")
 
     if((email === "") || typeof email === 'undefined' || (password === "") || typeof password === 'undefined')
-        showError(error, "Les données sont incorrectes");
+        showError(error, "Tous les champs sont obligatoires");
     else
         hideError(error);
 
@@ -20,14 +19,19 @@ function logon(event){
             password: password
         }
 
-        $.post('/users', data, function (response) {
-            console.table(response);
-            return
-            /*  if (data.success === true) {
-                  notificationToast(3, data.message, 'success', '/adm/transaction');
-              } else {
-                  notificationToast(3, data.message, 'error', null);
-              }*/
+        $.ajax({
+            url:'/users/',
+            type:'post',
+            data:data,
+            success:function(response){
+               window.location.href = response.redirect
+                hideError(error);
+            },
+            error:function (response) {
+                showError(error, response.responseJSON.error);
+            }
         });
+
+
     }
 }
