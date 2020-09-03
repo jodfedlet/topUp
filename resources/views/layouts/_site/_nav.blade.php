@@ -40,12 +40,12 @@
 
 <form class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
         <div class="modal-content">
 
             <!-- header -->
             <div class="modal-header">
-                <p>Log In &nbsp;<small>or</small> &nbsp; <a href="" data-toggle="modal" data-target="#create"><em>Create an account</em></a></p>
+                <p>Log In &nbsp;<small>or</small> &nbsp; <a href="" onclick="showCreateModal(event)"><em>Create an account</em></a></p>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
@@ -54,6 +54,8 @@
             <!-- body -->
             <div class="modal-body">
 
+                <div class="card">
+                    <div class="card-body">
                 <form id="login-form">
                     <div>
                     <span class="msg-error text-center" id="msg-error-login"></span>
@@ -69,6 +71,8 @@
                         <input type="submit" class="form-control btn btn-outline-success" id="btn-login" onclick="return logon(event)" value="Log In">
                     </div>
                 </form>
+                    </div>
+                </div>
 
             </div>
 
@@ -92,7 +96,7 @@
 
 <form class="modal fade" id="create">
     <fieldset>
-        <div class="modal-dialog modal-md">
+        <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
 
                 <!-- header -->
@@ -106,6 +110,9 @@
                 <!-- body -->
                 <div class="modal-body">
 
+                    <div class="card">
+                     <div class="card-body">
+
                     <div class="form-group">
                         <label for="name">Complete Name:</label>
                         <input type="text" class="form-control" id="name" required placeholder="Your complete name">
@@ -117,12 +124,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="pswd">Password:</label>
+                        <label for="password">Password:</label>
                         <input type="password" class="form-control" id="password" required placeholder="Your password">
                     </div>
 
                     <div class="form-group">
                         <input type="submit" class="form-control btn btn-outline-success" id="btn-create" value="Create">
+                    </div>
+
+
+                        </div>
                     </div>
 
 
@@ -132,7 +143,7 @@
                     <div class="row">
                         <div class="col-sm-6 ">
 
-                            <p id="has-account">Have you already had an <a href="" data-toggle="modal" data-dismiss="modal"><em>account?</em></a></p>
+                            <p id="has-account">Have you already had an <a href="" onclick="showLoginModal(event)"><em>account?</em></a></p>
 
                         </div>
 
@@ -149,7 +160,7 @@
 
 <form class="modal fade" id="forgot">
     <fieldset>
-        <div class="modal-dialog modal-md">
+        <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
 
                 <!-- header -->
@@ -162,12 +173,16 @@
 
                 <!-- body -->
                 <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
                     <div class="form-group">
                         <label for="email">Email:</label>
                         <input type="email" class="form-control" id="email" required>
                     </div>
                     <div class="form-group">
                         <input type="submit" class="form-control btn btn-outline-success" id="btn-create" value="Send email">
+                    </div>
+                        </div>
                     </div>
                 </div>
                 <!-- footer -->

@@ -10,14 +10,13 @@ Route::get('countries/{id}/operators/detect/{number}', 'OperatorController@detec
 
 Route::get('/login', 'UsersController@index');
 
-Route::group(['middleware'=>'auth'], function(){
     Route::post('/users','UsersController@logon');
     Route::get('/logout','UsersController@logout');
     Route::get('/checkout', 'HomeController@checkout');
     Route::post('/checkout', 'PaymentController@stripePayment');
     Route::get('/settings','SettingsController@index');
     Route::post('/settings','SettingsController@save');
-});
+
 
 
 

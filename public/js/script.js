@@ -5,6 +5,18 @@ function showForgotModal(e){
     $("#forgot").modal('show')
 }
 
+function showCreateModal(e){
+    e.preventDefault();
+    $("#login").modal('hide')
+    $("#create").modal('show')
+}
+
+function showLoginModal(e){
+    e.preventDefault();
+    $("#create").modal('hide')
+    $("#login").modal('show')
+}
+
 $(window).on('scroll', function(){
     if ($(window).scrollTop()){
       $('nav').addClass('sticky');
@@ -108,9 +120,14 @@ $(document).ready(function () {
     $("#amount").val('')
 })
 
-function getCheckout(event){
+function getCheckout(event, clientID){
     event.preventDefault();
     let amount = $('#amount').val();
+
+    if(clientID === 0){
+       return showLoginModal(event);
+    }
+
     let data = {
         total:$("#amount").val(),
         phone_number:$("#phone_number").val(),

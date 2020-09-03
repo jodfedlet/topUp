@@ -3,23 +3,6 @@
 @section('title','Home')
 
 @section('content')
-
-    @if(session()->has('success'))
-        <div class="alert alert-success text-center" role="alert">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-    @if(session()->has('info'))
-        <div class="alert alert-info text-center alert" role="alert">
-            {{ session()->get('info') }}
-        </div>
-    @endif
-    @if(session()->has('danger'))
-        <div class="alert alert-danger text-center alert" role="alert">
-            {{ session()->get('danger') }}
-        </div>
-    @endif
-{{--    @include('layouts._site._banner')--}}
     <main role="main" class="flex-shrink-0">
         <div class="container pt-5 mt-5" id="home-page">
             <div class="text-center"><h1>Online TopUp</h1></div>
@@ -55,7 +38,11 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <form id="tu_form" class="d-none" method="post" onsubmit="getCheckout(event)">
+                    <form id="tu_form"
+                          class="d-none"
+                          method="post"
+                          onsubmit="getCheckout(event,{{\Illuminate\Support\Facades\Auth::guest() ? 0 : \Illuminate\Support\Facades\Auth::id()}})"
+                    >
                         <input type="hidden" name="phone_number" value="">
                         <input type="hidden" name="country_code"  value="">
                         <input type="hidden" name="operator_id" value="-1">

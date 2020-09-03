@@ -6,12 +6,11 @@
     <?php
     $data = json_decode(base64_decode($_GET['data']));
     ?>
-    <div class="container">
-        <div class="row">
-            <aside class="">
-
+    <div class="container checkout-form">
+            <div class="checkout-content">
                 <article class="card">
-                    <div class="card-body p-5">
+                    <div class="card-header">
+                    <div class="card-body">
                         <p class="alert alert-success">Some text success or error</p>
 
                         <form role="form" id="creditCard" onsubmit="submitPayment(event)" action="/checkout" method="post">
@@ -64,14 +63,11 @@
                             <input type="hidden" id="amountSend" name="amountSend" value="<?=$data->amountSend?>">
                             <input type="hidden" id="phone_number" name="phone_number" value="<?=$data->phone_number?>">
                         </form>
-                    </div> <!-- card-body.// -->
-                </article> <!-- card.// -->
-
-
-            </aside> <!-- col.// -->
-        </div> <!-- row.// -->
-
-    </div>
+                    </div>
+                    </div>
+                </article>
+            </div>
+        </div>
     <br><br>
 
 @endsection

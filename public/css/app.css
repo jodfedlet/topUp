@@ -196,3 +196,40 @@ p{
   .msg-error{
       color: red;
   }
+
+
+  /*Setting*/
+
+.settings, .login-form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row nowrap;
+}
+
+.checkout-form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row nowrap;
+}
+
+.settings-form{
+    padding: 20px;
+    margin: 5px;
+    width: 750px;
+}
+
+.login-form-content{
+    padding: 20px;
+    margin: 5px;
+    width: 500px;
+}
+
+.checkout-content{
+    padding: 20px;
+    margin: 5px;
+    width: 550px;
+}
+
+

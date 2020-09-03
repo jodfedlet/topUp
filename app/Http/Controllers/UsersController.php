@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Psy\Util\Str;
 
 class UsersController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        die('teste');
+        if(Auth::guest()){
+            return view('login');
+        }
+        $countries = Country::all();
+        return view('welcome',compact('countries'));
 
     }
     public function logon(Request $request)
