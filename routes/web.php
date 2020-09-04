@@ -11,6 +11,7 @@ Route::get('countries/{id}/operators/detect/{number}', 'OperatorController@detec
 Route::get('/login', 'UsersController@index');
 
     Route::post('/users','UsersController@logon');
+    Route::post('/users/create','UsersController@create');
     Route::get('/logout','UsersController@logout');
     Route::get('/checkout', 'HomeController@checkout');
     Route::post('/checkout', 'PaymentController@stripePayment');

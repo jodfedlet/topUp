@@ -113,26 +113,33 @@
                     <div class="card">
                      <div class="card-body">
 
-                    <div class="form-group">
-                        <label for="name">Complete Name:</label>
-                        <input type="text" class="form-control" id="name" required placeholder="Your complete name">
-                    </div>
+                         <form id="create-form">
+                             <div>
+                                 <span class="msg-error text-center" id="msg-create"></span>
+                             </div><br>
+                            <div class="form-group">
+                                <label for="name">Complete Name:</label>
+                                <input type="text" class="form-control" id="name-create" placeholder="Your complete name">
+                                <span class="msg-error pull-right" id="msg-error-name-create"></span>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" required placeholder="Your email">
-                    </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email-create" placeholder="Your email">
+                                <span class="msg-error pull-right" id="msg-error-email-create"></span>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" class="form-control" id="password" required placeholder="Your password">
-                    </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" class="form-control" id="password-create" placeholder="Your password">
+                                <span class="msg-error pull-right" id="msg-error-password-create"></span>
+                            </div>
+                                 <br>
 
-                    <div class="form-group">
-                        <input type="submit" class="form-control btn btn-outline-success" id="btn-create" value="Create">
-                    </div>
-
-
+                            <div class="form-group">
+                                <input type="submit" class="form-control btn btn-outline-success" id="btn-create" onclick="return create(event)" value="Create">
+                            </div>
+                         </form>
                         </div>
                     </div>
 
