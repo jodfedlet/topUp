@@ -7,6 +7,7 @@ Route::get('/','HomeController@index');
 
 Route::get('/countries', 'CountryController@index');
 Route::get('countries/{id}/operators/detect/{number}', 'OperatorController@detect');
+Route::get('countries/{id}/operators', 'OperatorController@getByCountry');
 
 Route::get('/login', 'UsersController@index');
 

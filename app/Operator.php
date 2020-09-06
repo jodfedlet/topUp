@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Operator extends Model
 {
@@ -17,5 +18,12 @@ class Operator extends Model
 
     public function country(){
         return $this->belongsTo('App\Country');
+    }
+
+    public static function getColumn($column, $searchColum)
+    {
+        return DB::table('operators')->select('*')
+            ->where($column, '=',$searchColum)
+            ->get();
     }
 }

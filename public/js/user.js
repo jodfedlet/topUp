@@ -24,8 +24,12 @@ function logon(event){
             type:'post',
             data:data,
             success:function(response){
-               window.location.href = response.redirect
-               hideError(error);
+                if(localStorage.getItem('local') === 'checkout'){
+                    getCheckout(event, response.userId)
+                }else{
+                    window.location.href = response.redirect
+                }
+                hideError(error);
             },
             error:function (response) {
                 showError(error, response.responseJSON.error);
@@ -80,7 +84,11 @@ function create(event){
             type:'post',
             data:data,
             success:function(response){
-                window.location.href = response.redirect
+                if(localStorage.getItem('local') === 'checkout'){
+                    return showLoginModal(event);
+                }else{
+                    window.location.href = response.redirect
+                }
                 hideError(error);
             },
             error:function (response) {

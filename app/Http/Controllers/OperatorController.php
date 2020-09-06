@@ -13,6 +13,11 @@ class OperatorController extends Controller
         return response()->json(Operator::find($id));
     }
 
+    public function getByCountry($id)
+    {
+        return response()->json(Operator::getColumn('country_id',$id));
+    }
+
     public function detect($iso,$number){
         return System::getData()->autoDetectOperator($number,$iso,-1);
     }

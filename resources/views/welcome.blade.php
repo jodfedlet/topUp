@@ -3,19 +3,31 @@
 @section('title','Home')
 
 @section('content')
-    <main role="main" class="flex-shrink-0">
+    <main role="main" class="flex-shrink-0" id="main">
         <div class="container pt-5 mt-5" id="home-page">
             <div class="text-center"><h1>Online TopUp</h1></div>
-            <div class="row">
-                <div class="col-6">
+            <div class="checkCountry">
+                <div class="card checkCountry-card">
+                    <div class="card-header text-center">
+                        <h5>Choose the country and phone number</h5>
+                    </div>
+                    <div class="card-body">
                     <form id="pn_form">
                         <div class="form-group row">
                             <label for="country" class="w-100">Country</label>
                             <select class="form-control" id="country">
-                                <?php foreach ($countries as $country) { ?>
-                                <option value="<?=$country->iso?>">
-                                    <?=$country->name?>
-                                </option>
+                                <?php foreach ($countries as $country){ ?>
+                                    <option
+                                        value="<?=$country->iso?>"
+                                        name="<?=$country->name?>"
+                                        data-ddi="<?=$country->calling_codes[0]?>"
+                                        data-country-flag="<?=$country->flag?>"
+                                        data-countryId="<?=$country->id?>"
+                                    >
+                                        <?=
+                                            $country->name;
+                                        ?>
+                                    </option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -26,7 +38,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-6 d-none align-items-center text-center justify-content-center" id="details_box">
+              {{--  <div class="col-6 d-none align-items-center text-center justify-content-center" id="details_box">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-12 text-center">
                             <img id="operator_image" src="someimage" width="100px">
@@ -60,8 +72,15 @@
                         </div><br>
                         <button type="submit" class="btn btn-primary pull-right" id="btn-sent-topup"><i class="fa fa-spinner fa-spin d-none"></i> Pay</button>
                     </form>
-                </div>
-            </div>
+                </div>--}}
+        </div>
+        </div>
+        </div>
+        <div class="d-none" id="all_operators">
+            <label>Choose an option:</label>
+            <select id="operator" class="form-control" name="operator">
+                <option value="">Choisissez un opérateur</option>
+            </select>
         </div>
 
         <div class="container d-none" id="receipt">

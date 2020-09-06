@@ -27,7 +27,10 @@ class UsersController extends Controller
             'email'=>$data['email'],
             'password'=>$data['password']
         ])){
-            $response = response()->json(['redirect'=>'/'], 200);
+            $response = response()->json([
+                'userId'=>Auth::id(),
+                'redirect'=>'/'
+            ], 200);
         }
         else{
             $response = response()->json(['error'=>'Incorrect user and/or password'], 500);
@@ -47,7 +50,9 @@ class UsersController extends Controller
                 $user->email          = $data['email'];
                 $user->password       = bcrypt($data['password']);
                 $user->save();
-                $response = response()->json(['redirect'=>'/'], 200);;
+                $response = response()->json([
+                    'userId'=>Auth::id(),
+                    'redirect'=>'/'], 200);;
             }catch (QueryException $e){
                 $response = response()->json(['error'=>$e->getMessage()], 500);
             }

@@ -4,6 +4,7 @@
 namespace App\Traits;
 use App\Log;
 use App\Operator;
+use Illuminate\Support\Facades\Auth;
 
 trait SystemTrait{
 
@@ -89,6 +90,7 @@ trait SystemTrait{
     }
 
     public function autoDetectOperator($phone,$iso,$fileId){
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this['api_url']."/operators/auto-detect/phone/$phone/country-code/".$iso."?&includeBundles=true");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -102,8 +104,12 @@ trait SystemTrait{
         curl_close($ch);
         $this->createLog('AUTO_DETECT', $response,'FILE:'.$fileId);
         $response = json_decode($response);
-
-        return isset($response->operatorId)?Operator::where('rid',$response->operatorId)->first():null;
+        $return = null;
+        if(isset($response->operatorId)){
+            $return = Operator::where('rid',$response->operatorId)->first();
+            $return->userId = Auth::guest() ? 0 : Auth::id();
+        }
+        return $return;
     }
 
     public function getPromotions($page=1){

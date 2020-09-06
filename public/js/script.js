@@ -30,18 +30,41 @@ $('#pn_form').submit(function (e) {
     e.preventDefault();
     let phone = $('#phone_number').val();
     let country = $('#country').val();
+    let countryName = $('#country').find('option:selected').attr("name");
+    let ddi = $('#country').find('option:selected').attr("data-ddi");
+    let countryFlag = $('#country').find('option:selected').attr("data-country-flag");
+    let countryId = $('#country').find('option:selected').attr("data-countryId");
 
     $.ajax({
         type: 'GET',
         url: 'countries/'+country+'/operators/detect/'+phone,
         success: function (operator) {
+            $('#home-page').addClass('d-none')
+
+            operator.phone = phone;
+            operator.countryName = countryName;
+            operator.ddi = ddi;
+            operator.flag = countryFlag;
 
             if(!operator){
-                console.log('teste chegando como o esperado');
-                return
+                $.ajax({
+                    type: 'GET',
+                    url: 'countries/'+countryId+'/operators',
+                    success: function (operators) {
+                        $("#all_operators").removeClass('d-none')
+                        let options = '<option value=""></option>';
+                        for (let i = 0; i < operators.length; i++) {
+                            options += '<option value="' + operators[i].id + '">' + operators[i].name + '</option>';
+                        }
+                        $('#operator').html(options);
+                    }
+                })
+            }
+            else{
+                createTopupElement(operator);
             }
 
-            $('button[type="submit"] i').toggleClass('d-none')
+           /* $('button[type="submit"] i').toggleClass('d-none')
 
             $('#details_box').removeClass('d-none');
             $('#details_box').addClass('d-flex');
@@ -84,7 +107,7 @@ $('#pn_form').submit(function (e) {
                 else {
                     $('#tu_form label[for="amount"]').html('Fixed Amounts Supported [' + operator.fixed_amounts.toString() + ']');
                 }
-            }
+            }*/
         }
     })
 });
@@ -125,8 +148,11 @@ function getCheckout(event, clientID){
     let amount = $('#amount').val();
 
     if(clientID === 0){
+        localStorage.setItem('local','checkout')
        return showLoginModal(event);
     }
+
+    localStorage.setItem('local','')
 
     let data = {
         total:$("#amount").val(),
@@ -135,7 +161,7 @@ function getCheckout(event, clientID){
         destination_currency:$('#base_amount').html().split(' ')[1],
         sender_currency:$('#sender_currency').html(),
         country_code: $('#country').val(),
-        operator_id: $('#operator_id').val(),
+        operator_id: $('#operator_id').html(),
         amountSend:parseFloat(amount - amount* 0.11)
     }
     window.location.href ="/checkout?data="+window.btoa(JSON.stringify(data));
@@ -219,3 +245,53 @@ function hideError(idError){
     idError.style.display = "none";
 }
 
+function createTopupElement(operator) {
+    let div = document.createElement("div")
+    document.body.appendChild(div)
+    div.innerHTML = `
+<div class="container topupElement">
+    <div class="topupElement-content">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="country">
+                            <label><b>Country: </b></label>
+                            <span id="operator_name">${operator.countryName}</span>
+                            <img src="${operator.flag}">
+                        </div>
+                        <div class="col-12 text-center" id="operator-detail">
+                            <label><b>Operator: </b></label>
+                             <span id="operator_name">${operator.name}</span>
+                             <img id="operator_image" src="${operator.logo_urls[0]}" width="55px" height="20px">
+                        </div><br>
+
+                        <div>
+                           <label><b>Phone number:</b></label>
+                            <span id="operator_name">${operator.ddi + '' + operator.phone}</span>
+                       </div>
+                    </div>
+                <div class="col-12">
+                    <form
+                        onsubmit="getCheckout(event,${operator.userId})"
+                    >
+                        <input type="hidden" name="phone_number" value="">
+                        <input type="hidden" name="country_code"  value="">
+
+                        <div class="form-group row">
+                            <label for="amount" class="w-100">Amount</label>
+                            <input type="number" step="0.01" min="0" class="form-control col" id="amount" name="amount" placeholder="Enter amount" required oninput="updateValue(this)">
+                        </div>
+                        <div class="form-group row " id="base_amount_div">
+                            <p>Amount base: <span id="base_amount">${(operator.fx_rate - operator.fx_rate*0.11).toFixed(4)+ ' ' + operator.destination_currency_code + ' / ' + operator.sender_currency_code}</span></p>
+                        </div>
+                        <div class="form row">
+                            <input type="text" class="form-control col d-none" id="receive_amount" name="receive_amount"><br>
+                            <p class="d-none" id="sent_amount"></p><br>
+                            <p class="d-none" id="sender_currency">${operator.sender_currency_code}</p>
+                            <p class="d-none" id="operator_id">${operator.rid}</p>
+                        </div><br>
+                        <button type="submit" class="btn btn-primary pull-right" id="btn-sent-topup"><i class="fa fa-spinner fa-spin d-none"></i> Pay</button>
+                    </form>
+                </div>
+                </div>
+</div>
+    `
+}

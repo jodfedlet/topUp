@@ -200,14 +200,10 @@ p{
 
   /*Setting*/
 
-.settings, .login-form{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-flow: row nowrap;
-}
-
-.checkout-form{
+.settings, .login-form,
+.checkCountry, .checkout-form,
+.topupElement
+{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -220,16 +216,19 @@ p{
     width: 750px;
 }
 
-.login-form-content{
-    padding: 20px;
-    margin: 5px;
-    width: 500px;
-}
 
-.checkout-content{
+.login-form-content, .checkout-content,
+.checkCountry-card, .topupElement-content{
     padding: 20px;
     margin: 5px;
     width: 550px;
 }
+
+.country img{
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+}
+
 
 

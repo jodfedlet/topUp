@@ -6,6 +6,7 @@ use App\Http\Controllers\TopupController;
 use Illuminate\Http\Request;
 
 use App\Helpers\Stripe;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -33,7 +34,7 @@ class PaymentController extends Controller
         $customer = (array)$stripe->api('customers',[
             'source'=>$data['stripeToken'],
             'name'=>$data['username'],
-            'email'=>'fedletpierre15@gmail.com',
+            'email'=>Auth::user()->email,
         ]);
 
         $brand = $customer['sources']->data[0]->brand;
