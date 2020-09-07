@@ -30,32 +30,24 @@ $('#pn_form').submit(function (e) {
     e.preventDefault();
     let phone = $('#phone_number').val();
     let country = $('#country').val();
-    let countryName = $('#country').find('option:selected').attr("name");
-    let ddi = $('#country').find('option:selected').attr("data-ddi");
-    let countryFlag = $('#country').find('option:selected').attr("data-country-flag");
     let countryId = $('#country').find('option:selected').attr("data-countryId");
 
     $.ajax({
         type: 'GET',
         url: 'countries/'+country+'/operators/detect/'+phone,
         success: function (operator) {
-            $('#home-page').addClass('d-none')
-
-            operator.phone = phone;
-            operator.countryName = countryName;
-            operator.ddi = ddi;
-            operator.flag = countryFlag;
 
             if(!operator){
                 $.ajax({
                     type: 'GET',
                     url: 'countries/'+countryId+'/operators',
                     success: function (operators) {
-                        $("#all_operators").removeClass('d-none')
                         let options = '<option value=""></option>';
                         for (let i = 0; i < operators.length; i++) {
-                            options += '<option value="' + operators[i].id + '">' + operators[i].name + '</option>';
+                            let log = JSON.parse(operators[i].logo_urls);
+                            options += '<option value="' + operators[i].id + '" data-operator-flag="'+log[0]+'">' + operators[i].name + '</option>';
                         }
+                        $('#select-operators').modal('show');
                         $('#operator').html(options);
                     }
                 })
@@ -111,6 +103,22 @@ $('#pn_form').submit(function (e) {
         }
     })
 });
+
+function submitOperator(event){
+    event.preventDefault();
+   let operatorId = $('#operator').val();
+
+   if(typeof operatorId !== 'undefined' && operatorId !== ''){
+       $.ajax({
+           type: 'GET',
+           url: 'operator/'+operatorId,
+           success: function (operator) {
+               $('#select-operators').modal('hide');
+               createTopupElement(operator);
+           }
+       })
+   }
+}
 
 function updateValue(val){
     let base_amount = parseFloat($('#base_amount').html().split(' ')[0])
@@ -246,9 +254,26 @@ function hideError(idError){
 }
 
 function createTopupElement(operator) {
+   /* console.table(operator)
+    return*/
+    $('#home-page').addClass('d-none')
+    let phone = $('#phone_number').val();
+    let countryName = $('#country').find('option:selected').attr("name");
+    let ddi = $('#country').find('option:selected').attr("data-ddi");
+    let countryFlag = $('#country').find('option:selected').attr("data-country-flag");
+    operator.phone = phone;
+    operator.countryName = countryName;
+    operator.ddi = ddi;
+    operator.flag = countryFlag;
     let div = document.createElement("div")
     document.body.appendChild(div)
+
+    if (operator.denomination_type === 'FIXED') {
+        $('#range-value-form').hide()
+    }
     div.innerHTML = `
+    <section role="main" class="flex-shrink-0">
+        <div class="container pt-5 mt-5">
 <div class="container topupElement">
     <div class="topupElement-content">
                     <div class="row justify-content-center align-items-center">
@@ -256,6 +281,7 @@ function createTopupElement(operator) {
                             <label><b>Country: </b></label>
                             <span id="operator_name">${operator.countryName}</span>
                             <img src="${operator.flag}">
+                            <a  onsubmit="showAllCountry()"><i class="far fa-edit"></i></a>
                         </div>
                         <div class="col-12 text-center" id="operator-detail">
                             <label><b>Operator: </b></label>
@@ -270,6 +296,7 @@ function createTopupElement(operator) {
                     </div>
                 <div class="col-12">
                     <form
+                    id="range-value-form"
                         onsubmit="getCheckout(event,${operator.userId})"
                     >
                         <input type="hidden" name="phone_number" value="">
@@ -293,5 +320,27 @@ function createTopupElement(operator) {
                 </div>
                 </div>
 </div>
+</div>
+</section>
     `
 }
+
+function showAllCountry() {
+    alert('Teste')
+}
+
+function getDataOfCountry(){
+    let countryField = $('#country');
+    $('#country_flag').prop('src',countryField.find('option:selected').attr("data-country-flag"));
+    $('#country-code').html(countryField.find('option:selected').attr("data-ddi"));
+}
+
+function getOperatorFlag(){
+    $('#operator_flag').prop('src',$('#operator').find('option:selected').attr("data-operator-flag"));
+}
+
+$(window).on('load',function () {
+    getDataOfCountry();
+})
+
+

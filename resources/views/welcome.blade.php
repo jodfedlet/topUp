@@ -13,9 +13,14 @@
                     </div>
                     <div class="card-body">
                     <form id="pn_form">
-                        <div class="form-group row">
+                        <div class="input-group mb-3">
                             <label for="country" class="w-100">Country</label>
-                            <select class="form-control" id="country">
+                            <div class="input-group-append">
+                                <span class="input-group-text country">
+                                    <img src="" alt="" id="country_flag">
+                                </span>
+                            </div>
+                            <select class="form-control" id="country" onchange="getDataOfCountry()">
                                 <?php foreach ($countries as $country){ ?>
                                     <option
                                         value="<?=$country->iso?>"
@@ -31,10 +36,24 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="form-group row">
+                      {{--  <div class="input-group mb-3">
                             <label for="phone_number" class="w-100">Phone Number</label>
-                            <input type="text" class="form-control col" id="phone_number" placeholder="Enter phone number" required oninput="hideOption(this)">
-                            <button type="submit" class="ml-2 btn btn-primary col-auto"><i class="fa fa-spinner fa-spin d-none"></i> Search</button>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"></span>
+                            </div>
+                            <input type="text" class="form-control col" id="phone_number" placeholder="Enter phone number" required oninput="hideOption(this)" aria-describedby="basic-addon1">
+                            <div class="input-group-append">
+                                <button type="submit" class="ml-2 btn btn-primary col-auto"><i class="fa fa-spinner fa-spin d-none"></i> Search</button>
+                            </div>
+                        </div>--}}
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="country-code"></span>
+                            </div>
+                            <input type="text" class="form-control col" id="phone_number" placeholder="Enter phone number" required oninput="hideOption(this)" aria-describedby="basic-addon1">
+                            <div class="input-group-append">
+                                <button type="submit" class="ml-2 btn btn-primary col-auto"><i class="fa fa-spinner fa-spin d-none"></i> Search</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -76,11 +95,54 @@
         </div>
         </div>
         </div>
-        <div class="d-none" id="all_operators">
-            <label>Choose an option:</label>
-            <select id="operator" class="form-control" name="operator">
-                <option value="">Choisissez un opérateur</option>
-            </select>
+        <div class="modal fade" id="select-operators">
+            <fieldset>
+                <div class="modal-dialog modal-md modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <!-- header -->
+                        <div class="modal-header head">
+                            <p class="text-center"><em>Choose the correct operator</em></p>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div><br>
+
+                        <!-- body -->
+                        <div class="modal-body">
+                            <div class="card">
+                                    <div class="card-body">
+                                        <form onsubmit="submitOperator(event)">
+                                            <div class="input-group mb-3">
+                                                <label for="country" class="w-100">Select an operator</label>
+                                                <div class="input-group-append">
+                                                <span class="input-group-text country">
+                                                    <img src="" alt="" id="operator_flag">
+                                                </span>
+                                                </div>
+                                                <select id="operator" class="form-control" name="operator" required onchange="getOperatorFlag()">
+                                                    <option value="">Choisissez un opérateur</option>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="ml-2 btn btn-primary col-auto">Confirm</button>
+                                                </div>
+                                            </div>
+                                         </form>
+                                    </div>
+                            </div>
+                        </div>
+                        <!-- footer -->
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-danger can">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
         </div>
 
         <div class="container d-none" id="receipt">
