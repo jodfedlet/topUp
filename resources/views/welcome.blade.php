@@ -21,16 +21,20 @@
                                 </span>
                             </div>
                             <select class="form-control" id="country" onchange="getDataOfCountry()">
-                                <?php foreach ($countries as $country){ ?>
+                                <?php foreach ($countries as $country){
+                                    foreach ($country->calling_codes as $code){
+                                        $cod = $code;
+                                    }
+                                ?>
                                     <option
-                                        value="<?=$country->iso?>"
+                                        value="<?=$country->iso;?>"
                                         name="<?=$country->name?>"
-                                        data-ddi="<?=$country->calling_codes[0]?>"
-                                        data-country-flag="<?=$country->flag?>"
-                                        data-countryId="<?=$country->id?>"
+                                        data-ddi="<?=$cod;?>"
+                                        data-country-flag="<?=$country->flag;?>"
+                                        data-countryId="<?=$country->id;?>"
                                     >
                                         <?=
-                                            $country->name;
+                                        $country->name
                                         ?>
                                     </option>
                                 <?php } ?>
@@ -116,8 +120,8 @@
                                             <div class="input-group mb-3">
                                                 <label for="country" class="w-100">Select an operator</label>
                                                 <div class="input-group-append">
-                                                <span class="input-group-text country">
-                                                    <img src="" alt="" id="operator_flag">
+                                                <span class="input-group-text" >
+                                                    <img src="" alt="" id="operator_flag" width="55px" height="20px">
                                                 </span>
                                                 </div>
                                                 <select id="operator" class="form-control" name="operator" required onchange="getOperatorFlag()">

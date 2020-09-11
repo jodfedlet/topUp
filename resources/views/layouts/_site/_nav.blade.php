@@ -28,7 +28,7 @@
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="languages">
                 <li><a class="dropdown-item" href="">Français</a></li>
                 <li><a class="dropdown-item" href="">Kreyòl</a></li>
-                <li><a class="dropdown-item" href="">English</a></li>
+                <li><a class="dropdown-item" onclick="setLanguages('en')">English</a></li>
                 <li><a class="dropdown-item" href="">Português</a></li>
                 <li><a class="dropdown-item" href="">Español</a></li>
             </ul>

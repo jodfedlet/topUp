@@ -9,6 +9,7 @@ Route::get('/countries', 'CountryController@index');
 Route::get('countries/{id}/operators/detect/{number}', 'OperatorController@detect');
 Route::get('countries/{id}/operators', 'OperatorController@getByCountry');
 Route::get('/operator/{id}', 'OperatorController@get');
+Route::get('/operator/fxRate{amount}', 'OperatorController@getFxRate');
 
 Route::get('/login', 'UsersController@index');
 

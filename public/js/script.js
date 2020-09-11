@@ -125,10 +125,24 @@ function updateValue(val){
     let newValue = val.value
     if(newValue > 0) {
         let total = base_amount * newValue;
+
+        $.ajax({
+            type: 'post',
+            url: 'operator/fxRate'+newValue,
+            data:{
+                amount:newValue
+            },
+            dataType:'json',
+            success: function (fxRate) {
+                console.log(fxRate)
+                return
+            }
+        })
+
         total = total.toFixed(4);
-        $('#sent_amount').removeClass('d-none');
+      /*  $('#sent_amount').removeClass('d-none');
         $('#btn-sent-topup').prop('disabled', false);
-        $('#sent_amount').html(total +' '+ $('#base_amount').html().split(' ')[1])
+        $('#sent_amount').html(total +' '+ $('#base_amount').html().split(' ')[1])*/
     }
     else{
         $('#sent_amount').addClass('d-none');
@@ -337,6 +351,17 @@ function getDataOfCountry(){
 
 function getOperatorFlag(){
     $('#operator_flag').prop('src',$('#operator').find('option:selected').attr("data-operator-flag"));
+}
+
+function setLanguages(lang){
+        new google.translate.TranslateElement({
+            pageLanguage: 'fr',
+            includedLanguages: 'et',
+            autoDisplay: false
+        }, 'google_translate_element');
+        let a = document.querySelector("#google_translate_element select");
+        a.selectedIndex=1;
+        a.dispatchEvent(new Event('change'));
 }
 
 $(window).on('load',function () {

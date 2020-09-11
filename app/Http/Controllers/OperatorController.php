@@ -24,4 +24,9 @@ class OperatorController extends Controller
     public function detect($iso,$number){
         return System::getData()->autoDetectOperator($number,$iso,-1);
     }
+
+    public function getFxRate($amount)
+    {
+        dd($amount);exit;
+    }
 }
