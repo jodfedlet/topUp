@@ -23,13 +23,15 @@ class TopupController extends Controller
             "Authorization: Bearer ".$system['api_token']
         ));
 
+        $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.25;
+
         $request = [
             'recipientPhone' => [
                 'countryCode' => $data['country_code'],
                 'number' => $data['phone_number']
             ],
             'operatorId' => $data['operator_id'],
-            'amount' => $data['amountSend']
+            'amount' => $total
         ];
         curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode($request));
 

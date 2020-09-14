@@ -60,7 +60,6 @@
                             <input type="hidden" id="sender_currency" name="sender_currency" value="<?=$data->sender_currency?>">
                             <input type="hidden" id="country_code" name="country_code" value="<?=$data->country_code?>">
                             <input type="hidden" id="operator_id" name="operator_id" value="<?=$data->operator_id?>">
-                            <input type="hidden" id="amountSend" name="amountSend" value="<?=$data->amountSend?>">
                             <input type="hidden" id="phone_number" name="phone_number" value="<?=$data->phone_number?>">
                         </form>
                     </div>

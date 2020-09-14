@@ -5,6 +5,7 @@
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/script.js')}}"></script>
 <script src="{{asset('js/user.js')}}"></script>
 </body>

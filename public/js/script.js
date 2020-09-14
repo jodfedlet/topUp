@@ -19,14 +19,14 @@ function showLoginModal(e){
 
 $(window).on('scroll', function(){
     if ($(window).scrollTop()){
-      $('nav').addClass('sticky');
+        $('nav').addClass('sticky');
     } else{
-      $('nav').removeClass('sticky');
+        $('nav').removeClass('sticky');
     };
 });
 
 $('#pn_form').submit(function (e) {
-    $('button[type="submit"] i').toggleClass('d-none')
+    // $('button[type="submit"] i').toggleClass('d-none')
     e.preventDefault();
     let phone = $('#phone_number').val();
     let country = $('#country').val();
@@ -56,98 +56,94 @@ $('#pn_form').submit(function (e) {
                 createTopupElement(operator);
             }
 
-           /* $('button[type="submit"] i').toggleClass('d-none')
+            /* $('button[type="submit"] i').toggleClass('d-none')
 
-            $('#details_box').removeClass('d-none');
-            $('#details_box').addClass('d-flex');
+             $('#details_box').removeClass('d-none');
+             $('#details_box').addClass('d-flex');
 
-            if (typeof operator.errorCode !== 'undefined' || typeof operator.error !== 'undefined'){
-                $('.operator_detail').addClass('d-none');
-                $('#operator_name').html(
-                    typeof operator.errorCode !== 'undefined' ? operator.errorCode:operator.error
-                );
-                $('#operator_id').html('');
-                $('#operator_image').prop('src','');
+             if (typeof operator.errorCode !== 'undefined' || typeof operator.error !== 'undefined'){
+                 $('.operator_detail').addClass('d-none');
+                 $('#operator_name').html(
+                     typeof operator.errorCode !== 'undefined' ? operator.errorCode:operator.error
+                 );
+                 $('#operator_id').html('');
+                 $('#operator_image').prop('src','');
 
-                $('#tu_form').addClass('d-none');
-                $('#tu_form input[name="phone_number"]').val('');
-                $('#tu_form input[name="country_code"]').val('');
-                $('#tu_form input[name="operator_id"]').val(-1);
+                 $('#tu_form').addClass('d-none');
+                 $('#tu_form input[name="phone_number"]').val('');
+                 $('#tu_form input[name="country_code"]').val('');
+                 $('#tu_form input[name="operator_id"]').val(-1);
 
-                $('#tu_form label[for="amount"]').html('Amount');
+                 $('#tu_form label[for="amount"]').html('Amount');
 
-            }
-            else {
+             }
+             else {
 
-                $('.operator_detail').removeClass('d-none');
-                $('#operator_name').html(operator.name);
-                $('#operator_id').val(operator.rid);
-                $('#operator_image').prop('src',operator.logo_urls[0]);
+                 $('.operator_detail').removeClass('d-none');
+                 $('#operator_name').html(operator.name);
+                 $('#operator_id').val(operator.rid);
+                 $('#operator_image').prop('src',operator.logo_urls[0]);
 
-                $('#tu_form').removeClass('d-none');
-                $('#tu_form input[name="phone_number"]').val(phone);
-                $('#tu_form input[name="country_code"]').val(country);
-                $('#tu_form input[name="operator_id"]').val(operator.rid);
+                 $('#tu_form').removeClass('d-none');
+                 $('#tu_form input[name="phone_number"]').val(phone);
+                 $('#tu_form input[name="country_code"]').val(country);
+                 $('#tu_form input[name="operator_id"]').val(operator.rid);
 
-                $('#sender_currency').html(operator.sender_currency_code)
+                 $('#sender_currency').html(operator.sender_currency_code)
 
-                $('#base_amount').html((operator.fx_rate - operator.fx_rate*0.11).toFixed(4)+ " " + operator.destination_currency_code + " / " + operator.sender_currency_code)
-                $('#btn-sent-topup').prop('disabled', true);
-                if (operator.denomination_type === 'RANGE') {
-                    $('#tu_form label[for="amount"]').html('Range Supported Min [' + operator.min_amount + '] Max [' + operator.max_amount + ']');
-                }
-                else {
-                    $('#tu_form label[for="amount"]').html('Fixed Amounts Supported [' + operator.fixed_amounts.toString() + ']');
-                }
-            }*/
+                 $('#base_amount').html((operator.fx_rate - operator.fx_rate*0.11).toFixed(4)+ " " + operator.destination_currency_code + " / " + operator.sender_currency_code)
+                 $('#btn-sent-topup').prop('disabled', true);
+                 if (operator.denomination_type === 'RANGE') {
+                     $('#tu_form label[for="amount"]').html('Range Supported Min [' + operator.min_amount + '] Max [' + operator.max_amount + ']');
+                 }
+                 else {
+                     $('#tu_form label[for="amount"]').html('Fixed Amounts Supported [' + operator.fixed_amounts.toString() + ']');
+                 }
+             }*/
         }
     })
 });
 
 function submitOperator(event){
     event.preventDefault();
-   let operatorId = $('#operator').val();
+    let operatorId = $('#operator').val();
 
-   if(typeof operatorId !== 'undefined' && operatorId !== ''){
-       $.ajax({
-           type: 'GET',
-           url: 'operator/'+operatorId,
-           success: function (operator) {
-               $('#select-operators').modal('hide');
-               createTopupElement(operator);
-           }
-       })
-   }
+    if(typeof operatorId !== 'undefined' && operatorId !== ''){
+        $.ajax({
+            type: 'GET',
+            url: 'operator/'+operatorId,
+            success: function (operator) {
+                $('#select-operators').modal('hide');
+                createTopupElement(operator);
+            }
+        })
+    }
 }
 
 function updateValue(val){
-    let base_amount = parseFloat($('#base_amount').html().split(' ')[0])
+    $('#btn-sent-topup').addClass('d-none');
     let newValue = val.value
     if(newValue > 0) {
-        let total = base_amount * newValue;
-
         $.ajax({
             type: 'post',
-            url: 'operator/fxRate'+newValue,
+            url: '/operator/fxRate',
             data:{
+                id:$('#operator_id').html(),
                 amount:newValue
             },
             dataType:'json',
             success: function (fxRate) {
-                console.log(fxRate)
-                return
+                $('#sent_amount').removeClass('d-none');
+                $('#btn-sent-topup').removeClass('d-none');
+                $('#sent_amount').html(fxRate.toFixed(2) +' '+ $('#destination_currency').html());
             }
         })
-
-        total = total.toFixed(4);
-      /*  $('#sent_amount').removeClass('d-none');
-        $('#btn-sent-topup').prop('disabled', false);
-        $('#sent_amount').html(total +' '+ $('#base_amount').html().split(' ')[1])*/
     }
     else{
+        $('#btn-sent-topup').addClass('d-none');
+        //$('#btn-sent-topup').prop('disabled', true);
         $('#sent_amount').addClass('d-none');
-        $('#btn-sent-topup').prop('disabled', true);
-        $('#sent_amount').html(base_amount +' '+ $('#base_amount').html().split(' ')[1])
+        $('#sent_amount').html('')
     }
 }
 
@@ -167,11 +163,10 @@ $(document).ready(function () {
 
 function getCheckout(event, clientID){
     event.preventDefault();
-    let amount = $('#amount').val();
 
     if(clientID === 0){
         localStorage.setItem('local','checkout')
-       return showLoginModal(event);
+        return showLoginModal(event);
     }
 
     localStorage.setItem('local','')
@@ -180,11 +175,10 @@ function getCheckout(event, clientID){
         total:$("#amount").val(),
         phone_number:$("#phone_number").val(),
         sent_amount:$("#sent_amount").html().split(' ')[0],
-        destination_currency:$('#base_amount').html().split(' ')[1],
+        destination_currency:$('#destination_currency').html(),
         sender_currency:$('#sender_currency').html(),
         country_code: $('#country').val(),
-        operator_id: $('#operator_id').html(),
-        amountSend:parseFloat(amount - amount* 0.11)
+        operator_id: $('#operator_id').html()
     }
     window.location.href ="/checkout?data="+window.btoa(JSON.stringify(data));
 }
@@ -251,11 +245,11 @@ function endRequest(event) {
 }
 
 
-$.ajaxSetup({
+/*$.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').prop('content')
     }
-});
+});*/
 
 function showError(idError, message){
     idError.style.display = "block";
@@ -268,8 +262,6 @@ function hideError(idError){
 }
 
 function createTopupElement(operator) {
-   /* console.table(operator)
-    return*/
     $('#home-page').addClass('d-none')
     let phone = $('#phone_number').val();
     let countryName = $('#country').find('option:selected').attr("name");
@@ -278,13 +270,39 @@ function createTopupElement(operator) {
     operator.phone = phone;
     operator.countryName = countryName;
     operator.ddi = ddi;
-    operator.flag = countryFlag;
+
+    $('#topup-data').removeClass('d-none');
+    $('#operator_id').html(operator.rid);
+    $('#detail_country_name').html(operator.countryName);
+    $('#detail_country_flag').prop('src',countryFlag);
+    $('#operator_name').html(operator.name);
+    $('#operator_image').prop('src',operator.logo_urls[0]);
+    $('#operator_dest_number').html(operator.ddi + '' + operator.phone);
+    $('#sender_currency').html(operator.sender_currency_code);
+    $('#destination_currency').html(operator.destination_currency_code);
+
+    if (operator.denomination_type === 'FIXED') {
+        $('#amount_field').addClass('d-none');
+        $('#btn-sent-topup').addClass('d-none');
+        $('#value').removeClass('d-none');
+        console.table(operator)
+        let values = '<option value=""></option>';
+        for (let i = 0; i < operator.fixed_amounts.length; i++) {
+            values += '<option value="' + operator.fixed_amounts[i] + '">' + operator.fixed_amounts[i] + '</option>';
+        }
+        $('#value').html(values);
+        return;
+    }
+    return;
+
+
+    if (operator.denomination_type === 'FIXED') {
+        console.table(operator)
+        return;
+    }
     let div = document.createElement("div")
     document.body.appendChild(div)
 
-    if (operator.denomination_type === 'FIXED') {
-        $('#range-value-form').hide()
-    }
     div.innerHTML = `
     <section role="main" class="flex-shrink-0">
         <div class="container pt-5 mt-5">
@@ -320,7 +338,7 @@ function createTopupElement(operator) {
                             <label for="amount" class="w-100">Amount</label>
                             <input type="number" step="0.01" min="0" class="form-control col" id="amount" name="amount" placeholder="Enter amount" required oninput="updateValue(this)">
                         </div>
-                        <div class="form-group row " id="base_amount_div">
+                        <div class="form-group row d-none" id="base_amount_div">
                             <p>Amount base: <span id="base_amount">${(operator.fx_rate - operator.fx_rate*0.11).toFixed(4)+ ' ' + operator.destination_currency_code + ' / ' + operator.sender_currency_code}</span></p>
                         </div>
                         <div class="form row">
@@ -350,18 +368,19 @@ function getDataOfCountry(){
 }
 
 function getOperatorFlag(){
+    $('#operator_flag_div').removeClass('d-none');
     $('#operator_flag').prop('src',$('#operator').find('option:selected').attr("data-operator-flag"));
 }
 
 function setLanguages(lang){
-        new google.translate.TranslateElement({
-            pageLanguage: 'fr',
-            includedLanguages: 'et',
-            autoDisplay: false
-        }, 'google_translate_element');
-        let a = document.querySelector("#google_translate_element select");
-        a.selectedIndex=1;
-        a.dispatchEvent(new Event('change'));
+    new google.translate.TranslateElement({
+        pageLanguage: 'fr',
+        includedLanguages: 'et',
+        autoDisplay: false
+    }, 'google_translate_element');
+    let a = document.querySelector("#google_translate_element select");
+    a.selectedIndex=1;
+    a.dispatchEvent(new Event('change'));
 }
 
 $(window).on('load',function () {

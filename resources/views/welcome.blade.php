@@ -40,16 +40,6 @@
                                 <?php } ?>
                             </select>
                         </div>
-                      {{--  <div class="input-group mb-3">
-                            <label for="phone_number" class="w-100">Phone Number</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"></span>
-                            </div>
-                            <input type="text" class="form-control col" id="phone_number" placeholder="Enter phone number" required oninput="hideOption(this)" aria-describedby="basic-addon1">
-                            <div class="input-group-append">
-                                <button type="submit" class="ml-2 btn btn-primary col-auto"><i class="fa fa-spinner fa-spin d-none"></i> Search</button>
-                            </div>
-                        </div>--}}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="country-code"></span>
@@ -61,41 +51,7 @@
                         </div>
                     </form>
                 </div>
-              {{--  <div class="col-6 d-none align-items-center text-center justify-content-center" id="details_box">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-12 text-center">
-                            <img id="operator_image" src="someimage" width="100px">
-                        </div>
-                        <p>
-                            <input type="hidden" id="operator_id">
-                            <span id="operator_name">Some Name</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <form id="tu_form"
-                          class="d-none"
-                          method="post"
-                          onsubmit="getCheckout(event,{{\Illuminate\Support\Facades\Auth::guest() ? 0 : \Illuminate\Support\Facades\Auth::id()}})"
-                    >
-                        <input type="hidden" name="phone_number" value="">
-                        <input type="hidden" name="country_code"  value="">
-                        <input type="hidden" name="operator_id" value="-1">
-                        <div class="form-group row">
-                            <label for="amount" class="w-100">Amount</label>
-                            <input type="number" step="0.01" min="0" class="form-control col" id="amount" name="amount" placeholder="Enter amount" required oninput="updateValue(this)">
-                        </div>
-                        <div class="form-group row " id="base_amount_div">
-                            <p>Amount base: <span id="base_amount"></span> </p>
-                        </div>
-                        <div class="form row">
-                            <input type="text" class="form-control col d-none" id="receive_amount" name="receive_amount"><br>
-                            <p class="d-none" id="sent_amount" name="sent_amount"></p><br>
-                            <p class="d-none" id="sender_currency"></p>
-                        </div><br>
-                        <button type="submit" class="btn btn-primary pull-right" id="btn-sent-topup"><i class="fa fa-spinner fa-spin d-none"></i> Pay</button>
-                    </form>
-                </div>--}}
+
         </div>
         </div>
         </div>
@@ -119,7 +75,7 @@
                                         <form onsubmit="submitOperator(event)">
                                             <div class="input-group mb-3">
                                                 <label for="country" class="w-100">Select an operator</label>
-                                                <div class="input-group-append">
+                                                <div class="input-group-append d-none" id="operator_flag_div">
                                                 <span class="input-group-text" >
                                                     <img src="" alt="" id="operator_flag" width="55px" height="20px">
                                                 </span>
@@ -148,6 +104,64 @@
                 </div>
             </fieldset>
         </div>
+
+        <section role="main" class="flex-shrink-0 d-none" id="topup-data">
+            <div class="container pt-5 mt-5">
+                <div class="container topupElement">
+                    <div class="topupElement-content">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="country">
+                                <label><b>Country: </b></label>
+                                <span id="detail_country_name"></span>
+                                <img id="detail_country_flag" src="somelogo">
+                                <a  onsubmit="showAllCountry()"><i class="far fa-edit"></i></a>
+                            </div>
+                            <div class="col-12 text-center" id="operator-detail">
+                                <label><b>Operator: </b></label>
+                                <span id="operator_name"></span>
+                                <img id="operator_image" src="" width="55px" height="20px">
+                            </div><br>
+
+                            <div>
+                                <label><b>Phone number:</b></label>
+                                <span id="operator_dest_number"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <form
+                                id="range-value-form"
+                                onsubmit="getCheckout(event,{{\Illuminate\Support\Facades\Auth::guest() ? 0 : \Illuminate\Support\Facades\Auth::id()}})"
+                            >
+                                <input type="hidden" name="phone_number" value="">
+                                <input type="hidden" name="country_code"  value="">
+
+                                <div class="form-group row" id="amount_field">
+                                    <label for="amount" class="w-100">Amount</label>
+                                    <input type="number" step="0.01" min="0" class="form-control col" id="amount" name="amount" placeholder="Enter amount" oninput="updateValue(this)">
+                                </div>
+
+                                <br>
+                                <div>
+                                    <select id="value" class="form-control d-none" name="value" onchange="updateValue(this)">
+                                        <option value="">Choisissez une valeur</option>
+                                    </select>
+                                </div>
+                                <br><br>
+
+                                <div class="form row">
+                                    <input type="text" class="form-control col d-none" id="receive_amount" name="receive_amount"><br>
+                                    <p class="d-none" id="sent_amount"></p><br>
+                                    <p class="d-none" id="sender_currency"></p>
+                                    <p class="d-none" id="destination_currency"></p>
+                                    <p class="d-none" id="operator_id"></p>
+                                </div><br>
+                                <button type="submit" class="btn btn-primary pull-right d-none" id="btn-sent-topup">Next</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="container d-none" id="receipt">
             <h4>Reçu de topUp</h4>

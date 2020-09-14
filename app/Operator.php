@@ -27,9 +27,11 @@ class Operator extends Model
             ->get();
     }
 
-    public function getFxForAmount($amount){
+    public static function getFxForAmount($data){
         $system = System::getData();
         $ch = curl_init();
+
+        $amount = $data['amount'] - $data['amount']*0.25;
 
         curl_setopt($ch, CURLOPT_URL, $system['api_url']."/operators/fx-rate");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -40,11 +42,15 @@ class Operator extends Model
             "Authorization: Bearer ".$system['api_token']
         ));
 
-        curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode([
-            'operatorId' => $this['rid'],
+        $data = [
+            'operatorId' => $data['id'],
             'currencyCode' => $system['currency'],
             'amount' => $amount
-        ]));
+        ];
+
+        $data['currencyCode'] = 'BRL';
+
+        curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode($data));
 
         $response = curl_exec($ch);
         curl_close($ch);

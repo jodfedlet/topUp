@@ -13,4 +13,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
   </head>
-  <div id="google_translate_element"></div> 
+  <div class="spinner-border text-primary loader d-none" id="loader" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>
