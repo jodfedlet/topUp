@@ -141,12 +141,8 @@
                                 </div>
 
                                 <br>
-                                <div>
-                                    <select id="value" class="form-control d-none" name="value" onchange="updateValue(this)">
-                                        <option value="">Choisissez une valeur</option>
-                                    </select>
+                                <div class="card-values" id="card-values">
                                 </div>
-                                <br><br>
 
                                 <div class="form row">
                                     <input type="text" class="form-control col d-none" id="receive_amount" name="receive_amount"><br>

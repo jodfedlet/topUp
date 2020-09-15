@@ -244,13 +244,6 @@ function endRequest(event) {
     });
 }
 
-
-/*$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').prop('content')
-    }
-});*/
-
 function showError(idError, message){
     idError.style.display = "block";
     idError.innerHTML = message;
@@ -259,6 +252,29 @@ function showError(idError, message){
 
 function hideError(idError){
     idError.style.display = "none";
+}
+
+function getFixedValues(fixedValue){
+
+   let res = $.ajax({
+       type: 'post',
+       url: '/operator/fxRate',
+       data:{
+           id:$('#operator_id').html(),
+           amount:fixedValue
+       },
+       async:false
+   });
+   return res.responseText;
+}
+
+function handleFixedValue(event) {
+    event.preventDefault();
+    let senFixedValue = $('#sendFixedValue').html();
+
+    alert(senFixedValue);
+    return;
+
 }
 
 function createTopupElement(operator) {
@@ -284,13 +300,24 @@ function createTopupElement(operator) {
     if (operator.denomination_type === 'FIXED') {
         $('#amount_field').addClass('d-none');
         $('#btn-sent-topup').addClass('d-none');
-        $('#value').removeClass('d-none');
-        console.table(operator)
-        let values = '<option value=""></option>';
+
+        let card = ``;
         for (let i = 0; i < operator.fixed_amounts.length; i++) {
-            values += '<option value="' + operator.fixed_amounts[i] + '">' + operator.fixed_amounts[i] + '</option>';
+            let deliveredAmount = getFixedValues(operator.fixed_amounts[i]);
+
+            card +=`
+                <a onclick="handleFixedValue(event)">
+                    <div class="card">
+                        <div class="card-header text-center">
+                             <h2 id="sendFixedValue">${operator.fixed_amounts[i]+' '+operator.sender_currency_code}</h2>
+                         </div>
+                         <div class="card-body">
+                            <h3 class="card-title text-center" id="deliveredAmount">${Number(deliveredAmount).toFixed(2) +' '+ $('#destination_currency').html()}</h3>
+                        </div>
+                    </div>
+                </a><br><br>`;
         }
-        $('#value').html(values);
+        $('#card-values').html(card);
         return;
     }
     return;

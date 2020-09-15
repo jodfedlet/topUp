@@ -242,6 +242,19 @@ p{
     background-color: rgba(255,255,255,0.8);
     background-repeat: no-repeat;
 }
+/*.card-values {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    background-color: #eeeeee;
+}
+
+.card-values > div{
+    width: 50%;
+    height: auto;
+    border-radius: 10%;
+}*/
 
 
 
