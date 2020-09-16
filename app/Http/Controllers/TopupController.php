@@ -24,6 +24,9 @@ class TopupController extends Controller
         ));
 
         $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.25;
+        if($data['fixed'] == '1'){
+            $total = $data['sent_amount'];
+        }
 
         $request = [
             'recipientPhone' => [

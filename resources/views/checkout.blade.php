@@ -61,6 +61,8 @@
                             <input type="hidden" id="country_code" name="country_code" value="<?=$data->country_code?>">
                             <input type="hidden" id="operator_id" name="operator_id" value="<?=$data->operator_id?>">
                             <input type="hidden" id="phone_number" name="phone_number" value="<?=$data->phone_number?>">
+                            <input type="hidden" id="sent_amount" name="sent_amount" value="<?=$data->sent_amount?>">
+                            <input type="hidden" id="fixed" name="fixed" value="<?=$data->fixed?>">
                         </form>
                     </div>
                     </div>

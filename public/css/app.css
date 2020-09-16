@@ -256,5 +256,10 @@ p{
     border-radius: 10%;
 }*/
 
+.card-value-item:hover {
+    border: 2px solid red;
+    cursor: pointer;
+}
+
 
 

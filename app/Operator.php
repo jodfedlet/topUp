@@ -32,6 +32,9 @@ class Operator extends Model
         $ch = curl_init();
 
         $amount = $data['amount'] - $data['amount']*0.25;
+        if(isset($data['type']) && $data['type'] == 'fixed'){
+            $amount = $data['amount'];
+        }
 
         curl_setopt($ch, CURLOPT_URL, $system['api_url']."/operators/fx-rate");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);

@@ -110,22 +110,93 @@
                 <div class="container topupElement">
                     <div class="topupElement-content">
                         <div class="row justify-content-center align-items-center">
-                            <div class="country">
+                         {{--   <div class="country">
                                 <label><b>Country: </b></label>
                                 <span id="detail_country_name"></span>
-                                <img id="detail_country_flag" src="somelogo">
+                                <img id="detail_country_flag" src="">
                                 <a  onsubmit="showAllCountry()"><i class="far fa-edit"></i></a>
-                            </div>
-                            <div class="col-12 text-center" id="operator-detail">
+                            </div>--}}
+                            {{--<div class="col-12 text-center" id="operator-detail">
                                 <label><b>Operator: </b></label>
                                 <span id="operator_name"></span>
                                 <img id="operator_image" src="" width="55px" height="20px">
+                            </div><br>--}}
+
+                      {{--      <div>
+                                <label><b>Phone number:</b></label>
+                                <span id="operator_dest_number"></span>
+                            </div><br>
+                            <div>
+                                <label><b>Sending Value:</b></label>
+                                <span id="fixedSendValue"></span>
                             </div><br>
 
                             <div>
-                                <label><b>Phone number:</b></label>
-                                <span id="operator_dest_number"></span>
-                            </div>
+                                <label><b>Delivered amount:</b></label>
+                                <span id="deliveredAmount"></span>
+                            </div><br>
+
+                            <div>
+                                <label><b>Taxes:</b></label>
+                                <span id="taxes"></span>
+                            </div><br>--}}
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><label><b>Country: </b></label></td>
+                                    <td class="country">
+                                        <span id="detail_country_name"></span>
+                                        <img id="detail_country_flag" src="">
+                                        <a  onsubmit="showAllCountry()"><i class="far fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> <label><b>Operator: </b></label></td>
+                                    <td id="operator-detail">
+                                        <span id="operator_name"></span>
+                                        <img id="operator_image" src="" width="55px" height="20px">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> <label><b>Phone number:</b></label></td>
+                                    <td>
+                                        <span id="operator_dest_number"></span>
+                                    </td>
+                                </tr>
+                                <tr class="d-none" id="sending-tr">
+                                    <td><label><b>Sending value: </b></label></td>
+                                    <td >
+                                        <span id="sendingValue"></span>
+                                    </td>
+                                </tr>
+                                <tr class="d-none" id="delivered-tr">
+                                    <td> <label><b>Delivered value: </b></label></td>
+                                    <td>
+                                        <span id="deliveredValue"></span>
+                                    </td>
+                                </tr>
+                                <tr class="d-none" id="taxe-tr">
+                                    <td> <label><b>Taxe: </b></label></td>
+                                    <td>
+                                        <span id="taxe"></span>
+                                    </td>
+                                </tr>
+
+                                <tr class="d-none" id="pay-tr">
+                                    <td> <label><b>Sum to pay: </b></label></td>
+                                    <td>
+                                        <span id="total"></span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="col-12">
                             <form
@@ -147,9 +218,11 @@
                                 <div class="form row">
                                     <input type="text" class="form-control col d-none" id="receive_amount" name="receive_amount"><br>
                                     <p class="d-none" id="sent_amount"></p><br>
+                                    <p class="d-none" id="fixedSendValue"></p><br>
                                     <p class="d-none" id="sender_currency"></p>
                                     <p class="d-none" id="destination_currency"></p>
                                     <p class="d-none" id="operator_id"></p>
+                                    <p class="d-none" id="fixed">0</p>
                                 </div><br>
                                 <button type="submit" class="btn btn-primary pull-right d-none" id="btn-sent-topup">Next</button>
                             </form>

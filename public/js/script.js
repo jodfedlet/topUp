@@ -178,7 +178,8 @@ function getCheckout(event, clientID){
         destination_currency:$('#destination_currency').html(),
         sender_currency:$('#sender_currency').html(),
         country_code: $('#country').val(),
-        operator_id: $('#operator_id').html()
+        operator_id: $('#operator_id').html(),
+        fixed: $('#fixed').html()
     }
     window.location.href ="/checkout?data="+window.btoa(JSON.stringify(data));
 }
@@ -261,20 +262,37 @@ function getFixedValues(fixedValue){
        url: '/operator/fxRate',
        data:{
            id:$('#operator_id').html(),
-           amount:fixedValue
+           amount:fixedValue,
+           type:'fixed'
        },
        async:false
    });
    return res.responseText;
 }
 
-function handleFixedValue(event) {
+function handleFixedValue(event, fixedValue, received) {
     event.preventDefault();
-    let senFixedValue = $('#sendFixedValue').html();
+    $('#card-values').addClass('d-none')
+    $('#sending-tr').removeClass('d-none')
+    $('#delivered-tr').removeClass('d-none')
+    $('#taxe-tr').removeClass('d-none')
+    $('#pay-tr').removeClass('d-none')
+    $('#fixed').html(1);
+    let destCurrency = $('#destination_currency').html();
+    let sendCurrency = $('#sender_currency').html();
 
-    alert(senFixedValue);
-    return;
+    $('#sendingValue').html(fixedValue+' '+sendCurrency);
+    $('#deliveredValue').html(received+' '+destCurrency);
 
+   // $('#receive_amount').val(fixedValue+' '+destCurrency)
+    $('#fixedSendValue').html(fixedValue)
+    $('#sent_amount').html(fixedValue+' '+destCurrency)
+   let tax = parseFloat(fixedValue*0.15).toFixed(2);
+    $('#taxe').html(tax+' '+sendCurrency)
+    let valTotal = parseFloat(fixedValue + Number(tax)).toFixed(2)
+    $('#total').html(valTotal+' '+sendCurrency)
+    $('#amount').val(valTotal)
+    $('#btn-sent-topup').removeClass('d-none');
 }
 
 function createTopupElement(operator) {
@@ -297,6 +315,11 @@ function createTopupElement(operator) {
     $('#sender_currency').html(operator.sender_currency_code);
     $('#destination_currency').html(operator.destination_currency_code);
 
+    $('#sending-tr').addClass('d-none')
+    $('#delivered-tr').addClass('d-none')
+    $('#taxe-tr').addClass('d-none')
+    $('#pay-tr').addClass('d-none')
+
     if (operator.denomination_type === 'FIXED') {
         $('#amount_field').addClass('d-none');
         $('#btn-sent-topup').addClass('d-none');
@@ -304,15 +327,20 @@ function createTopupElement(operator) {
         let card = ``;
         for (let i = 0; i < operator.fixed_amounts.length; i++) {
             let deliveredAmount = getFixedValues(operator.fixed_amounts[i]);
+            deliveredAmount = Number(deliveredAmount).toFixed(2);
+            let fixedValue = Number(operator.fixed_amounts[i]).toFixed(2);
 
             card +=`
-                <a onclick="handleFixedValue(event)">
-                    <div class="card">
+                <a
+                    id="cardValue"
+                    onclick="handleFixedValue(event,${fixedValue},${deliveredAmount})"
+                >
+                    <div class="card card-value-item">
                         <div class="card-header text-center">
-                             <h2 id="sendFixedValue">${operator.fixed_amounts[i]+' '+operator.sender_currency_code}</h2>
+                             <h2 id="sendFixedValue">${fixedValue+' '+operator.sender_currency_code}</h2>
                          </div>
                          <div class="card-body">
-                            <h3 class="card-title text-center" id="deliveredAmount">${Number(deliveredAmount).toFixed(2) +' '+ $('#destination_currency').html()}</h3>
+                            <h3 class="card-title text-center" id="deliveredAmount">${deliveredAmount +' '+ $('#destination_currency').html()}</h3>
                         </div>
                     </div>
                 </a><br><br>`;
