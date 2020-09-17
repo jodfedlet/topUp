@@ -57,10 +57,19 @@ class PaymentController extends Controller
                         'payment_method' => strtolower('pm_card_'.$brand)
                     ]
                 );
-                print_r($response);
+
+                return response()->json([
+                    'message'=>'End payment successfully. Thanks for using!',
+                    'datas'=>$response
+                ],200);
             }
+            return response()->json([
+                'message'=>'Payment can not achieve!',
+            ],500);
         }catch (\Exception $exception){
-            echo $exception->getMessage();
+            return response()->json([
+                'message'=>$exception->getMessage(),
+            ],500);
         }
     }
 }

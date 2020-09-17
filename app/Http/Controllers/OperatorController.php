@@ -28,6 +28,7 @@ class OperatorController extends Controller
     public function getFxRate(Request $request)
     {
         $data = $request->all();
-        return Operator::getFxForAmount($data);
+        $operator = new Operator();
+        return $operator->getFxForAmount($data);
     }
 }

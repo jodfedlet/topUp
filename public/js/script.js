@@ -122,6 +122,7 @@ function submitOperator(event){
 
 function updateValue(val){
     $('#btn-sent-topup').addClass('d-none');
+    $('#sent_amount').addClass('d-none');
     let newValue = val.value
     if(newValue > 0) {
         $.ajax({
@@ -129,6 +130,7 @@ function updateValue(val){
             url: '/operator/fxRate',
             data:{
                 id:$('#operator_id').html(),
+                cc:$('#country').val(),
                 amount:newValue
             },
             dataType:'json',
@@ -141,9 +143,7 @@ function updateValue(val){
     }
     else{
         $('#btn-sent-topup').addClass('d-none');
-        //$('#btn-sent-topup').prop('disabled', true);
         $('#sent_amount').addClass('d-none');
-        $('#sent_amount').html('')
     }
 }
 
@@ -207,40 +207,23 @@ function submitPayment(event) {
         }
         else{
             $('#stripeToken').val(response.id)
-            $credicardForm.submit();
+            endRequest($credicardForm)
         }
     });
 }
 
-function endRequest(event) {
-    event.preventDefault();
+function endRequest(form) {
 
-    let amount = $('#amount').val();
-    let phone_number = $('#phone_number').val();
-    let country_code = $('#country').val();
-    let operator_id = $('#operator_id').val();
-    let amountSend = parseFloat(amount - amount* 0.11);
-
-    let data = {
-        amountToSend:amountSend,
-        phoneNumber:phone_number,
-        countryCode:country_code,
-        operatorId:operator_id
-    }
-
-    $.post('/checkout', data, function (response) {
-        response = JSON.parse(response)
-
-        if(typeof response.errorCode !== "undefined" && response.errorCode !== ""){
-            console.warn(response.message)
-        }
-        else{
-            $('#receipt').removeClass('d-none');
-            $('#home-page').addClass('d-none');
-            $("#operatorName").html(response.operatorName)
-            $("#recipientPhone").html(response.recipientPhone)
-            $("#rec_sent_amount").html(amount+ " " + response.requestedAmountCurrencyCode)
-            $("#deliveredAmount").html(response.deliveredAmount+ " " + response.deliveredAmountCurrencyCode)
+    $.ajax({
+        type: 'post',
+        url: '/checkout',
+        data:$(form).serializeArray(),
+        dataType: 'json',
+        success:function (response) {
+            notificationToast(response.message, 'success', '/');
+        },
+        error: function (response) {
+            notificationToast(response.responseJSON.message, 'error', null);
         }
     });
 }
@@ -262,6 +245,7 @@ function getFixedValues(fixedValue){
        url: '/operator/fxRate',
        data:{
            id:$('#operator_id').html(),
+           cc:$('#country').val(),
            amount:fixedValue,
            type:'fixed'
        },
@@ -346,70 +330,7 @@ function createTopupElement(operator) {
                 </a><br><br>`;
         }
         $('#card-values').html(card);
-        return;
     }
-    return;
-
-
-    if (operator.denomination_type === 'FIXED') {
-        console.table(operator)
-        return;
-    }
-    let div = document.createElement("div")
-    document.body.appendChild(div)
-
-    div.innerHTML = `
-    <section role="main" class="flex-shrink-0">
-        <div class="container pt-5 mt-5">
-<div class="container topupElement">
-    <div class="topupElement-content">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="country">
-                            <label><b>Country: </b></label>
-                            <span id="operator_name">${operator.countryName}</span>
-                            <img src="${operator.flag}">
-                            <a  onsubmit="showAllCountry()"><i class="far fa-edit"></i></a>
-                        </div>
-                        <div class="col-12 text-center" id="operator-detail">
-                            <label><b>Operator: </b></label>
-                             <span id="operator_name">${operator.name}</span>
-                             <img id="operator_image" src="${operator.logo_urls[0]}" width="55px" height="20px">
-                        </div><br>
-
-                        <div>
-                           <label><b>Phone number:</b></label>
-                            <span id="operator_name">${operator.ddi + '' + operator.phone}</span>
-                       </div>
-                    </div>
-                <div class="col-12">
-                    <form
-                    id="range-value-form"
-                        onsubmit="getCheckout(event,${operator.userId})"
-                    >
-                        <input type="hidden" name="phone_number" value="">
-                        <input type="hidden" name="country_code"  value="">
-
-                        <div class="form-group row">
-                            <label for="amount" class="w-100">Amount</label>
-                            <input type="number" step="0.01" min="0" class="form-control col" id="amount" name="amount" placeholder="Enter amount" required oninput="updateValue(this)">
-                        </div>
-                        <div class="form-group row d-none" id="base_amount_div">
-                            <p>Amount base: <span id="base_amount">${(operator.fx_rate - operator.fx_rate*0.11).toFixed(4)+ ' ' + operator.destination_currency_code + ' / ' + operator.sender_currency_code}</span></p>
-                        </div>
-                        <div class="form row">
-                            <input type="text" class="form-control col d-none" id="receive_amount" name="receive_amount"><br>
-                            <p class="d-none" id="sent_amount"></p><br>
-                            <p class="d-none" id="sender_currency">${operator.sender_currency_code}</p>
-                            <p class="d-none" id="operator_id">${operator.rid}</p>
-                        </div><br>
-                        <button type="submit" class="btn btn-primary pull-right" id="btn-sent-topup"><i class="fa fa-spinner fa-spin d-none"></i> Pay</button>
-                    </form>
-                </div>
-                </div>
-</div>
-</div>
-</section>
-    `
 }
 
 function showAllCountry() {
@@ -425,6 +346,26 @@ function getDataOfCountry(){
 function getOperatorFlag(){
     $('#operator_flag_div').removeClass('d-none');
     $('#operator_flag').prop('src',$('#operator').find('option:selected').attr("data-operator-flag"));
+}
+
+function criarPDF() {
+    var minhaTabela = document.getElementById('table').innerHTML;
+    var style = "<style>";
+    style = style + "table {width: 100%;font: 20px Calibri;}";
+    style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+    style = style + "padding: 2px 3px;text-align: center;}";
+    style = style + "</style>";
+    // CRIA UM OBJETO WINDOW
+    var win = window.open('', '', 'height=700,width=700');
+    win.document.write('<html><head>');
+    win.document.write('<title>Empregados</title>');   // <title> CABEÇALHO DO PDF.
+    win.document.write(style);                                     // INCLUI UM ESTILO NA TAB HEAD
+    win.document.write('</head>');
+    win.document.write('<body>');
+    win.document.write(minhaTabela);                          // O CONTEUDO DA TABELA DENTRO DA TAG BODY
+    win.document.write('</body></html>');
+    win.document.close(); 	                                         // FECHA A JANELA
+    win.print();                                                            // IMPRIME O CONTEUDO
 }
 
 function setLanguages(lang){

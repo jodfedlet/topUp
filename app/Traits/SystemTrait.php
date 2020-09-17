@@ -92,7 +92,10 @@ trait SystemTrait{
     public function autoDetectOperator($phone,$iso,$fileId){
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this['api_url']."/operators/auto-detect/phone/$phone/country-code/".$iso."?&includeBundles=true");
+
+        //$endPoint = "/operators/auto-detect/phone/$phone/country-code/$iso?&includeBundles=true";
+        $endPoint = "/operators/auto-detect/phone/$phone/country-code/$iso?&suggestedAmountsMap=true&includeBundles=true";
+        curl_setopt($ch, CURLOPT_URL, $this['api_url'].$endPoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -125,6 +128,15 @@ trait SystemTrait{
         curl_close($ch);
         $this->createLog('GET_PROMOTIONS', $response);
         return json_decode($response);
+    }
+
+    public function getUserCountry()
+    {
+       $cc = file_get_contents("http://api.hostip.info/country.php");
+       if ($cc == 'XX'){
+           return $this->getUserCountry();
+       }
+       return $cc;
     }
 
     public function createLog($task,$response, $params = '')

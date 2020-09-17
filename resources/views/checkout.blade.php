@@ -11,9 +11,10 @@
                 <article class="card">
                     <div class="card-header">
                     <div class="card-body">
-                        <p class="alert alert-success">Some text success or error</p>
-
-                        <form role="form" id="creditCard" onsubmit="submitPayment(event)" action="/checkout" method="post">
+                        <p id="cc-response"></p>
+                        <form role="form" id="creditCard"
+                              onsubmit="submitPayment(event)"
+                        >
                             {{csrf_field()}}
                             <div class="form-group">
                                 <label for="username">Full name (on the card)</label>

@@ -110,38 +110,7 @@
                 <div class="container topupElement">
                     <div class="topupElement-content">
                         <div class="row justify-content-center align-items-center">
-                         {{--   <div class="country">
-                                <label><b>Country: </b></label>
-                                <span id="detail_country_name"></span>
-                                <img id="detail_country_flag" src="">
-                                <a  onsubmit="showAllCountry()"><i class="far fa-edit"></i></a>
-                            </div>--}}
-                            {{--<div class="col-12 text-center" id="operator-detail">
-                                <label><b>Operator: </b></label>
-                                <span id="operator_name"></span>
-                                <img id="operator_image" src="" width="55px" height="20px">
-                            </div><br>--}}
-
-                      {{--      <div>
-                                <label><b>Phone number:</b></label>
-                                <span id="operator_dest_number"></span>
-                            </div><br>
-                            <div>
-                                <label><b>Sending Value:</b></label>
-                                <span id="fixedSendValue"></span>
-                            </div><br>
-
-                            <div>
-                                <label><b>Delivered amount:</b></label>
-                                <span id="deliveredAmount"></span>
-                            </div><br>
-
-                            <div>
-                                <label><b>Taxes:</b></label>
-                                <span id="taxes"></span>
-                            </div><br>--}}
-
-                            <table class="table table-striped">
+                            <table class="table table-striped" id="table">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -159,7 +128,7 @@
                                 </tr>
                                 <tr>
                                     <td> <label><b>Operator: </b></label></td>
-                                    <td id="operator-detail">
+                                    <td>
                                         <span id="operator_name"></span>
                                         <img id="operator_image" src="" width="55px" height="20px">
                                     </td>

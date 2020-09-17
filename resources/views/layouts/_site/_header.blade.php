@@ -11,6 +11,7 @@
       <!--  -->
       <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="/your-path-to-fontawesome/css/solid.css" rel="stylesheet"><link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
       <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
   </head>
   <div class="spinner-border text-primary loader d-none" id="loader" role="status">

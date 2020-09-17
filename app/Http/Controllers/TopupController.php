@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\System;
+use App\Topup;
 use App\Traits\SystemTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TopupController extends Controller
 {
@@ -40,8 +42,33 @@ class TopupController extends Controller
 
         $response = curl_exec($ch);
         curl_close($ch);
-        //$this->createLog('SEND_TOPUP', 'TOPUP_ID:'.$this['id'].' PHONE:'.$this['number'].' TOPUP:'.$this['topup'], $response);
+        $res = json_decode($response);
 
+        if(!empty($res->errorCode)){
+            $status = 'FAIL';
+            $receivedAmount = 0;
+            $senderCurrency = '';
+            $destinationCurrency = '';
+        }
+        else{
+            $status = 'SUCCESS';
+            $receivedAmount = $res->deliveredAmount;
+            $senderCurrency = $res->requestedAmountCurrencyCode;
+            $destinationCurrency = $res->deliveredAmountCurrencyCode;
+        }
+
+        Topup::create( [
+            'user_id'=>Auth::id(),
+            'status'=>$status,
+            'phoneNumber'=>$data['phone_number'],
+            'total'=>$data['value_to_pay'],
+            'sentAmount'=>$total,
+            'receivedAmount'=>$receivedAmount,
+            'countryCode'=>$data['country_code'],
+            'operatorId'=>$data['operator_id'],
+            'senderCurrency'=>$senderCurrency,
+            'destinationCurrency'=>$destinationCurrency,
+        ]);
        return $response;
     }
 
