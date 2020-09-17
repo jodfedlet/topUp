@@ -5,6 +5,7 @@
 @section('content')
     <main role="main" class="flex-shrink-0" id="main">
         <div class="container pt-5 mt-5" id="home-page">
+            <img id="loader" src="/../../img/loader.gif" alt="">
             <div class="text-center"><h1>Online TopUp</h1></div>
             <div class="checkCountry">
                 <div class="card checkCountry-card">
@@ -56,8 +57,11 @@
         </div>
         </div>
         <div class="modal fade" id="select-operators">
+            <img id="loader" src="/../../img/loader.gif" alt="">
             <fieldset>
+
                 <div class="modal-dialog modal-md modal-dialog-centered">
+
                     <div class="modal-content">
 
                         <!-- header -->
@@ -109,6 +113,7 @@
             <div class="container pt-5 mt-5">
                 <div class="container topupElement">
                     <div class="topupElement-content">
+                        <img id="loader" src="/../../img/loader.gif" alt="">
                         <div class="row justify-content-center align-items-center">
                             <table class="table table-striped" id="table">
                                 <thead>
@@ -172,6 +177,7 @@
                                 id="range-value-form"
                                 onsubmit="getCheckout(event,{{\Illuminate\Support\Facades\Auth::guest() ? 0 : \Illuminate\Support\Facades\Auth::id()}})"
                             >
+                                {{--<img class="d-none" id="loader" src="/../../img/loader.gif" alt="">--}}
                                 <input type="hidden" name="phone_number" value="">
                                 <input type="hidden" name="country_code"  value="">
 

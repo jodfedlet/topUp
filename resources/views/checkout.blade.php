@@ -7,7 +7,8 @@
     $data = json_decode(base64_decode($_GET['data']));
     ?>
     <div class="container checkout-form">
-            <div class="checkout-content">
+        <img id="loader" src="/../../img/loader.gif" alt="">
+        <div class="checkout-content">
                 <article class="card">
                     <div class="card-header">
                     <div class="card-body">
@@ -71,5 +72,27 @@
             </div>
         </div>
     <br><br>
+
+    <div>
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons">&#xE876;</i>
+                        </div>
+                        <h4 class="modal-title w-100">Awesome!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

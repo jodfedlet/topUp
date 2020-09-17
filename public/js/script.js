@@ -111,7 +111,8 @@ function submitOperator(event){
     if(typeof operatorId !== 'undefined' && operatorId !== ''){
         $.ajax({
             type: 'GET',
-            url: 'operator/'+operatorId,
+            url: '/operator/'+operatorId,
+            beforeSend:showLoader(),
             success: function (operator) {
                 $('#select-operators').modal('hide');
                 createTopupElement(operator);
@@ -220,7 +221,8 @@ function endRequest(form) {
         data:$(form).serializeArray(),
         dataType: 'json',
         success:function (response) {
-            notificationToast(response.message, 'success', '/');
+            $('#myModal').modal('show')
+            //notificationToast(response.message, 'success', '/');
         },
         error: function (response) {
             notificationToast(response.responseJSON.message, 'error', null);
