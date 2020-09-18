@@ -271,15 +271,16 @@ function handleFixedValue(event, fixedValue, received) {
 }
 
 function createTopupElement(operator) {
-    $('#home-page').addClass('d-none')
-    let phone = $('#phone_number').val();
-    let countryName = $('#country').find('option:selected').attr("name");
-    let ddi = $('#country').find('option:selected').attr("data-ddi");
-    let countryFlag = $('#country').find('option:selected').attr("data-country-flag");
-    operator.phone = phone;
-    operator.countryName = countryName;
-    operator.ddi = ddi;
 
+   // window.btoa(JSON.stringify(operator);
+
+    operator.phone = $('#phone_number').val();
+    operator.countryName = $('#country').find('option:selected').attr("name");
+    operator.ddi = $('#country').find('option:selected').attr("data-ddi");
+    operator.countryFlag = $('#country').find('option:selected').attr("data-country-flag");
+    window.location.href ='/topup-data?country='+$('#country').val()+'operator='+operator.rid+'phone='+operator.phone+'datas='+window.btoa(JSON.stringify(operator));
+
+    /*
     $('#topup-data').removeClass('d-none');
     $('#operator_id').html(operator.rid);
     $('#detail_country_name').html(operator.countryName);
@@ -322,6 +323,7 @@ function createTopupElement(operator) {
         }
         $('#card-values').html(card);
     }
+     */
 }
 
 function showAllCountry() {

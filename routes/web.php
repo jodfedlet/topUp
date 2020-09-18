@@ -17,6 +17,7 @@ Route::get('/login', 'UsersController@index');
     Route::post('/users/create','UsersController@create');
     Route::get('/logout','UsersController@logout');
     Route::get('/checkout', 'HomeController@checkout');
+    Route::get('/topup-data', 'HomeController@topupData');
     Route::post('/checkout', 'PaymentController@stripePayment');
     Route::get('/settings','SettingsController@index');
     Route::post('/settings','SettingsController@save');

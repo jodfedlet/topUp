@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="home-container">
-        <section class="form">
+        <section class="content">
             <form id="pn_form">
                 <h1>Select the country and enter mobile phone number</h1>
                 <select
@@ -55,7 +55,7 @@
                 </button>
             </form>
         </section>
-        <img src="/../img/heroes.png" alt="">
+        <img src="/../img/home-image.png" alt="">
     </div>
 
     <div class="modal fade" id="select-operators">

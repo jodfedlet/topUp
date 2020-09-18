@@ -19,4 +19,9 @@ class HomeController extends Controller
     {
        return view('checkout');
     }
+
+    public function topupData()
+    {
+        return view('site.topup-data');
+    }
 }
