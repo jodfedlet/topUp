@@ -36,3 +36,13 @@ function notificationToast(message, type, redirect) {
         toastr.info(message);
     }
 }
+
+function showError(idError, message){
+    idError.style.display = "block";
+    idError.innerHTML = message;
+    countErrors++;
+}
+
+function hideError(idError){
+    idError.style.display = "none";
+}

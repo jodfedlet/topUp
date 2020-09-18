@@ -15,8 +15,9 @@
       <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{asset('css/default.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{asset('css/site.css')}}">
   </head>
-{{--
   <img id="loader" src="/../../../img/loader.gif" alt="">
---}}
+
 

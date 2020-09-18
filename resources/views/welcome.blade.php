@@ -3,7 +3,8 @@
 @section('title','Home')
 
 @section('content')
-    <main role="main" class="flex-shrink-0" id="main">
+    @include('site.home')
+   {{-- <main role="main" class="flex-shrink-0" id="main">
         <div class="container pt-5 mt-5" id="home-page">
             <img id="loader" src="/../../img/loader.gif" alt="">
             <div class="text-center"><h1>Online TopUp</h1></div>
@@ -177,7 +178,7 @@
                                 id="range-value-form"
                                 onsubmit="getCheckout(event,{{\Illuminate\Support\Facades\Auth::guest() ? 0 : \Illuminate\Support\Facades\Auth::id()}})"
                             >
-                                {{--<img class="d-none" id="loader" src="/../../img/loader.gif" alt="">--}}
+                                --}}{{--<img class="d-none" id="loader" src="/../../img/loader.gif" alt="">--}}{{--
                                 <input type="hidden" name="phone_number" value="">
                                 <input type="hidden" name="country_code"  value="">
 
@@ -214,6 +215,6 @@
             <p>Valeur envoyée: <span id="rec_sent_amount">0</span> </p>
             <p>Valeur reçue: <span id="deliveredAmount">0</span> </p>
         </div>
-    </main>
+    </main>--}}
 
 @endsection

@@ -36,7 +36,6 @@ $('#pn_form').submit(function (e) {
         type: 'GET',
         url: 'countries/'+country+'/operators/detect/'+phone,
         success: function (operator) {
-
             if(!operator){
                 $.ajax({
                     type: 'GET',
@@ -230,16 +229,6 @@ function endRequest(form) {
     });
 }
 
-function showError(idError, message){
-    idError.style.display = "block";
-    idError.innerHTML = message;
-    countErrors++;
-}
-
-function hideError(idError){
-    idError.style.display = "none";
-}
-
 function getFixedValues(fixedValue){
 
    let res = $.ajax({
@@ -342,7 +331,7 @@ function showAllCountry() {
 function getDataOfCountry(){
     let countryField = $('#country');
     $('#country_flag').prop('src',countryField.find('option:selected').attr("data-country-flag"));
-    $('#country-code').html(countryField.find('option:selected').attr("data-ddi"));
+    $('#country-code').val(countryField.find('option:selected').attr("data-ddi"));
 }
 
 function getOperatorFlag(){
