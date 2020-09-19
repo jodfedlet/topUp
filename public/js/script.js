@@ -1,4 +1,5 @@
 countErrors = 0;
+
 function showForgotModal(e){
     e.preventDefault();
     $("#login").modal('hide')
@@ -121,7 +122,7 @@ function submitOperator(event){
 }
 
 function updateValue(val){
-    $('#btn-sent-topup').addClass('d-none');
+    $('#btn-sent-next').addClass('d-none');
     $('#sent_amount').addClass('d-none');
     let newValue = val.value
     if(newValue > 0) {
@@ -135,17 +136,18 @@ function updateValue(val){
             },
             dataType:'json',
             success: function (fxRate) {
-                $('#sent_amount').removeClass('d-none');
-                $('#btn-sent-topup').removeClass('d-none');
-                $('#btn-sent-topup').prop('disabled', false);
-                $('#sent_amount').html(fxRate.toFixed(2) +' '+ $('#destination_currency').html());
+                handleRandomValues(newValue,fxRate)
             }
         })
     }
     else{
-        $('#btn-sent-topup').addClass('d-none');
-        $('#btn-sent-topup').prop('disabled', true);
+        $('#btn-sent-next').addClass('d-none');
+        $('#btn-sent-next').prop('disabled', true);
         $('#sent_amount').addClass('d-none');
+        $('#sending-tr').addClass('d-none')
+        $('#delivered-tr').addClass('d-none')
+        $('#taxe-tr').addClass('d-none')
+        $('#pay-tr').addClass('d-none')
     }
 }
 
@@ -174,8 +176,8 @@ function getCheckout(event, clientID){
     localStorage.setItem('local','')
 
     let data = {
-        total:$("#amount").val(),
-        phone_number:$("#phone_number").val(),
+        total:$("#total").html().split(' ')[0],
+        phone_number:$("#phoneNumber").val(),
         sent_amount:$("#sent_amount").html().split(' ')[0],
         destination_currency:$('#destination_currency').html(),
         sender_currency:$('#sender_currency').html(),
@@ -183,6 +185,7 @@ function getCheckout(event, clientID){
         operator_id: $('#operator_id').html(),
         fixed: $('#fixed').html()
     }
+
     window.location.href ="/checkout?data="+window.btoa(JSON.stringify(data));
 }
 
@@ -222,6 +225,7 @@ function endRequest(form) {
         data:$(form).serializeArray(),
         dataType: 'json',
         success:function (response) {
+            $('#success-message').html(response.message)
             $('#myModal').modal('show')
             //notificationToast(response.message, 'success', '/');
         },
@@ -247,9 +251,35 @@ function getFixedValues(fixedValue){
    return res.responseText;
 }
 
+function handleRandomValues(fixedValue, received) {
+    $('#fixed-value').addClass('d-none')
+    $('#sending-tr').removeClass('d-none')
+    $('#delivered-tr').removeClass('d-none')
+    $('#taxe-tr').removeClass('d-none')
+    $('#pay-tr').removeClass('d-none')
+    $('#fixed').html(0);
+    let destCurrency = $('#destination_currency').html();
+    let sendCurrency = $('#sender_currency').html();
+
+    $('#sendingValue').html(fixedValue+' '+sendCurrency);
+    $('#deliveredValue').html(Number(received).toFixed(2)+' '+destCurrency);
+
+    // $('#receive_amount').val(fixedValue+' '+destCurrency)
+    $('#fixedSendValue').html(Number(fixedValue).toFixed(2))
+    $('#sent_amount').html(Number(fixedValue).toFixed(2)+' '+destCurrency)
+    let tax = parseFloat(0).toFixed(2);
+    $('#taxe').html(tax+' '+sendCurrency)
+    let valTotal = parseFloat(fixedValue).toFixed(2)
+
+    $('#total').html(valTotal+' '+sendCurrency)
+    setTimeout(function () {
+        $('#btn-sent-next').removeClass('d-none');
+    },2)
+}
+
 function handleFixedValue(event, fixedValue, received) {
     event.preventDefault();
-    $('#card-values').addClass('d-none')
+    $('#fixed-value').addClass('d-none')
     $('#sending-tr').removeClass('d-none')
     $('#delivered-tr').removeClass('d-none')
     $('#taxe-tr').removeClass('d-none')
@@ -267,9 +297,13 @@ function handleFixedValue(event, fixedValue, received) {
    let tax = parseFloat(fixedValue*0.15).toFixed(2);
     $('#taxe').html(tax+' '+sendCurrency)
     let valTotal = parseFloat(fixedValue + Number(tax)).toFixed(2)
+
     $('#total').html(valTotal+' '+sendCurrency)
     $('#amount').val(valTotal)
-    $('#btn-sent-topup').removeClass('d-none');
+    setTimeout(function () {
+        $('#btn-sent-next').removeClass('d-none');
+    },2)
+
 }
 
 function createTopupElement(operator) {

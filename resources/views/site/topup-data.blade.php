@@ -100,7 +100,11 @@
                         $data['amount'] = $fixedAmount;
                         $deliveredAmount = $Operator->getFxForAmount($data);
                     @endphp
-                        <a href=""  class="fixed-value">
+                        <a
+                            onclick="handleFixedValue(event,{{$fixedAmount}},{{$deliveredAmount}})"
+                            class="fixed-value"
+                            id="fixed-value"
+                        >
                             <p><b>{{$fixedAmount.' '.$topupData->sender_currency_code}}</b></p>
                             <p>{{$deliveredAmount.' '.$topupData->destination_currency_code}}</p>
                         </a>
@@ -115,13 +119,15 @@
                     readonly
                 ><br>
                 <p class="d-none" id="sent_amount"></p><br>
-                <p class="d-none" id="fixedSendValue"></p><br>
-                <p class="d-none" id="sender_currency"></p>
+                <p class="d-none" id="deliveredAmount"></p><br>
+                <p class="d-none" id="sender_currency">{{$topupData->sender_currency_code}}</p>
                 <p class="d-none" id="destination_currency">{{$topupData->destination_currency_code}}</p>
                 <p class="d-none" id="operator_id">{{$topupData->rid}}</p>
                 <p class="d-none" id="fixed">0</p>
+                <p class="d-none" id="total"></p>
+                <input type="hidden" id="phoneNumber" value="{{$topupData->phone}}">
 
-                <button type="submit" class="button d-none" id="btn-sent-topup">Next</button>
+                <button type="submit" class="button d-none" id="btn-sent-next">Next</button>
             </form>
         </div>
     </div>

@@ -92,6 +92,14 @@
     align-items: center;
     border: 1px solid #e02041;
 }
+.fixed-value a{
+    cursor: pointer;
+    text-decoration:none;
+}
+
+.fixed-value a:hover{
+    cursor: pointer;
+}
 
 .fixed-value:hover{
     border: 5px solid lightgrey;]
@@ -115,5 +123,37 @@
 @media (max-width: 350px) {
     .fixed-value {
         width: 80%;
+    }
+}
+
+.checkout-input-group{
+    display: flex;
+    justify-content: space-between;
+}
+.checkout-form-container{
+    width: 100%;
+    max-width: 1120px;
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkout-form-container .content{
+    width: 100%;
+    padding: 96px;
+    max-width: 550px;
+    background: #f0f0f5;
+    box-shadow: 0 0 100px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 470px) {
+    .checkout-input-group{
+        flex-direction: column;
     }
 }

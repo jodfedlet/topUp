@@ -61,7 +61,7 @@
     <div class="modal fade" id="select-operators">
         <fieldset>
 
-            <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
 
                 <div class="modal-content">
 
