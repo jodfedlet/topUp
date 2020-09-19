@@ -4,7 +4,7 @@
 
 @section('content')
     <?php
-    $data = json_decode(base64_decode($_GET['data']));
+    $data = \App\Helpers\Helper::decryptedData($_GET['data']);
     ?>
     <div class="container checkout-form">
         <img id="loader" src="/../../img/loader.gif" alt="">

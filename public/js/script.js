@@ -137,12 +137,14 @@ function updateValue(val){
             success: function (fxRate) {
                 $('#sent_amount').removeClass('d-none');
                 $('#btn-sent-topup').removeClass('d-none');
+                $('#btn-sent-topup').prop('disabled', false);
                 $('#sent_amount').html(fxRate.toFixed(2) +' '+ $('#destination_currency').html());
             }
         })
     }
     else{
         $('#btn-sent-topup').addClass('d-none');
+        $('#btn-sent-topup').prop('disabled', true);
         $('#sent_amount').addClass('d-none');
     }
 }
@@ -275,10 +277,12 @@ function createTopupElement(operator) {
    // window.btoa(JSON.stringify(operator);
 
     operator.phone = $('#phone_number').val();
+    operator.cc = $('#country').val();
     operator.countryName = $('#country').find('option:selected').attr("name");
     operator.ddi = $('#country').find('option:selected').attr("data-ddi");
     operator.countryFlag = $('#country').find('option:selected').attr("data-country-flag");
-    window.location.href ='/topup-data?country='+$('#country').val()+'operator='+operator.rid+'phone='+operator.phone+'datas='+window.btoa(JSON.stringify(operator));
+
+    window.location.href ='/topup-data?data='+window.btoa(JSON.stringify(operator));
 
     /*
     $('#topup-data').removeClass('d-none');
@@ -294,13 +298,14 @@ function createTopupElement(operator) {
     $('#sending-tr').addClass('d-none')
     $('#delivered-tr').addClass('d-none')
     $('#taxe-tr').addClass('d-none')
-    $('#pay-tr').addClass('d-none')
+    $('#pay-tr').addClass('d-none')*/
 
+    /*
     if (operator.denomination_type === 'FIXED') {
         $('#amount_field').addClass('d-none');
         $('#btn-sent-topup').addClass('d-none');
 
-        let card = ``;
+       /* let card = ``;
         for (let i = 0; i < operator.fixed_amounts.length; i++) {
             let deliveredAmount = getFixedValues(operator.fixed_amounts[i]);
             deliveredAmount = Number(deliveredAmount).toFixed(2);
@@ -322,8 +327,7 @@ function createTopupElement(operator) {
                 </a><br><br>`;
         }
         $('#card-values').html(card);
-    }
-     */
+    }*/
 }
 
 function showAllCountry() {
