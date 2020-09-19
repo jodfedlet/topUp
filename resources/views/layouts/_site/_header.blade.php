@@ -17,6 +17,7 @@
       <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
       <link rel="stylesheet" type="text/css" href="{{asset('css/default.css')}}">
       <link rel="stylesheet" type="text/css" href="{{asset('css/site.css')}}">
+      <link rel="stylesheet" type="text/css" href="{{asset('css/adm/sidebar.css')}}">
   </head>
   <img id="loader" src="/../../../img/loader.gif" alt="">
 
