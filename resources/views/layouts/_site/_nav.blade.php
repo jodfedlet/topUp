@@ -182,12 +182,15 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
+                            <div>
+                                <span class="msg-error text-center" id="msg-error-forgot"></span>
+                            </div><br>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" required>
+                        <input type="email" class="form-control" id="email-forgot" required>
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="form-control btn btn-outline-success" id="btn-create" value="Send email">
+                        <input type="submit" class="form-control btn btn-outline-success" onclick="getEmailToResetPassword(event)" value="Envoyer le lien">
                     </div>
                         </div>
                     </div>

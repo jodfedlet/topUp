@@ -1,24 +1,14 @@
-
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="/adm">
-        <img src="/../img/logo.png/" width="80" height="30" class="d-inline-block align-top" alt="">
-        <span class="menu-collapsed">
-      <a href="#top" data-toggle="sidebar-colapse" class="align-items-center">
-        <div class="d-flex w-100 justify-content-start align-items-center">
-          <span id="collapse-icon" class="fa fa-2x mr-3"></span>
-          <span id="collapse-text" class="menu-collapsed"></span>
-        </div>
-      </a>
-    </span>
-    </a>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/adm/logout"><i class="fa fa-sign-out"></i> Deconnexion </a>
-            </li>
-        </ul>
-    </div>
-</nav>
+@php
+    use App\System;
+    use App\User;
+    $user = json_decode(User::find(Auth::id()));
+    if ($user->level == 1){
+        $user->balance = System::getData()->getBalance();
+    }
+    else if($user->level == 3){
+        $user->balance = $user->balance.' BRL';
+    }
+@endphp
 
 <div class="page-wrapper chiller-theme toggled">
     <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
@@ -35,25 +25,26 @@
                              src="/../../img/topup.jpg"
                              alt="User picture"
                         >
-                    </div><br>
+                    </div>
                     <div class="user-info">
                         <h6 class="user-name">
-                            <strong>Jod Fedlet PIERRE</strong>
+                            <strong>{{$user->name}}</strong>
                         </h6>
                         <span class="user-role"></span>
                         <span class="user-status"></span>
-                    </div><br>
+                    </div>
                 <div class="user-balance">
                         <span class="user-name">
-                            <strong>500</strong>
+                            <strong>{{$user->balance}}</strong>
                         </span>
                     <span class="user-role"></span>
                     <span class="user-status"></span>
                 </div>
-            </div>
+            </div><br>
 
             <div class="sidebar-menu">
                 <ul>
+                    @if($user->id == 1)
                     <li class="sidebar-dropdown">
                         <a href="#submenu1" data-toggle="collapse" aria-expanded="false">
                             <span class="fa fa-dashboard fa-fw mr-3"></span>
@@ -66,6 +57,7 @@
                             </a>
                         </div>
                     </li>
+                    @endif
                     <br>
                     <li>
                         <a href="/adm/topup"class="text-white">
@@ -79,12 +71,14 @@
                             <span >Transactions</span>
                         </a>
                     </li>
+                    @if($user->id == 1)
                     <li>
                         <a href="/adm/contact" class="text-white">
                             <span class="fa fa-phone fa-fw mr-3"></span>
                             <span >Contact</span>
                         </a>
                     </li>
+                     @endif
 
                     <li>
                         <a href="#" class="text-white" id="reload-page">
@@ -94,7 +88,7 @@
                     </li>
 
                     <li>
-                        <a href="/adm/logout" class="text-white" id="reload-page">
+                        <a href="/logout" class="text-white" id="reload-page">
                             <span class="fa fa-power-off fa-fw mr-3"></span>
                             <span class="menu-collapsed ml-2">Deconnexion</span>
                         </a>
@@ -103,5 +97,4 @@
             </div>
         </div>
     </nav>
-    <!-- sidebar-wrapper  -->
 </div>

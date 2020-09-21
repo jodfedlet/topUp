@@ -7,5 +7,6 @@
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/script.js')}}"></script>
 <script src="{{asset('js/user.js')}}"></script>
+<script src="{{asset('js/adm/topup.js')}}"></script>
 </body>
 </html>

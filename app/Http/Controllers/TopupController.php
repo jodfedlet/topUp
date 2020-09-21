@@ -2,15 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Country;
 use App\System;
 use App\Topup;
 use App\Traits\SystemTrait;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TopupController extends Controller
 {
     use SystemTrait;
+
+    public function index()
+    {
+        $countries = Country::all();
+        return view('adm.topup.create', compact('countries'));
+    }
+
+    public function admSendTopup(Request $request)
+    {
+        $data = $request->all();
+
+        $User = User::find(Auth::id());
+        $user = json_decode($User);
+
+        $userBalance = $user->balance;
+        if ($userBalance < $data['value_to_pay']){
+            return response()->json([
+                'message'=>'Votre solde est insuffisant! Veuillez entrer en contact avec l\'administrateur',
+            ],500);
+        }
+        $porcentagemCli = $data['value_to_pay'] * 0.10;
+        $porcSystem = $data['value_to_pay'] * 0.15;
+
+        $sendVal = $data['value_to_pay'];
+
+        $data['value_to_pay'] -= ($porcSystem + $porcentagemCli);
+        $res = json_decode($this->sendTopup($data));
+        if(isset($res->errorCode)) {
+            return response()->json([
+                'message'=>$res->errorCode->message,
+            ],500);
+        }
+        else{
+            $User->balance -= $sendVal - $porcentagemCli;
+            $User->update();
+
+            $data =[
+              'transactionId'=>$res->transactionId,
+              'sentAmount'=>$data['value_to_pay'],
+              'recipientPhone'=>$res->recipientPhone,
+              'operatorName'=>$res->operatorName,
+              'deliveredAmount'=>$res->deliveredAmount,
+            ];
+
+            return response()->json([
+                'message'=>'La recharge est effectuée avec succès!',
+                'data'=>$data
+            ],200);
+        }
+    }
+
     public function sendTopup(array $data){
 
         $system = System::getData();
@@ -25,7 +78,14 @@ class TopupController extends Controller
             "Authorization: Bearer ".$system['api_token']
         ));
 
+        $user = json_decode(User::find(Auth::id()));
+
         $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.25;
+
+        if($user->id != 2){
+            $total = $data['value_to_pay'];
+        }
+
         if($data['fixed'] == '1'){
             $total = $data['sent_amount'];
         }
@@ -38,6 +98,7 @@ class TopupController extends Controller
             'operatorId' => $data['operator_id'],
             'amount' => $total
         ];
+
         curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode($request));
 
         $response = curl_exec($ch);
@@ -58,7 +119,7 @@ class TopupController extends Controller
         }
 
         Topup::create( [
-            'user_id'=>Auth::id(),
+            'user_id'=>$user->id,
             'status'=>$status,
             'phoneNumber'=>$data['phone_number'],
             'total'=>$data['value_to_pay'],

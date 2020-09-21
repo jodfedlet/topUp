@@ -1,8 +1,14 @@
-function logon(event){
+function logon(event,where){
     event.preventDefault();
+
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
     let error = document.getElementById("msg-error-login")
+    if (where === 'adm'){
+        email = document.getElementById('email-normal').value;
+        password = document.getElementById('password-normal').value;
+        error = document.getElementById("msg-error-login-normal")
+    }
 
     if((email === "") || typeof email === 'undefined' || (password === "") || typeof password === 'undefined')
         showError(error, "Tous les champs sont obligatoires");
@@ -20,9 +26,10 @@ function logon(event){
         }
 
         $.ajax({
-            url:'/users/',
+            url:'/login',
             type:'post',
             data:data,
+            dataType:'json',
             success:function(response){
                 if(localStorage.getItem('local') === 'checkout'){
                     getCheckout(event, response.userId)
@@ -99,3 +106,45 @@ function create(event){
     }
 
 }
+
+function getEmailToResetPassword(event) {
+    event.preventDefault();
+
+    let email = document.getElementById('email-forgot').value;
+    let error = document.getElementById("msg-error-forgot")
+    if((email === "") || typeof email === 'undefined')
+        showError(error, "Veuillez entrez l'email")
+    else
+        hideError(error);
+
+    if(countErrors > 0){
+        countErrors = 0;
+        return false;
+    }else {
+
+        let data = {
+            email: email
+        }
+
+        $.ajax({
+            url:'/resetEmail',
+            type:'post',
+            data:data,
+            dataType:'json',
+            success:function(response){
+                notificationToast(response.message,'success',null);
+                hideError(error);
+            },
+            error:function (response) {
+                showError(error, response.responseJSON.error);
+            }
+        });
+    }
+
+}
+
+function confirmResetPassword(event){
+    event.preventDefault();
+    console.log('Teste')
+}
+

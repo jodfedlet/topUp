@@ -48,4 +48,11 @@ class User extends Authenticatable
             ->where($column, '=',$searchColum)
             ->count();
     }
+
+    public static function getColumn($column,$dbColumn, $searchColum)
+    {
+        return DB::table('users')->select($dbColumn)
+            ->where($column, '=',$searchColum)
+            ->get();
+    }
 }

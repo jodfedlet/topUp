@@ -26,34 +26,47 @@ $(window).on('scroll', function(){
     };
 });
 
-$('#pn_form').submit(function (e) {
-    // $('button[type="submit"] i').toggleClass('d-none')
-    e.preventDefault();
+
+function getAllOperatorsByCountryId(countryId) {
+   let res = $.ajax({
+        type: 'GET',
+        url: '/countries/'+countryId+'/operators',
+        async: false
+    })
+    return JSON.parse(res.responseText);
+}
+
+function getByCountryAndPhone(event,where) {
+    event.preventDefault();
     let phone = $('#phone_number').val();
     let country = $('#country').val();
     let countryId = $('#country').find('option:selected').attr("data-countryId");
 
     $.ajax({
         type: 'GET',
-        url: 'countries/'+country+'/operators/detect/'+phone,
+        url: '/countries/'+country+'/operators/detect/'+phone,
         success: function (operator) {
             if(!operator){
-                $.ajax({
-                    type: 'GET',
-                    url: 'countries/'+countryId+'/operators',
-                    success: function (operators) {
-                        let options = '<option value=""></option>';
-                        for (let i = 0; i < operators.length; i++) {
-                            let log = JSON.parse(operators[i].logo_urls);
-                            options += '<option value="' + operators[i].id + '" data-operator-flag="'+log[0]+'">' + operators[i].name + '</option>';
-                        }
-                        $('#select-operators').modal('show');
-                        $('#operator').html(options);
-                    }
-                })
+
+                let operators = getAllOperatorsByCountryId(countryId);
+
+                let options = '<option value="">Select the operator</option>';
+                for (let i = 0; i < operators.length; i++) {
+                    let log = JSON.parse(operators[i].logo_urls);
+                    options += '<option value="' + operators[i].id + '" data-operator-flag="'+log[0]+'">' + operators[i].name + '</option>';
+                }
+
+                if(where === 'adm'){
+                    $('#select-operators-adm').modal('show');
+                    $('#operator-adm').html(options);
+                }
+                else{
+                    $('#select-operators').modal('show');
+                    $('#operator').html(options);
+                }
             }
             else{
-                createTopupElement(operator);
+                createTopupElement(operator, where);
             }
 
             /* $('button[type="submit"] i').toggleClass('d-none')
@@ -102,11 +115,11 @@ $('#pn_form').submit(function (e) {
              }*/
         }
     })
-});
+}
 
-function submitOperator(event){
+function submitOperator(event,where){
     event.preventDefault();
-    let operatorId = $('#operator').val();
+    let operatorId = (where === 'adm')?$('#operator-adm').val():$('#operator').val()
 
     if(typeof operatorId !== 'undefined' && operatorId !== ''){
         $.ajax({
@@ -114,40 +127,54 @@ function submitOperator(event){
             url: '/operator/'+operatorId,
             beforeSend:showLoader(),
             success: function (operator) {
-                $('#select-operators').modal('hide');
-                createTopupElement(operator);
+                if (where === 'adm'){
+                    $('#select-operators-adm').modal('hide');
+                }
+                else{
+                    $('#select-operators').modal('hide');
+                }
+                createTopupElement(operator,where);
             }
         })
     }
 }
 
-function updateValue(val){
+function updateValue(val,where){
     $('#btn-sent-next').addClass('d-none');
     $('#sent_amount').addClass('d-none');
+
+    let operatorId = (where === 'adm')?$('#operator_id').val():$('#operator_id').html()
+
     let newValue = val.value
     if(newValue > 0) {
         $.ajax({
             type: 'post',
             url: '/operator/fxRate',
             data:{
-                id:$('#operator_id').html(),
+                id:operatorId,
                 cc:$('#country').val(),
                 amount:newValue
             },
             dataType:'json',
             success: function (fxRate) {
-                handleRandomValues(newValue,fxRate)
+                handleRandomValues(newValue,fxRate,where)
             }
         })
     }
     else{
-        $('#btn-sent-next').addClass('d-none');
-        $('#btn-sent-next').prop('disabled', true);
-        $('#sent_amount').addClass('d-none');
-        $('#sending-tr').addClass('d-none')
-        $('#delivered-tr').addClass('d-none')
-        $('#taxe-tr').addClass('d-none')
-        $('#pay-tr').addClass('d-none')
+        if (where !== 'adm') {
+            $('#btn-sent-next').addClass('d-none');
+            $('#btn-sent-next').prop('disabled', true);
+            $('#sent_amount').addClass('d-none');
+            $('#sending-tr').addClass('d-none')
+            $('#delivered-tr').addClass('d-none')
+            $('#taxe-tr').addClass('d-none')
+            $('#pay-tr').addClass('d-none')
+        }
+        else {
+            $('#receive_amount').addClass('d-none')
+            $('#btn-sent-topup').addClass('d-none');
+        }
     }
 }
 
@@ -235,46 +262,62 @@ function endRequest(form) {
     });
 }
 
-function getFixedValues(fixedValue){
-
-   let res = $.ajax({
-       type: 'post',
-       url: '/operator/fxRate',
-       data:{
-           id:$('#operator_id').html(),
-           cc:$('#country').val(),
-           amount:fixedValue,
-           type:'fixed'
-       },
-       async:false
-   });
-   return res.responseText;
+function getFixedValues(){
+    let fixedValue = $('#fixedValue-adm').val()
+       $.ajax({
+           type: 'post',
+           url: '/operator/fxRate',
+           data:{
+               id:$('#operator_id').html(),
+               cc:$('#country').val(),
+               amount:fixedValue,
+               type:'fixed'
+           },
+           success:function (fixedFxRate) {
+               $('#receive_amount').removeClass('d-none')
+               $('#receive_amount').html(Number(fixedFxRate).toFixed(2)+' '+$('#destinationCurrency').val())
+               setTimeout(function () {
+                   $('#btn-sent-topup').removeClass('d-none');
+               }, 2)
+           }
+       });
 }
 
-function handleRandomValues(fixedValue, received) {
-    $('#fixed-value').addClass('d-none')
-    $('#sending-tr').removeClass('d-none')
-    $('#delivered-tr').removeClass('d-none')
-    $('#taxe-tr').removeClass('d-none')
-    $('#pay-tr').removeClass('d-none')
-    $('#fixed').html(0);
-    let destCurrency = $('#destination_currency').html();
-    let sendCurrency = $('#sender_currency').html();
+function handleRandomValues(fixedValue, received, where) {
+    if(where === 'adm'){
+        $('#receive_amount').removeClass('d-none')
+        $('#receive_amount').html(Number(received).toFixed(2)+' '+$('#destinationCurrency').val())
+        $("#sent_amount").val(fixedValue)
+        setTimeout(function () {
+            $('#btn-sent-topup').removeClass('d-none');
+        }, 2)
+    }
+    else {
 
-    $('#sendingValue').html(fixedValue+' '+sendCurrency);
-    $('#deliveredValue').html(Number(received).toFixed(2)+' '+destCurrency);
+        $('#fixed-value').addClass('d-none')
+        $('#sending-tr').removeClass('d-none')
+        $('#delivered-tr').removeClass('d-none')
+        $('#taxe-tr').removeClass('d-none')
+        $('#pay-tr').removeClass('d-none')
+        $('#fixed').html(0);
+        let destCurrency = $('#destination_currency').html();
+        let sendCurrency = $('#sender_currency').html();
 
-    // $('#receive_amount').val(fixedValue+' '+destCurrency)
-    $('#fixedSendValue').html(Number(fixedValue).toFixed(2))
-    $('#sent_amount').html(Number(fixedValue).toFixed(2)+' '+destCurrency)
-    let tax = parseFloat(0).toFixed(2);
-    $('#taxe').html(tax+' '+sendCurrency)
-    let valTotal = parseFloat(fixedValue).toFixed(2)
+        $('#sendingValue').html(fixedValue + ' ' + sendCurrency);
+        $('#deliveredValue').html(Number(received).toFixed(2) + ' ' + destCurrency);
 
-    $('#total').html(valTotal+' '+sendCurrency)
-    setTimeout(function () {
-        $('#btn-sent-next').removeClass('d-none');
-    },2)
+        // $('#receive_amount').val(fixedValue+' '+destCurrency)
+        $('#fixedSendValue').html(Number(fixedValue).toFixed(2))
+        $('#sent_amount').html(Number(fixedValue).toFixed(2) + ' ' + destCurrency)
+        let tax = parseFloat(0).toFixed(2);
+        $('#taxe').html(tax + ' ' + sendCurrency)
+        let valTotal = parseFloat(fixedValue).toFixed(2)
+
+        $('#total').html(valTotal + ' ' + sendCurrency)
+        setTimeout(function () {
+            $('#btn-sent-next').removeClass('d-none');
+        }, 2)
+    }
 }
 
 function handleFixedValue(event, fixedValue, received) {
@@ -306,9 +349,7 @@ function handleFixedValue(event, fixedValue, received) {
 
 }
 
-function createTopupElement(operator) {
-
-   // window.btoa(JSON.stringify(operator);
+function createTopupElement(operator, where) {
 
     operator.phone = $('#phone_number').val();
     operator.cc = $('#country').val();
@@ -316,7 +357,38 @@ function createTopupElement(operator) {
     operator.ddi = $('#country').find('option:selected').attr("data-ddi");
     operator.countryFlag = $('#country').find('option:selected').attr("data-country-flag");
 
-    window.location.href ='/topup-data?data='+window.btoa(JSON.stringify(operator));
+    if(where === 'adm'){
+        $('#operator_id').val(operator.rid)
+        //$('#countryCode').val(operator.countryName)
+        $('#countryCode').val($('#country').val())
+        $('#detail_country_name_adm').html(operator.countryName)
+        $('#detail_country_flag_adm').prop('src',operator.countryFlag)
+        $('#detail_operator_name_adm').html(operator.name)
+        $('#detail_operator_flag_adm').prop('src',operator.logo_urls[0])
+        $('#adm_phone_resume').html(operator.ddi+''+operator.phone)
+
+        $('#destinationCurrency').val(operator.destination_currency_code)
+        $('#adm-search-country').addClass('d-none')
+        $("#adm-show-data").removeClass('d-none')
+
+        if (operator.denomination_type === 'FIXED'){
+            $('#amountField').addClass('d-none')
+            $('#fixedValue-adm').removeClass('d-none')
+            $('#fixed').val(1)
+
+            let options = '<option value="">Select the amount</option>';
+            for (let i = 0; i < operator.fixed_amounts.length; i++) {
+                options += '<option value="' + operator.fixed_amounts[i] + '">' + operator.fixed_amounts[i] +' '+operator.sender_currency_code+ '</option>';
+            }
+            $('#fixedValue-adm').html(options)
+        }
+        else{
+            $('#fixed').val(0)
+        }
+    }
+    else {
+        window.location.href = '/topup-data?data=' + window.btoa(JSON.stringify(operator));
+    }
 
     /*
     $('#topup-data').removeClass('d-none');
@@ -374,9 +446,13 @@ function getDataOfCountry(){
     $('#country-code').val(countryField.find('option:selected').attr("data-ddi"));
 }
 
-function getOperatorFlag(){
-    $('#operator_flag_div').removeClass('d-none');
-    $('#operator_flag').prop('src',$('#operator').find('option:selected').attr("data-operator-flag"));
+function getOperatorFlag(where){
+    if (where === 'adm'){
+        console.log('Teste')
+    }else {
+        $('#operator_flag_div').removeClass('d-none');
+        $('#operator_flag').prop('src', $('#operator').find('option:selected').attr("data-operator-flag"));
+    }
 }
 
 function criarPDF() {

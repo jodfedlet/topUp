@@ -12,7 +12,7 @@ class OperatorController extends Controller
 {
     public function get($id){
         $operator = Operator::find($id);
-        $operator->userId = Auth::guest() ? 0 : Auth::id();
+       // $operator->userId = Auth::guest() ? 0 : Auth::id();
         return response()->json($operator);
     }
 

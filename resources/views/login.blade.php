@@ -11,26 +11,25 @@
                 </div>
 
                 <div class="card-body">
-                    <form id="login-normal" onsubmit="logon(event,true)">
+                    <form id="login-normal" onsubmit="logon(event,'adm')">
                         <div>
                             <span class="msg-error text-center" id="msg-error-login-normal"></span>
                         </div><br>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your username" required>
+                            <input type="text" class="form-control" id="email-normal" placeholder="Nom d'utilisateur" required>
                         </div>
 
                         <div class="form-group">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                            <input type="password" class="form-control" id="password-normal" placeholder="Mot de passe" required>
                         </div>
-                        <div class="form-group">
-                            <input type="submit" class="form-control btn btn-outline-success" id="login"  value="Log In">
-                        </div>
+
+                         <button type="submit" class="form-control btn btn-outline-success" id="login">Connecter</button>
+
                     </form>
                 </div>
                 <div class="card-footer">
                     <div class="card-action">
-                        <p><a href=""onclick="showForgotModal(event)">Mot de passe oublié ?</a></p>
-                        <p><a href=""onclick="showCreateModal(event)">Pas de compte ? Créez-en un</a></p>
+                        <p><a onclick="showForgotModal(event)">Mot de passe oublié ?</a></p>
                     </div>
                 </div>
                 </div>
