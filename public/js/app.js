@@ -114,3 +114,31 @@ $(document).ready(function(){
     })
 
 });
+
+$("#close-sidebar").click(function() {
+    $(".page-wrapper").removeClass("toggled");
+});
+$("#show-sidebar").click(function() {
+    $(".page-wrapper").addClass("toggled");
+});
+
+function hideSidebar(x) {
+    if (x.matches) {
+        $(".page-wrapper").removeClass("toggled");
+    }
+}
+
+let x = window.matchMedia("(max-width: 700px)")
+hideSidebar(x)
+x.addListener(hideSidebar)
+
+function onlyNumber(z) {
+    let v = z.value;
+    v=v.replace(/\D/g,"") // permite digitar apenas numero
+    z.value = v;
+}
+
+$("#reload-page").on('click',function () {
+    window.location.href ='/adm'
+})
+

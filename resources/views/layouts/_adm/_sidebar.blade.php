@@ -18,6 +18,9 @@
         <div class="sidebar-content">
             <div class="sidebar-brand text-center">
                 <a href="/adm">Fast topup</a>
+                <div id="close-sidebar">
+                    <i class="fa fa-times"></i>
+                </div>
             </div>
             <div class="sidebar-header">
                     <div class="header-profile">
