@@ -9,6 +9,7 @@ use App\Traits\SystemTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TopupController extends Controller
 {
@@ -22,7 +23,11 @@ class TopupController extends Controller
 
     public function transaction()
     {
-        $topups = Topup::all();
+        $topups = DB::table('topups')
+            ->where('user_id', Auth::id())
+            ->where('status', 'SUCCESS')
+            ->orderByDesc('id')
+            ->get();
         return view('adm.transactions.read',compact('topups'));
     }
 
