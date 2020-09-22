@@ -20,10 +20,15 @@ class TopupController extends Controller
         return view('adm.topup.create', compact('countries'));
     }
 
+    public function transaction()
+    {
+        $topups = Topup::all();
+        return view('adm.transactions.read',compact('topups'));
+    }
+
     public function admSendTopup(Request $request)
     {
         $data = $request->all();
-
         $User = User::find(Auth::id());
         $user = json_decode($User);
 
@@ -40,9 +45,10 @@ class TopupController extends Controller
 
         $data['value_to_pay'] -= ($porcSystem + $porcentagemCli);
         $res = json_decode($this->sendTopup($data));
+
         if(isset($res->errorCode)) {
             return response()->json([
-                'message'=>$res->errorCode->message,
+                'message'=>$res->message,
             ],500);
         }
         else{
@@ -117,7 +123,6 @@ class TopupController extends Controller
             $senderCurrency = $res->requestedAmountCurrencyCode;
             $destinationCurrency = $res->deliveredAmountCurrencyCode;
         }
-
         Topup::create( [
             'user_id'=>$user->id,
             'status'=>$status,

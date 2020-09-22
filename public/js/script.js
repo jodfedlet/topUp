@@ -139,13 +139,23 @@ function submitOperator(event,where){
     }
 }
 
-function updateValue(val,where){
+$('#valeur').on('input',function(){
+
+    //let valeur = $('#valeur').val();
+
     $('#btn-sent-next').addClass('d-none');
+   // $('#btn-sent-next').prop('disabled', true);
     $('#sent_amount').addClass('d-none');
+})
+
+function updateValue(where){
+    /*$('#btn-sent-next').addClass('d-none');
+    $('#sent_amount').addClass('d-none');*/
 
     let operatorId = (where === 'adm')?$('#operator_id').val():$('#operator_id').html()
 
-    let newValue = val.value
+    let newValue = $('#valeur').val();
+
     if(newValue > 0) {
         $.ajax({
             type: 'post',
@@ -157,6 +167,7 @@ function updateValue(val,where){
             },
             dataType:'json',
             success: function (fxRate) {
+                $('#btn-sent-topup').prop("disabled",false);
                 handleRandomValues(newValue,fxRate,where)
             }
         })
@@ -178,14 +189,9 @@ function updateValue(val,where){
     }
 }
 
-function hideOption(field){
-    let number = field.value
-    if(typeof number === "undefined" || number === ""){
-        $('#base_amount_div').addClass('d-none');
-        $('#operator_name').addClass('d-none');
-        $('#operator_image').addClass('d-none');
-        $('#tu_form').addClass('d-none');
-    }
+function hideOption(){
+    $('#receive_amount').addClass('d-none')
+    $('#btn-sent-topup').prop("disabled",true);
 }
 
 $(document).ready(function () {

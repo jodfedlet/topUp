@@ -28,6 +28,7 @@ Route::group(['middleware'=> ['auth']], function (){
     Route::get('/settings','SettingsController@index');
     Route::post('/settings','SettingsController@save');
     Route::get('/logout','UsersController@logout');
+    Route::get('/adm/transaction','TopupController@transaction');
     Route::get('/checkout', 'HomeController@checkout');
 });
 

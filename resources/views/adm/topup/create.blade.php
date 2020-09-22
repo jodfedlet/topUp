@@ -3,7 +3,8 @@
 @section('title','New topup')
 
 @section('content')
-    <section class="content">
+    <section class="topup-container">
+        <section class="content">
 
         <h1 class="text-center" id="topup-title">Create a topup</h1>
         <section>
@@ -86,7 +87,8 @@
             </div>
             <div class="form-group row" id="amountField">
                 <label for="valeur" class="w-100">Valeur</label>
-                <input type="number" step="0.01" min="0" id="valeur" placeholder="Valeur de la recharge" oninput="updateValue(this,'adm')">
+                <input type="number" step="0.01" min="0" id="valeur" placeholder="Valeur de la recharge" oninput="hideOption()">
+                <button type="button" class="btn btn btn-light pull-right" onclick="updateValue('adm')">Recherche</button>
             </div>
 
             <div>
@@ -114,7 +116,17 @@
                 <i class="fa fa-send" aria-hidden="true"></i>
             </button>
         </form>
+            <div class="container d-none" id="receipt">
+                <h4>Reçu de topUp</h4>
+                <p>Nom de l'opérateur: <span id="operatorName">0</span> </p>
+                <p>Numéro de téléphone: <span id="recipientPhone">0</span> </p>
+                <p>Valeur envoyée: <span id="rec_sent_amount">0</span> </p>
+                <p>Valeur reçue: <span id="deliveredAmount">0</span> </p>
+                <p>Status: <span>Succès</span> </p>
+                <p>Date de l'envoie: <span>{{date('d-m-Y h:i:sa')}}</span> </p>
+            </div>
         </section>
+    </section>
     </section>
     <div class="modal fade" id="select-operators-adm">
         <fieldset>
@@ -142,12 +154,5 @@
                 </div>
             </div>
         </fieldset>
-    </div>
-    <div class="container d-none" id="receipt">
-        <h4>Reçu de topUp</h4>
-        <p>Nom de l'opérateur: <span id="operatorName">0</span> </p>
-        <p>Numéro de téléphone: <span id="recipientPhone">0</span> </p>
-        <p>Valeur envoyée: <span id="rec_sent_amount">0</span> </p>
-        <p>Valeur reçue: <span id="deliveredAmount">0</span> </p>
     </div>
 @endsection
