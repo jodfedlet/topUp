@@ -142,3 +142,21 @@ $("#reload-page").on('click',function () {
     window.location.href ='/adm'
 })
 
+
+$(document).ready(function(){
+    if ( $.fn.dataTable.isDataTable( '#table' ) ) {
+        let table = $('#table').DataTable();
+    }
+    else {
+        let table = $('#table').DataTable( {
+            scrollY:  250,
+            deferRender:    true,
+            scroller:       true,
+            responsive:true,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
+            }
+        } );
+    }
+});
+

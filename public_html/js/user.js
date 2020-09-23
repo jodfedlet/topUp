@@ -87,7 +87,7 @@ function create(event){
         }
 
         $.ajax({
-            url:'/users/create/',
+            url:'/users/create',
             type:'post',
             data:data,
             success:function(response){

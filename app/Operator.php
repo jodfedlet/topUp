@@ -33,6 +33,8 @@ class Operator extends Model
         $system = System::getData();
         $ch = curl_init();
 
+       // dd($data);exit;
+
         $amount = $data['amount'] - $data['amount']*0.25;
         if(isset($data['type']) && $data['type'] == 'fixed'){
             $amount = $data['amount'];

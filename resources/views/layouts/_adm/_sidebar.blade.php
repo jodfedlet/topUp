@@ -47,7 +47,7 @@
 
             <div class="sidebar-menu">
                 <ul>
-                    @if($user->id == 1)
+                    @if($user->level == 1)
                     <li class="sidebar-dropdown">
                         <a href="#submenu1" data-toggle="collapse" aria-expanded="false">
                             <span class="fa fa-dashboard fa-fw mr-3"></span>
@@ -74,7 +74,7 @@
                             <span >Transactions</span>
                         </a>
                     </li>
-                    @if($user->id == 1)
+                    @if($user->level == 1)
                     <li>
                         <a href="/adm/contact" class="text-white">
                             <span class="fa fa-phone fa-fw mr-3"></span>

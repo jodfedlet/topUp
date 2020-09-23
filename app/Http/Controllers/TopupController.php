@@ -28,6 +28,10 @@ class TopupController extends Controller
             ->where('status', 'SUCCESS')
             ->orderByDesc('id')
             ->get();
+
+        if (Auth::id() == 1){
+            $topups = Topup::all();
+        }
         return view('adm.transactions.read',compact('topups'));
     }
 
@@ -44,11 +48,11 @@ class TopupController extends Controller
             ],500);
         }
         $porcentagemCli = $data['value_to_pay'] * 0.10;
-        $porcSystem = $data['value_to_pay'] * 0.15;
+      /*  $porcSystem = $data['value_to_pay'] * 0.15;
 
-        $sendVal = $data['value_to_pay'];
+        //$sendVal = $data['value_to_pay'];
 
-        $data['value_to_pay'] -= ($porcSystem + $porcentagemCli);
+       // $data['value_to_pay'] -= ($porcSystem + $porcentagemCli);*/
         $res = json_decode($this->sendTopup($data));
 
         if(isset($res->errorCode)) {
@@ -57,7 +61,7 @@ class TopupController extends Controller
             ],500);
         }
         else{
-            $User->balance -= $sendVal - $porcentagemCli;
+            $User->balance -= $data['value_to_pay'] - $porcentagemCli;
             $User->update();
 
             $data =[
@@ -92,10 +96,6 @@ class TopupController extends Controller
         $user = json_decode(User::find(Auth::id()));
 
         $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.25;
-
-        if($user->id != 2){
-            $total = $data['value_to_pay'];
-        }
 
         if($data['fixed'] == '1'){
             $total = $data['sent_amount'];

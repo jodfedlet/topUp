@@ -47,4 +47,9 @@ class Helper
         )->send();
         return !$mailer->error();
     }
+
+    public static function getCalliCodes()
+    {
+
+    }
 }

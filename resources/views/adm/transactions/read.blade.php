@@ -6,7 +6,7 @@
 <div class="container">
     <div class="card">
         <h1 class="text-center">Transactions effectuées</h1>
-        <table class="table">
+        <table id="table" class="display responsive nowrap" style="width:100%">
             <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -22,14 +22,18 @@
             @foreach($topups as $topup)
                 @php
                 $benefice = $topup->total * .1;
+                $operator = json_decode(\App\Operator::getColumn('rid',$topup->operatorId));
+                if (Auth::id() == 1){
+                    $benefice = $topup->total * .15;
+                }
                 @endphp
             <tr>
                 <th scope="row">{{$topup->id}}</th>
                 <td>{{$topup->updated_at}}</td>
-                <td>{{$topup->operatorId}}</td>
+                <td>{{$operator[0]->name}}</td>
                 <td>{{$topup->phoneNumber}}</td>
                 <td>{{$topup->total.' '.$topup->senderCurrency}}</td>
-                <td>{{number_format($benefice,2)}}</td>
+                <td>{{number_format($benefice,2).' '.$topup->senderCurrency}}</td>
                 <td>{{$topup->receivedAmount.' '.$topup->destinationCurrency}}</td>
             </tr>
             @endforeach
