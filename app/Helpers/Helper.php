@@ -39,13 +39,12 @@ class Helper
     public static function sendEmail($data)
     {
         $mailer = new Mailer();
-        $mailer->add(
+        return $mailer->add(
             $data['subject'],
             $data['body'],
             $data['name'],
             $data['email']
         )->send();
-        return !$mailer->error();
     }
 
     public static function getCalliCodes()

@@ -94,41 +94,50 @@ class UsersController extends Controller
         }
         else{
             $response = response()->json([
-                'error'=>'L\'email n\'a pas pu être envoyé'
+                'error'=>'L\'email n\'a pas pu être envoyé! Veuillez réessayer plus tard!'
             ], 500);
         }
         return $response;
     }
 
-    public function confirmReset(Request $request, $slug)
+    public function confirmReset(Request $request)
     {
-        if(User::checkColumn('forgot', $slug) == 0){
-            $this->retour = Helper::getResponse(false, 'Ce link est invalide!');
-            echo json_encode($this->retour);
-            exit();
-        }
+        $data = $request->all();
 
-        $dados = User::getColumn('id', 'forgot', $_POST['forgot'], true);
-        $User = User::find($dados[0]->id);
-        $User->password = Helper::hashPassword($_POST['password']);
-        $User->forgot = null;
-
-        try{
-            $User->update();
-            $this->retour = Helper::getResponse(true, 'Le mot de passe est modifié avec succès!');
-        }catch (QueryException $e){
-            $this->retour = Helper::getResponse(false, $e->getMessage());
-        }finally{
-            echo json_encode($this->retour);
-            exit();
+        if (empty($data['forgot']) || preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $data['forgot'])
+            || User::checkColumn('forgot', $data['forgot']) == 0
+        ){
+            $response = response()->json([
+                'error'=>'Le lien est invalide! Veuillez réessayer!'
+            ], 500);
         }
+        else {
+            $dados = User::getColumn('forgot', 'id', $data['forgot']);
+
+            $User = User::find($dados[0]->id);
+            $User->password = bcrypt($data['password']);
+            $User->forgot = null;
+
+            try {
+                $User->update();
+                $response = response()->json([
+                    'message'=>'Le mot de passe est modifié avec succès!'
+                ], 200);
+            } catch (QueryException $e) {
+                $response = response()->json([
+                    'error'=>$e->getMessage()
+                ], 500);
+            }
+        }
+        return $response;
     }
 
     private function createForgotHtml($forgot)
     {
         return '
         <p>
-            Pour récupérer votre mot de passe, veuillez cliquer sur le lien suivant: <a href=\'http://127.0.0.1:8000/reset/'.$forgot.'\'>link</a>
+            Pour récupérer votre mot de passe, veuillez cliquer sur le lien ci-dessous: <br><br>
+             <a href=\'http://127.0.0.1:8000/reset/'.$forgot.'\'>Lien de récupération</a>
         </p>
       ';
     }
@@ -146,6 +155,6 @@ class UsersController extends Controller
     {
         Auth()->logout();
         $countries = Country::all();
-        return view('welcome',compact('countries'));
+        return redirect()->route('welcome',compact('countries'));
     }
 }

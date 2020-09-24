@@ -7,7 +7,9 @@
 
             <div class="col-md-5 login-sec">
                 <h2 class="text-center">Récupération du mot de passe</h2>
-                    <span class="msg-error" id="msg-reset"></span>
+
+                <form class="login" onsubmit="return confirmResetPassword(event)">
+                    <span class="msg-error text-center" id="msg-reset"></span>
                     <div class="form-group">
                         <input
                             type="password"
@@ -15,6 +17,7 @@
                             class="form-control"
                             id="password"
                             name="password"
+                            required
                         />
                     </div>
 
@@ -25,18 +28,20 @@
                             class="form-control"
                             id="password-confirm"
                             name="password-confirm"
+                            required
                         />
                     </div>
-                    <input type="hidden" id="forgot" value="{{$forgot['forgot']}}">
+                    <input type="hidden" id="forgot" value="<?= $forgot['forgot']?>">
 
                     <button
                         class="btn btn-success form-control form-btn"
                         type="submit"
-                        onclick="confirmResetPassword(event)"
                     >
                         Récupérer
                     </button>
+                </form>
             </div>
         </div>
     </div>
 </section>
+@include('layouts._site._footer_links')

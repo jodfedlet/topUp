@@ -48,11 +48,7 @@ class TopupController extends Controller
             ],500);
         }
         $porcentagemCli = $data['value_to_pay'] * 0.10;
-      /*  $porcSystem = $data['value_to_pay'] * 0.15;
 
-        //$sendVal = $data['value_to_pay'];
-
-       // $data['value_to_pay'] -= ($porcSystem + $porcentagemCli);*/
         $res = json_decode($this->sendTopup($data));
 
         if(isset($res->errorCode)) {

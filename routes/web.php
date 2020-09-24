@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/','HomeController@index');
+Route::get('/','HomeController@index')->name('welcome');
 
 
 Route::get('/countries', 'CountryController@index');
@@ -14,6 +14,7 @@ Route::post('/operator/fxRate', 'OperatorController@getFxRate');
 Route::get('/login', 'UsersController@index')->name('login');
 Route::post('/resetEmail', 'UsersController@resetEmail');
 Route::get('/reset/{forgot}','UsersController@resetEmailView');
+Route::post('/reset/confirm','UsersController@confirmReset');
 
 Route::post('/login','UsersController@logon');
 Route::post('/users/create','UsersController@create');

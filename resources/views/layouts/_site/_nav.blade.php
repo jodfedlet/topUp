@@ -59,6 +59,9 @@
                     {{\Illuminate\Support\Facades\Auth::user()->name}}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @if(\Illuminate\Support\Facades\Auth::id() != 2)
+                    <a class="dropdown-item" href="/adm">Adm</a>
+                    @endif
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="/logout">Déconnecter</a>
                 </div>

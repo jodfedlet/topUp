@@ -6,7 +6,6 @@ namespace App\Helpers;
 use stdClass;
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 
 /**
  * Class Mailer
@@ -29,14 +28,12 @@ class Mailer
      */
     private $error;
 
-
     const HOST = 'smtp.hostinger.com.br';
     const PORT = '587';
-    const USER = 'contact@cashlakay.com';
-    const PASSWORD = 'MJcode2019';
-    const FROM_NAME = 'Top Recharge';
-    const FROM_EMAIL = 'fedletpierre15@gmail.com';
-
+    const USER = 'contact@toprecharging.com';
+    const PASSWORD = 'Janvier9500030003';
+    const FROM_NAME = 'Top Recharging';
+    const FROM_EMAIL = 'contact@toprecharging.com';
 
     public function __construct()
     {
@@ -92,8 +89,7 @@ class Mailer
                 $this->email->addAttachment($path,$name);
             }
         }
-        $this->email->send();
-        return true;
+        return $this->email->send();
     }
 
     public function error():?Exception

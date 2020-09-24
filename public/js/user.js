@@ -145,6 +145,42 @@ function getEmailToResetPassword(event) {
 
 function confirmResetPassword(event){
     event.preventDefault();
-    console.log('Teste')
+    let forgot = document.getElementById('forgot').value
+    let password = document.getElementById('password').value;
+    let error = document.getElementById("msg-reset");
+
+    let confirm = document.getElementById('password-confirm').value;
+
+    if(password.length < 6)
+        showError(error, "Le contenu du mot de passe doit être supérieur à 6 caractères!");
+    else if(forgot === '' || typeof forgot === 'undefined' || forgot === null)
+        showError(error, "Ce link est invalide");
+    else if(confirm !== password)
+        showError(error, "Les mots de passe doivent-être identiques");
+    else
+        hideError(error);
+
+    if(countErrors > 0){
+        countErrors = 0;
+        return false;
+    }else {
+
+        let data = {
+            forgot: forgot,
+            password: password
+        }
+
+        $.ajax({
+            url:'/reset/confirm',
+            type:'post',
+            data:data,
+            success:function(response){
+                notificationToast(response.message, 'success', '/login');
+            },
+            error:function (response) {
+                notificationToast(response.responseJSON.error, 'error', null);
+            }
+        });
+    }
 }
 
