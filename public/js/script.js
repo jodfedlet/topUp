@@ -268,23 +268,25 @@ function endRequest(form) {
     });
 }
 
-function getFixedValues(){
+function getFixedValues(where){
     let fixedValue = $('#fixedValue-adm').val()
+    let operatorId = (where === 'adm')?$('#operator_id').val():$('#operator_id').html()
+
        $.ajax({
            type: 'post',
            url: '/operator/fxRate',
            data:{
-               id:$('#operator_id').html(),
+               id:operatorId,
                cc:$('#country').val(),
                amount:fixedValue,
                type:'fixed'
            },
            success:function (fixedFxRate) {
+               console.log(fixedFxRate);
+               return
                $('#receive_amount').removeClass('d-none')
                $('#receive_amount').html(Number(fixedFxRate).toFixed(2)+' '+$('#destinationCurrency').val())
-               setTimeout(function () {
-                   $('#btn-sent-topup').removeClass('d-none');
-               }, 2)
+               $('#btn-sent-topup').removeClass('d-none');
            }
        });
 }

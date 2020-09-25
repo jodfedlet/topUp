@@ -1,6 +1,6 @@
-@extends('layouts.site')
+@extends('layouts.adm')
 
-@section('title','System')
+@section('title','Settings')
 
 @section('content')
 

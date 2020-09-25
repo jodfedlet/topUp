@@ -33,8 +33,6 @@ class Operator extends Model
         $system = System::getData();
         $ch = curl_init();
 
-       // dd($data);exit;
-
         $amount = $data['amount'] - $data['amount']*0.25;
         if(isset($data['type']) && $data['type'] == 'fixed'){
             $amount = $data['amount'];
@@ -55,11 +53,15 @@ class Operator extends Model
             'amount' => $amount
         ];
 
+
         curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode($datas));
 
         $response = curl_exec($ch);
         curl_close($ch);
         $response = json_decode($response);
+
+        //dd($data,$response);exit;
+        dd((new Country())->sameCountryAndCurrency($data['cc']));exit;
 
         if((new Country())->sameCountryAndCurrency($data['cc'])){
             $response->fxRate = $data['amount'];

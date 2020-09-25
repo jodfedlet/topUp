@@ -92,7 +92,7 @@
             </div>
 
             <div>
-            <select class="d-none" id="fixedValue-adm" onchange="getFixedValues()">
+            <select class="d-none" id="fixedValue-adm" onchange="getFixedValues('adm')">
                 <option value="">Select an amount</option>
             </select>
             </div>
@@ -117,7 +117,7 @@
             </button>
         </form>
             <div class="container d-none" id="receipt">
-                <h4>Reçu de topUp</h4>
+                <h4>Reçu de topup toprecharging.com</h4>
                 <p>Nom de l'opérateur: <span id="operatorName">0</span> </p>
                 <p>Numéro de téléphone: <span id="recipientPhone">0</span> </p>
                 <p>Valeur envoyée: <span id="rec_sent_amount">0</span> </p>

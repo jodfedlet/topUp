@@ -25,12 +25,14 @@ function logon(event,where){
             password: password
         }
 
+        $('button[type="submit"] i').toggleClass('d-none')
         $.ajax({
             url:'/login',
             type:'post',
             data:data,
             dataType:'json',
             success:function(response){
+                $('button[type="submit"] i').toggleClass('d-none')
                 if(localStorage.getItem('local') === 'checkout'){
                     getCheckout(event, response.userId)
                 }else{
@@ -39,6 +41,7 @@ function logon(event,where){
                 hideError(error);
             },
             error:function (response) {
+                $('button[type="submit"] i').toggleClass('d-none')
                 showError(error, response.responseJSON.error);
             }
         });
@@ -85,12 +88,13 @@ function create(event){
             email: email,
             password: password
         }
-
+        $('button[type="submit"] i').toggleClass('d-none')
         $.ajax({
             url:'/users/create',
             type:'post',
             data:data,
             success:function(response){
+                $('button[type="submit"] i').toggleClass('d-none')
                 if(localStorage.getItem('local') === 'checkout'){
                     return showLoginModal(event);
                 }else{
@@ -99,6 +103,7 @@ function create(event){
                 hideError(error);
             },
             error:function (response) {
+                $('button[type="submit"] i').toggleClass('d-none')
                 error = document.getElementById("msg-create")
                 showError(error, response.responseJSON.error);
             }
@@ -126,16 +131,19 @@ function getEmailToResetPassword(event) {
             email: email
         }
 
+        $('button[type="submit"] i').toggleClass('d-none')
         $.ajax({
             url:'/resetEmail',
             type:'post',
             data:data,
             dataType:'json',
             success:function(response){
+                $('button[type="submit"] i').toggleClass('d-none')
                 notificationToast(response.message,'success',null);
                 hideError(error);
             },
             error:function (response) {
+                $('button[type="submit"] i').toggleClass('d-none')
                 showError(error, response.responseJSON.error);
             }
         });
@@ -152,7 +160,7 @@ function confirmResetPassword(event){
     let confirm = document.getElementById('password-confirm').value;
 
     if(password.length < 6)
-        showError(error, "Le contenu du mot de passe doit être supérieur à 6 caractères!");
+        showError(error, "Le mot de passe doit être supérieur ou égal à 6 caractères!");
     else if(forgot === '' || typeof forgot === 'undefined' || forgot === null)
         showError(error, "Ce link est invalide");
     else if(confirm !== password)

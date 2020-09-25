@@ -5,9 +5,10 @@
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-<script src="{{asset('js/app.js')}}"></script>
-<script src="{{asset('js/script.js')}}"></script>
-<script src="{{asset('js/user.js')}}"></script>
-<script src="{{asset('js/adm/topup.js')}}"></script>
+
+<script src="{{asset('js/app.js?v='.filemtime('js/app.js'))}}"></script>
+<script src="{{asset('js/script.js?v='.filemtime('js/script.js'))}}"></script>
+<script src="{{asset('js/user.js?v='.filemtime('js/user.js'))}}"></script>
+<script src="{{asset('js/adm/topup.js?v='.filemtime('js/adm/topup.js'))}}"></script>
 </body>
 </html>

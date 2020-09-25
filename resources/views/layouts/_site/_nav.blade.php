@@ -101,7 +101,10 @@
                         <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="form-control btn btn-outline-success" id="btn-login" onclick="return logon(event)" value="Log In">
+                        <button type="submit" class="form-control btn btn-outline-success" id="btn-login" onclick="return logon(event)">
+                            <i class="fa fa-spinner fa-spin d-none"></i>
+                            Log In
+                        </button>
                     </div>
                 </form>
                     </div>
@@ -170,7 +173,10 @@
                                  <br>
 
                             <div class="form-group">
-                                <input type="submit" class="form-control btn btn-outline-success" id="btn-create" onclick="return create(event)" value="Create">
+                                <button type="submit" class="form-control btn btn-outline-success" id="btn-create" onclick="return create(event)">
+                                <i class="fa fa-spinner fa-spin d-none"></i>
+                                Create
+                                </button>
                             </div>
                          </form>
                         </div>
@@ -223,7 +229,10 @@
                         <input type="email" class="form-control" id="email-forgot" required>
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="form-control btn btn-outline-success" onclick="getEmailToResetPassword(event)" value="Envoyer le lien">
+                        <button type="submit" class="form-control btn btn-outline-success" onclick="getEmailToResetPassword(event)">
+                            <i class="fa fa-spinner fa-spin d-none"></i>
+                            Envoyer le lien de récupération
+                        </button>
                     </div>
                         </div>
                     </div>

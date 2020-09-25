@@ -8,7 +8,6 @@ use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Psy\Util\Str;
 
 class UsersController extends Controller
 {
@@ -56,7 +55,7 @@ class UsersController extends Controller
                 $user->save();
                 $response = response()->json([
                     'userId'=>Auth::id(),
-                    'redirect'=>'/'], 200);;
+                    'redirect'=>'/'], 200);
             }catch (QueryException $e){
                 $response = response()->json(['error'=>$e->getMessage()], 500);
             }
@@ -137,7 +136,7 @@ class UsersController extends Controller
         return '
         <p>
             Pour récupérer votre mot de passe, veuillez cliquer sur le lien ci-dessous: <br><br>
-             <a href=\'http://127.0.0.1:8000/reset/'.$forgot.'\'>Lien de récupération</a>
+             <a href=\'https://toprecharging.com/reset/'.$forgot.'\'>Lien de récupération</a>
         </p>
       ';
     }

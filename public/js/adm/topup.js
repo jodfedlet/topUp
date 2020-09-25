@@ -30,8 +30,8 @@ function sendTopupAdm(event){
             $('#topup-title').addClass('d-none')
             $('#operatorName').html(response.data.operatorName)
             $('#recipientPhone').html(response.data.recipientPhone)
-            $('#rec_sent_amount').html(data.sent_amount)
-            $('#deliveredAmount').html(response.data.deliveredAmount)
+            $('#rec_sent_amount').html(data.sent_amount+' '+$('#sender_currency').val())
+            $('#deliveredAmount').html(Number(response.data.deliveredAmount).toFixed(2)+' '+$('#destinationCurrency').val())
         },
         error:function (response) {
             notificationToast(response.responseJSON.message, 'error', null);

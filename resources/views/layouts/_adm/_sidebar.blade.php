@@ -11,13 +11,13 @@
 @endphp
 
 <div class="page-wrapper chiller-theme toggled">
-    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+    <a onclick="showSidebar()" class="btn btn-sm btn-dark" href="#">
         <i class="fa fa-bars"></i>
     </a>
-    <nav id="sidebar" class="sidebar-wrapper navbar-dark">
+    <nav id="sidebar" class="sidebar-wrapper navbar-light">
         <div class="sidebar-content">
             <div class="sidebar-brand text-center">
-                <a href="/adm">Fast topup</a>
+                <a href="/adm">Top Recharging</a>
                 <div id="close-sidebar">
                     <i class="fa fa-times"></i>
                 </div>
@@ -56,7 +56,10 @@
                         </a>
                         <div id='submenu1' class="collapse sidebar-submenu text-center">
                             <a href="/adm/agent" class="list-group-item list-group-item-action bg-dark text-white">
-                                <span class="menu-collapsed">Agent</span>
+                                <span class="menu-collapsed">Vendeur</span>
+                            </a>
+                            <a href="/settings" class="list-group-item list-group-item-action bg-dark text-white">
+                                <span class="menu-collapsed">Settings</span>
                             </a>
                         </div>
                     </li>

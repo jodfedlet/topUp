@@ -16,10 +16,6 @@ class SettingsController extends Controller
 
     public function index(Request $request)
     {
-       /* if(Auth::guest()){
-            $countries = Country::all();
-            return view('welcome',compact('countries'));
-        }*/
         return view('system');
     }
 
