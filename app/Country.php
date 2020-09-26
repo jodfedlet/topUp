@@ -23,6 +23,7 @@ class Country extends Model
 
     public function sameCountryAndCurrency(string $countryIso)
     {
+        //dd($this->getUserCountry());exit;
         if($countryIso == Helper::ipDetails()->country){
             $ccCurrencyCode = json_decode(Country::getColumn('iso','currency_code',$countryIso));
             $systemCurrencyCode = System::getData()['currency'];

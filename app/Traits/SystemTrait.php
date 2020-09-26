@@ -93,8 +93,8 @@ trait SystemTrait{
 
         $ch = curl_init();
 
-        //$endPoint = "/operators/auto-detect/phone/$phone/country-code/$iso?&includeBundles=true";
-        $endPoint = "/operators/auto-detect/phone/$phone/country-code/$iso?&suggestedAmountsMap=true&includeBundles=true";
+        $endPoint = "/operators/auto-detect/phone/$phone/country-code/$iso?&includeBundles=true";
+       // $endPoint = "/operators/auto-detect/phone/$phone/country-code/$iso?&suggestedAmountsMap=true&includeBundles=true";
         curl_setopt($ch, CURLOPT_URL, $this['api_url'].$endPoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
@@ -128,6 +128,20 @@ trait SystemTrait{
         curl_close($ch);
         $this->createLog('GET_PROMOTIONS', $response);
         return json_decode($response);
+    }
+
+    public function getUserCountry()
+    {
+         $ch = curl_init();
+         curl_setopt($ch,CURLOPT_URL, "http://api.hostip.info/country.php");
+         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+         $cc = curl_exec($ch);
+         curl_close($ch);
+
+        if ($cc == 'XX'){
+            return $this->getUserCountry();
+        }
+        return $cc;
     }
 
     public function createLog($task,$response, $params = '')

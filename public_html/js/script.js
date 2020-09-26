@@ -272,6 +272,9 @@ function getFixedValues(where){
     let fixedValue = $('#fixedValue-adm').val()
     let operatorId = (where === 'adm')?$('#operator_id').val():$('#operator_id').html()
     $('#taxes').addClass('d-none')
+    $('#receive_amount').addClass('d-none')
+    $('#btn-sent-topup').addClass('d-none');
+    $('#btn-sent-topup').prop('disabled',true);
 
        $.ajax({
            type: 'post',
