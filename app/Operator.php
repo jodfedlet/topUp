@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Traits\SystemTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +16,6 @@ class Operator extends Model
         'local_fixed_amounts' => 'array'
     ];
 
-
     public function country(){
         return $this->belongsTo('App\Country');
     }
@@ -29,13 +27,15 @@ class Operator extends Model
             ->get();
     }
 
-    public function getFxForAmount($data){
+    public function getFxForAmount($data)
+    {
         $system = System::getData();
         $ch = curl_init();
 
         $amount = $data['amount'] - $data['amount']*0.25;
         if(isset($data['type']) && $data['type'] == 'fixed'){
             $amount = $data['amount'];
+            $taxes = $amount*0.25;
         }
 
         curl_setopt($ch, CURLOPT_URL, $system['api_url']."/operators/fx-rate");
@@ -53,19 +53,26 @@ class Operator extends Model
             'amount' => $amount
         ];
 
-
         curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode($datas));
 
         $response = curl_exec($ch);
         curl_close($ch);
         $response = json_decode($response);
 
-        //dd($data,$response);exit;
-        dd((new Country())->sameCountryAndCurrency($data['cc']));exit;
-
         if((new Country())->sameCountryAndCurrency($data['cc'])){
             $response->fxRate = $data['amount'];
         }
-        return isset($response->fxRate)?$response->fxRate:-1;
+        if(isset($response->fxRate)){
+            if (isset($taxes)){
+                $return = new \stdClass();
+                $return->taxes = $taxes;
+                $return->fxRate = $response->fxRate;
+                return response()->json([$return]);
+            }
+            return $response->fxRate;
+        }
+        else{
+            return -1;
+        }
     }
 }

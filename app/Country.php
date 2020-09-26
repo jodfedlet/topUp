@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\Helper;
 use App\Traits\SystemTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class Country extends Model
 
     public function sameCountryAndCurrency(string $countryIso)
     {
-        if($countryIso == $this->getUserCountry()){
+        if($countryIso == Helper::ipDetails()->country){
             $ccCurrencyCode = json_decode(Country::getColumn('iso','currency_code',$countryIso));
             $systemCurrencyCode = System::getData()['currency'];
             if($systemCurrencyCode == $ccCurrencyCode[0]->currency_code) return true;

@@ -17,7 +17,8 @@
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
         "phpmailer/phpmailer": "^6.1",
-        "stripe/stripe-php": "^7.50"
+        "stripe/stripe-php": "^7.50",
+      "ext-simplexml": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -17,6 +17,7 @@ class Topup extends Model
         'operatorId',
         'senderCurrency',
         'destinationCurrency',
+        'taxes',
     ];
 
 }

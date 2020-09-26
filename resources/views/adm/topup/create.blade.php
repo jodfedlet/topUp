@@ -95,16 +95,18 @@
             <select class="d-none" id="fixedValue-adm" onchange="getFixedValues('adm')">
                 <option value="">Select an amount</option>
             </select>
-            </div>
+            </div><br>
 
-            <p><span id="receive_amount"></span></p>
+            <div>
+                <p><span id="receive_amount"></span></p>
+                <p><span id="taxes" class="d-none"></span></p>
+            </div>
 
             <input type="hidden" id="countryCode">
             <input type="hidden" id="destinationCurrency">
             <input type="hidden" id="sent_amount">
             <input type="hidden" id="fixedSendValue">
             <input type="hidden" id="sender_currency">
-            <input type="hidden" id="destination_currency">
             <input type="hidden" id="operator_id">
             <input type="hidden" id="fixed">
             <button
@@ -118,12 +120,16 @@
         </form>
             <div class="container d-none" id="receipt">
                 <h4>Reçu de topup toprecharging.com</h4>
-                <p>Nom de l'opérateur: <span id="operatorName">0</span> </p>
-                <p>Numéro de téléphone: <span id="recipientPhone">0</span> </p>
-                <p>Valeur envoyée: <span id="rec_sent_amount">0</span> </p>
-                <p>Valeur reçue: <span id="deliveredAmount">0</span> </p>
-                <p>Status: <span>Succès</span> </p>
-                <p>Date de l'envoie: <span>{{date('d-m-Y h:i:sa')}}</span> </p>
+                <hr>
+                <p><b>Nom de l'opérateur: </b><span id="operatorName">0</span> </p>
+                <p><b>Numéro de téléphone: </b><span id="recipientPhone">0</span> </p>
+                <p><b>Valeur envoyée: </b><span id="rec_sent_amount">0</span> </p>
+                <p><b>Valeur reçue: </b><span id="deliveredAmount">0</span> </p>
+                <p><b>Status: </b><span>Succès</span> </p>
+                <p><b>Frais de taxes: </b><span id="rec_taxes">0</span> </p>
+                <p><b>Date de l'envoie: </b><span>{{date('d-m-Y h:i:sa')}}</span> </p>
+                <hr>
+                <p><b>Total : </b><span id="total_payer">0</span> </p>
             </div>
         </section>
     </section>

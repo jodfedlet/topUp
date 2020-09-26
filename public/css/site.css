@@ -36,13 +36,13 @@
     margin-left: 8px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .home-container{
-        justify-content: space-around;
+        justify-content: center;
     }
     .home-container section.content{
         align-items: center;
-        justify-content: space-around;
+        justify-content: center;
     }
     .home-container img{
         display: none;

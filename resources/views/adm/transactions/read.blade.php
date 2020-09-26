@@ -21,11 +21,17 @@
             <tbody>
             @foreach($topups as $topup)
                 @php
-                $benefice = $topup->total * .1;
-                $operator = json_decode(\App\Operator::getColumn('rid',$topup->operatorId));
-                if (Auth::id() == 1){
-                    $benefice = $topup->total * .15;
+
+                if ($topup->taxes > 0.00){
+                    if (Auth::id() == 1) $benefice = $topup->taxes * .65;
+                    else $benefice = $topup->taxes * .35;
                 }
+                else{
+                    if (Auth::id() == 1) $benefice = $topup->total * .15;
+                    else $benefice = $topup->total * .1;
+                }
+
+                $operator = json_decode(\App\Operator::getColumn('rid',$topup->operatorId));
                 @endphp
             <tr>
                 <th scope="row">{{$topup->id}}</th>

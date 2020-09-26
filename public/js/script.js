@@ -271,6 +271,7 @@ function endRequest(form) {
 function getFixedValues(where){
     let fixedValue = $('#fixedValue-adm').val()
     let operatorId = (where === 'adm')?$('#operator_id').val():$('#operator_id').html()
+    $('#taxes').addClass('d-none')
 
        $.ajax({
            type: 'post',
@@ -281,12 +282,20 @@ function getFixedValues(where){
                amount:fixedValue,
                type:'fixed'
            },
-           success:function (fixedFxRate) {
-               console.log(fixedFxRate);
-               return
+           success:function (response) {
+               let taxes = Number(response[0].taxes).toFixed(2)
+               let total = Number(fixedValue) + Number(taxes)
+               $('#valeur').val(total)
+               $('#sent_amount').val(Number(fixedValue))
+
                $('#receive_amount').removeClass('d-none')
-               $('#receive_amount').html(Number(fixedFxRate).toFixed(2)+' '+$('#destinationCurrency').val())
+               $('#taxes').removeClass('d-none')
+               $('#receive_amount').html(Number(response[0].fxRate).toFixed(2)+' '+$('#destinationCurrency').val())
+               $('#taxes').html('Pour les opérateurs de valeurs fixes, l\'acheteur doit payer des frais de: '+taxes+' '+$('#sender_currency').val())
+               $('#taxes').css('color','red')
                $('#btn-sent-topup').removeClass('d-none');
+               $('#btn-sent-topup').html('Accepter et Envoyer '+total+' '+$('#sender_currency').val());
+               $('#btn-sent-topup').prop('disabled',false);
            }
        });
 }
@@ -375,6 +384,7 @@ function createTopupElement(operator, where) {
         $('#detail_operator_flag_adm').prop('src',operator.logo_urls[0])
         $('#adm_phone_resume').html(operator.ddi+''+operator.phone)
 
+        $('#sender_currency').val(operator.sender_currency_code)
         $('#destinationCurrency').val(operator.destination_currency_code)
         $('#adm-search-country').addClass('d-none')
         $("#adm-show-data").removeClass('d-none')

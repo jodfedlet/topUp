@@ -24,7 +24,6 @@ function sendTopupAdm(event){
         url: '/adm/topup',
         data:data,
         success:function (response) {
-            notificationToast(response.message, 'success', null);
             $('#receipt').removeClass('d-none')
             $('#adm-show-data').addClass('d-none')
             $('#topup-title').addClass('d-none')
@@ -32,6 +31,8 @@ function sendTopupAdm(event){
             $('#recipientPhone').html(response.data.recipientPhone)
             $('#rec_sent_amount').html(data.sent_amount+' '+$('#sender_currency').val())
             $('#deliveredAmount').html(Number(response.data.deliveredAmount).toFixed(2)+' '+$('#destinationCurrency').val())
+            $('#rec_taxes').html(Number(response.data.taxes).toFixed(2)+' '+$('#sender_currency').val())
+            $('#total_payer').html((Number(response.data.taxes) + Number(data.sent_amount)).toFixed(2)+' '+$('#sender_currency').val())
         },
         error:function (response) {
             notificationToast(response.responseJSON.message, 'error', null);

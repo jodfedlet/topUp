@@ -42,14 +42,17 @@ class TopupController extends Controller
         $user = json_decode($User);
 
         $userBalance = $user->balance;
-        if ($userBalance < $data['value_to_pay']){
+
+        if ($userBalance < $data['value_to_pay'] && $user->id != 1){
             return response()->json([
                 'message'=>'Votre solde est insuffisant! Veuillez entrer en contact avec l\'administrateur',
             ],500);
         }
-        $porcentagemCli = $data['value_to_pay'] * 0.10;
 
-        $res = json_decode($this->sendTopup($data));
+        $porcentagemCli = ($data['fixed'] == '1') ? $data['value_to_pay'] * 0.075: $data['value_to_pay'] * 0.10;
+        $taxes = ($data['fixed'] == '1') ? $data['sent_amount'] * 0.25 : 0;
+
+        $res = json_decode($this->sendTopup($data, $taxes));
 
         if(isset($res->errorCode)) {
             return response()->json([
@@ -66,6 +69,7 @@ class TopupController extends Controller
               'recipientPhone'=>$res->recipientPhone,
               'operatorName'=>$res->operatorName,
               'deliveredAmount'=>$res->deliveredAmount,
+              'taxes'=>$taxes
             ];
 
             return response()->json([
@@ -75,7 +79,7 @@ class TopupController extends Controller
         }
     }
 
-    public function sendTopup(array $data){
+    public function sendTopup(array $data, float $taxes = 0){
 
         $system = System::getData();
         $ch = curl_init();
@@ -124,7 +128,7 @@ class TopupController extends Controller
             $senderCurrency = $res->requestedAmountCurrencyCode;
             $destinationCurrency = $res->deliveredAmountCurrencyCode;
         }
-        Topup::create( [
+        $topups = [
             'user_id'=>$user->id,
             'status'=>$status,
             'phoneNumber'=>$data['phone_number'],
@@ -135,7 +139,10 @@ class TopupController extends Controller
             'operatorId'=>$data['operator_id'],
             'senderCurrency'=>$senderCurrency,
             'destinationCurrency'=>$destinationCurrency,
-        ]);
+            'taxes'=>number_format($taxes,2)
+        ];
+
+        Topup::create($topups);
        return $response;
     }
 

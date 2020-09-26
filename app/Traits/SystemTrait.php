@@ -130,15 +130,6 @@ trait SystemTrait{
         return json_decode($response);
     }
 
-    public function getUserCountry()
-    {
-       $cc = file_get_contents("http://api.hostip.info/country.php");
-       if ($cc == 'XX'){
-           return $this->getUserCountry();
-       }
-       return $cc;
-    }
-
     public function createLog($task,$response, $params = '')
     {
         Log::create([

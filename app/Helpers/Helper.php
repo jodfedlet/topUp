@@ -47,8 +47,13 @@ class Helper
         )->send();
     }
 
-    public static function getCalliCodes()
+    public static function ipDetails()
     {
-
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, "http://ipinfo.io");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($response);
     }
 }

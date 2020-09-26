@@ -14,7 +14,7 @@
     <a onclick="showSidebar()" class="btn btn-sm btn-dark" href="#">
         <i class="fa fa-bars"></i>
     </a>
-    <nav id="sidebar" class="sidebar-wrapper navbar-light">
+    <nav id="sidebar" class="sidebar-wrapper navbar-dark">
         <div class="sidebar-content">
             <div class="sidebar-brand text-center">
                 <a href="/adm">Top Recharging</a>
