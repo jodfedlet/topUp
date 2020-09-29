@@ -30,7 +30,10 @@ class TopupController extends Controller
             ->get();
 
         if (Auth::id() == 1){
-            $topups = Topup::all();
+            $topups = DB::table('topups')
+                ->where('status', 'SUCCESS')
+                ->orderByDesc('id')
+                ->get();
         }
         return view('adm.transactions.read',compact('topups'));
     }
