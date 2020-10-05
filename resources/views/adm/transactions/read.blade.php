@@ -28,7 +28,7 @@
                     else $benefice = $topup->taxes * .35;
                 }
                 else{
-                    if (Auth::id() == 1) $benefice = $topup->total * .15;
+                    if (Auth::id() == 1) $benefice = $topup->total * .2;
                     else $benefice = $topup->total * .1;
                 }
 

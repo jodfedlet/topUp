@@ -52,7 +52,7 @@ class TopupController extends Controller
             ],500);
         }
 
-        $porcentagemCli = ($data['fixed'] == '1') ? $data['value_to_pay'] * 0.075: $data['value_to_pay'] * 0.10;
+        $porcentagemCli = ($data['fixed'] == '1') ? $data['value_to_pay'] * 0.075: $data['value_to_pay'] * 0.1;
         $taxes = ($data['fixed'] == '1') ? $data['sent_amount'] * 0.25 : 0;
 
         $res = json_decode($this->sendTopup($data, $taxes));
@@ -98,7 +98,7 @@ class TopupController extends Controller
 
         $user = json_decode(User::find(Auth::id()));
 
-        $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.25;
+        $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.3;
 
         if($data['fixed'] == '1'){
             $total = $data['sent_amount'];

@@ -32,7 +32,7 @@ class Operator extends Model
         $system = System::getData();
         $ch = curl_init();
 
-        $amount = $data['amount'] - $data['amount']*0.25;
+        $amount = $data['amount'] - $data['amount']*0.3;
         if(isset($data['type']) && $data['type'] == 'fixed'){
             $amount = $data['amount'];
             $taxes = $amount*0.25;
