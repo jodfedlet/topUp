@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Operator;
 use App\Country;
 use App\System;
-use Illuminate\Console\Command;
+use Illuminate\Console\{Command};
 
 class SyncOperators extends Command
 {
@@ -31,6 +31,7 @@ class SyncOperators extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->handle();
     }
 
     /**

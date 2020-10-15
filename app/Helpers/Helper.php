@@ -3,6 +3,9 @@
 
 namespace App\Helpers;
 
+use App\Topup;
+use Illuminate\Support\Facades\Auth;
+
 class Helper
 {
     public static function decryptedData($data)
@@ -55,5 +58,26 @@ class Helper
         $response = curl_exec($ch);
         curl_close($ch);
         return json_decode($response);
+    }
+
+    /**
+     * @param Topup $topup
+     */
+    public static function topupBenefit($topup)
+    {
+        if ($topupUserLevel = json_decode(\App\User::find($topup->user_id))->level != 1){
+            if ($topup->taxes > 0.00){
+                if (Auth::id() == 1) $benefice = $topup->taxes * .65;
+                else $benefice = $topup->taxes * .35;
+            }
+            else{
+                if (Auth::id() == 1) $benefice = $topup->total * .17;
+                else $benefice = $topup->total * .1;
+            }
+        }
+        else{
+            $benefice = ($topup->taxes > 0.00) ? $topup->sentAmount * .25: $topup->total * .25;
+        }
+        return $benefice;
     }
 }

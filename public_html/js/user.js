@@ -192,3 +192,85 @@ function confirmResetPassword(event){
     }
 }
 
+function resellerBalance(idReseller) {
+
+    if (idReseller > 0){
+        $.ajax({
+            url:'/get-reseller-data',
+            type:'post',
+            data:{
+                id:idReseller
+            },
+            dataType:'json',
+            success:function(response){
+                $("#resellerId").val(response.data.id)
+                $("#reseller-name").html(response.data.name)
+                $("#current-balance").html(response.data.balance)
+                $("#btn-add-balance").prop('disabled',true)
+                $("#btn-remove-balance").prop('disabled',true)
+                $("#balance").modal('show')
+            },
+        });
+    }
+}
+
+function buttonOption(field) {
+    let value = field.value;
+    if (value > 0){
+        $("#btn-add-balance").prop('disabled',false)
+        $("#btn-remove-balance").prop('disabled',false)
+    }
+    else{
+        $("#btn-add-balance").prop('disabled',true)
+        $("#btn-remove-balance").prop('disabled',true)
+    }
+}
+
+function addBalance(e){
+    e.preventDefault();
+    let balanceValue = $("#balanceAmount").val();
+    let idReseller = $("#resellerId").val();
+
+    if (balanceValue > 0 && idReseller > 0){
+        $.ajax({
+            url:'/reseller-balance',
+            type:'post',
+            data:{
+                id:idReseller,
+                amount:balanceValue,
+                operation:'add'
+            },
+            dataType:'json',
+            success:function(response){
+                notificationToast(response.message,'success',response.redirect);
+            },
+            error:function (response) {
+                notificationToast(response.responseJSON.error,'error',null);
+            }
+        });
+    }
+}
+
+function removeBalance(e){
+    e.preventDefault();
+    let balanceValue = $("#balanceAmount").val();
+    let idReseller = $("#resellerId").val();
+
+    if (balanceValue > 0 && idReseller > 0) {
+        $.ajax({
+            url: '/reseller-balance',
+            type: 'post',
+            data: {
+                id: idReseller,
+                amount: balanceValue,
+            },
+            dataType: 'json',
+            success: function (response) {
+                notificationToast(response.message, 'success', response.redirect);
+            },
+            error: function (response) {
+                notificationToast(response.responseJSON.error, 'error', null);
+            }
+        });
+    }
+}

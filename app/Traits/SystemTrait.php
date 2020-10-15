@@ -107,12 +107,7 @@ trait SystemTrait{
         curl_close($ch);
         $this->createLog('AUTO_DETECT', $response,'FILE:'.$fileId);
         $response = json_decode($response);
-        $return = null;
-        if(isset($response->operatorId)){
-            $return = Operator::where('rid',$response->operatorId)->first();
-            $return->userId = Auth::guest() ? 0 : Auth::id();
-        }
-        return $return;
+        return isset($response->operatorId) ? Operator::where('rid',$response->operatorId)->first(): null;
     }
 
     public function getPromotions($page=1){

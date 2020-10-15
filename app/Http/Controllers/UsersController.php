@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -18,7 +19,6 @@ class UsersController extends Controller
         }
         $countries = Country::all();
         return view('welcome',compact('countries'));
-
     }
 
     public function logon(Request $request)
@@ -148,6 +148,62 @@ class UsersController extends Controller
         ];
 
         return view('confirmPassword', compact('forgot'));
+    }
+
+    public function showReseller()
+    {
+        $resellers = json_decode(DB::table('users')
+            ->where('id','!=', Auth::id())
+            ->where('level', '!=','1')
+            ->get());
+        return view('adm.system.reseller.read',compact('resellers'));
+    }
+
+    public function getResellerData(Request $request)
+    {
+        return response()->json([
+            'data'=> User::find($request->all()['id'])
+        ], 200);
+    }
+
+    public function resellerBalance(Request $request)
+    {
+        $data = $request->all();
+        $reseller = User::find($data['id']);
+        if (isset($data['operation']) && $data['operation'] == 'add'){
+            $reseller->balance+=$data['amount'];
+            $message = 'Balance added successfully!';
+        }
+        else{
+            if ($data['amount'] <= $reseller->balance){
+                $reseller->balance-=$data['amount'];
+                $message = 'Balance removed successfully!';
+            }
+            else{
+                return response()->json([
+                    'error' => 'Remove balance can not be superior than the current balance!'
+                ], 500);
+            }
+        }
+
+        try {
+            if($reseller->update()) {
+                $response = response()->json([
+                    'redirect' => '/adm/reseller',
+                    'message' => $message
+                ], 200);
+            }else{
+                $response = response()->json([
+                    'error' => $message
+                ], 500);
+            }
+        }
+        catch (\Exception $exception){
+            $response = response()->json([
+                'error' => $exception->getMessage()
+            ], 500);
+        }
+        return $response;
     }
 
     public function logout()

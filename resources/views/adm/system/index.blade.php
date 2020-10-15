@@ -11,7 +11,7 @@
                     <h3>Settings</h3>
                 </div>
                 <div class="card-body">
-                <form action="/settings" method="post">
+                <form action="/adm/settings" method="post">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="client_id">Client ID:</label>
@@ -20,7 +20,7 @@
 
                     <div class="form-group">
                         <label for="client_secret">Client Secret:</label>
-                        <input type="text" class="form-control" id="client_secret" name="client_secret" required placeholder="Client secret" value="2BpfIVt72H-NbEWFeqlIYUtXATW1Wx-OJ0S4FRHO28TNQJSVRQOAO0LAOvwSDJH">
+                        <input type="text" class="form-control" id="client_secret" name="client_secret" required placeholder="Client secret" value="9zoB2kBUhs-ChBAleBy46Z9ajxGTx7-qibfa3Ywv9t4FrHp6rYEZcisRt4QL7tG">
                     </div>
 
                     <div class="form-group" align="center">

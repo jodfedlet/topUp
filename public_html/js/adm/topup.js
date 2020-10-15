@@ -32,7 +32,7 @@ function sendTopupAdm(event){
             $('#rec_sent_amount').html(data.sent_amount+' '+$('#sender_currency').val())
             $('#deliveredAmount').html(Number(response.data.deliveredAmount).toFixed(2)+' '+$('#destinationCurrency').val())
             $('#rec_taxes').html(Number(response.data.taxes).toFixed(2)+' '+$('#sender_currency').val())
-            $('#total_payer').html((Number(response.data.taxes) + Number(data.sent_amount)).toFixed(2)+' '+$('#sender_currency').val())
+            $('#total_payer').html((Number(response.data.taxes).toFixed(2) + Number(data.sent_amount).toFixed(2))+' '+$('#sender_currency').val())
         },
         error:function (response) {
             notificationToast(response.responseJSON.message, 'error', null);

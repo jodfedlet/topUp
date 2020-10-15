@@ -21,17 +21,27 @@ Route::post('/users/create','UsersController@create');
 Route::get('/topup-data', 'HomeController@topupData');
 
 Route::group(['middleware'=> ['auth']], function (){
-    Route::get('/adm','AdmController@index');
+    Route::get('/adm','AdmController@index')->name('admin');
     Route::get('/adm/topup','TopupController@index');
     Route::post('/adm/topup','TopupController@admSendTopup');
 
     Route::post('/checkout', 'PaymentController@stripePayment');
-    Route::get('/settings','SettingsController@index');
-    Route::post('/settings','SettingsController@save');
     Route::get('/logout','UsersController@logout');
     Route::get('/adm/transaction','TopupController@transaction');
     Route::get('/checkout', 'HomeController@checkout');
+
+    //system permissions
+    Route::group(['middleware'=> ['system']], function (){
+        Route::get('/adm/settings','SettingsController@index');
+        Route::post('/adm/settings','SettingsController@save');
+        Route::get('/adm/reseller','UsersController@showReseller');
+        Route::post('/get-reseller-data','UsersController@getResellerData');
+        Route::post('/reseller-balance','UsersController@resellerBalance');
+    });
 });
+
+
+
 
 
 

@@ -31,6 +31,7 @@ class SyncCountries extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->handle();
     }
 
     /**
@@ -41,7 +42,7 @@ class SyncCountries extends Command
     public function handle()
     {
         $countries = System::getData()->getCountries();
-        foreach ($countries as $country)
+        foreach ($countries as $country) {
             Country::updateOrCreate(
                 ['iso' => $country->isoName],
                 [
@@ -53,5 +54,6 @@ class SyncCountries extends Command
                     'calling_codes' => $country->callingCodes
                 ]
             );
+        }
     }
 }

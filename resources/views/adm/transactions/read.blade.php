@@ -22,16 +22,7 @@
             <tbody>
             @foreach($topups as $topup)
                 @php
-
-                if ($topup->taxes > 0.00){
-                    if (Auth::id() == 1) $benefice = $topup->taxes * .65;
-                    else $benefice = $topup->taxes * .35;
-                }
-                else{
-                    if (Auth::id() == 1) $benefice = $topup->total * .2;
-                    else $benefice = $topup->total * .1;
-                }
-
+                $benefit = \App\Helpers\Helper::topupBenefit($topup);
                 $operator = json_decode(\App\Operator::getColumn('rid',$topup->operatorId));
                 $userName = json_decode(\App\User::find($topup->user_id))->name;
                 @endphp
@@ -41,7 +32,7 @@
                 <td>{{$operator[0]->name}}</td>
                 <td>{{$topup->phoneNumber}}</td>
                 <td>{{$topup->total.' '.$topup->senderCurrency}}</td>
-                <td>{{number_format($benefice,2).' '.$topup->senderCurrency}}</td>
+                <td>{{number_format($benefit,2).' '.$topup->senderCurrency}}</td>
                 <td>{{$topup->receivedAmount.' '.$topup->destinationCurrency}}</td>
                 <td>{{$userName}}</td>
             </tr>

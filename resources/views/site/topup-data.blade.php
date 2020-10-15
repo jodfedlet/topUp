@@ -96,10 +96,10 @@
                     $Operator = new \App\Operator();
                     @endphp
                     @foreach($topupData->fixed_amounts as $fixedAmount)
-                    @php
-                        $data['amount'] = $fixedAmount;
-                        $deliveredAmount = $Operator->getFxForAmount($data);
-                    @endphp
+                        @php
+                            $data['amount'] = $fixedAmount;
+                            $deliveredAmount = $Operator->getFxForAmount($data);
+                        @endphp
                         <a
                             onclick="handleFixedValue(event,{{$fixedAmount}},{{$deliveredAmount}})"
                             class="fixed-value"

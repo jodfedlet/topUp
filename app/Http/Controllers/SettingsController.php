@@ -16,7 +16,7 @@ class SettingsController extends Controller
 
     public function index(Request $request)
     {
-        return view('system');
+        return view('adm.system.index');
     }
 
     public function save(Request $request)

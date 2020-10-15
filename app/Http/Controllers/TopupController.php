@@ -29,7 +29,9 @@ class TopupController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        if (Auth::id() == 1){
+        $user = json_decode(User::find(Auth::id()));
+
+        if ($user->level == 1){
             $topups = DB::table('topups')
                 ->where('status', 'SUCCESS')
                 ->orderByDesc('id')
@@ -52,7 +54,6 @@ class TopupController extends Controller
             ],500);
         }
 
-        $porcentagemCli = ($data['fixed'] == '1') ? $data['value_to_pay'] * 0.075: $data['value_to_pay'] * 0.1;
         $taxes = ($data['fixed'] == '1') ? $data['sent_amount'] * 0.25 : 0;
 
         $res = json_decode($this->sendTopup($data, $taxes));
@@ -63,8 +64,10 @@ class TopupController extends Controller
             ],500);
         }
         else{
-            $User->balance -= $data['value_to_pay'] - $porcentagemCli;
-            $User->update();
+            if ($user->level == 3){
+                $User->balance -= $data['value_to_pay'] - (($data['fixed'] == '1') ? $data['value_to_pay'] * 0.075: $data['value_to_pay'] * 0.1);
+                $User->update();
+            }
 
             $data =[
               'transactionId'=>$res->transactionId,
@@ -98,10 +101,10 @@ class TopupController extends Controller
 
         $user = json_decode(User::find(Auth::id()));
 
-        $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.3;
+        $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.27;
 
         if($data['fixed'] == '1'){
-            $total = $data['sent_amount'];
+            $total = (float)$data['sent_amount'];
         }
 
         $request = [
@@ -110,7 +113,7 @@ class TopupController extends Controller
                 'number' => $data['phone_number']
             ],
             'operatorId' => $data['operator_id'],
-            'amount' => $total
+            'amount' =>$total
         ];
 
         curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode($request));

@@ -47,9 +47,7 @@ function getByCountryAndPhone(event,where) {
         url: '/countries/'+country+'/operators/detect/'+phone,
         success: function (operator) {
             if(!operator){
-
                 let operators = getAllOperatorsByCountryId(countryId);
-
                 let options = '<option value="">Select the operator</option>';
                 for (let i = 0; i < operators.length; i++) {
                     let log = JSON.parse(operators[i].logo_urls);

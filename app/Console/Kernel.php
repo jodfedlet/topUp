@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('sync:countries')->daily()->runInBackground();
         $schedule->command('sync:operators')->daily()->runInBackground();
         $schedule->command('sync:tokens')->daily()->runInBackground();
-        $schedule->command('sync:tokens')->everySixHours()->runInBackground();
+       // $schedule->command('sync:tokens')->everySixHours()->runInBackground();
     }
 
     /**

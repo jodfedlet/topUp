@@ -52,13 +52,13 @@
                         <a href="#submenu1" data-toggle="collapse" aria-expanded="false">
                             <span class="fa fa-dashboard fa-fw mr-3"></span>
                             <span class="submenu-icon ml-auto"></span>
-                            <span class="menu-collapsed text-white">Système </span>
+                            <span class="menu-collapsed text-white">System </span>
                         </a>
                         <div id='submenu1' class="collapse sidebar-submenu text-center">
-                            <a href="/adm/agent" class="list-group-item list-group-item-action bg-dark text-white">
-                                <span class="menu-collapsed">Vendeur</span>
+                            <a href="/adm/reseller" class="list-group-item list-group-item-action bg-dark text-white">
+                                <span class="menu-collapsed">Reseller</span>
                             </a>
-                            <a href="/settings" class="list-group-item list-group-item-action bg-dark text-white">
+                            <a href="/adm/settings" class="list-group-item list-group-item-action bg-dark text-white">
                                 <span class="menu-collapsed">Settings</span>
                             </a>
                         </div>

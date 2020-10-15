@@ -54,13 +54,16 @@
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#login">Login</a>
                 </li>
             @else
+                @php
+                    $user = json_decode(\App\User::find(\Illuminate\Support\Facades\Auth::id()))
+                @endphp
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{\Illuminate\Support\Facades\Auth::user()->name}}
+                    {{$user->name}}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    @if(\Illuminate\Support\Facades\Auth::id() != 2)
-                    <a class="dropdown-item" href="/adm">Adm</a>
+                    @if($user->level != '2')
+                         <a class="dropdown-item" href="/adm">Adm</a>
                     @endif
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="/logout">Déconnecter</a>
