@@ -101,10 +101,14 @@ class TopupController extends Controller
 
         $user = json_decode(User::find(Auth::id()));
 
-        $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.27;
+        $total = $data['value_to_pay'] - $data['value_to_pay'] * 0.25;
 
         if($data['fixed'] == '1'){
             $total = (float)$data['sent_amount'];
+        }
+
+        if (($data['operator_id'] == 173) && ($data['value_to_pay'] <= 25)){
+            $total = 6.4;
         }
 
         $request = [

@@ -65,13 +65,13 @@ class Helper
      */
     public static function topupBenefit($topup)
     {
-        if ($topupUserLevel = json_decode(\App\User::find($topup->user_id))->level != 1){
+        if (json_decode(\App\User::find($topup->user_id))->level != 1){
             if ($topup->taxes > 0.00){
                 if (Auth::id() == 1) $benefice = $topup->taxes * .65;
                 else $benefice = $topup->taxes * .35;
             }
             else{
-                if (Auth::id() == 1) $benefice = $topup->total * .17;
+                if (Auth::id() == 1) $benefice = $topup->total * .15;
                 else $benefice = $topup->total * .1;
             }
         }

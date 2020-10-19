@@ -31,7 +31,7 @@ class SyncCountries extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->handle();
+        //$this->handle();
     }
 
     /**

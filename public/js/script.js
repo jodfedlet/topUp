@@ -66,51 +66,6 @@ function getByCountryAndPhone(event,where) {
             else{
                 createTopupElement(operator, where);
             }
-
-            /* $('button[type="submit"] i').toggleClass('d-none')
-
-             $('#details_box').removeClass('d-none');
-             $('#details_box').addClass('d-flex');
-
-             if (typeof operator.errorCode !== 'undefined' || typeof operator.error !== 'undefined'){
-                 $('.operator_detail').addClass('d-none');
-                 $('#operator_name').html(
-                     typeof operator.errorCode !== 'undefined' ? operator.errorCode:operator.error
-                 );
-                 $('#operator_id').html('');
-                 $('#operator_image').prop('src','');
-
-                 $('#tu_form').addClass('d-none');
-                 $('#tu_form input[name="phone_number"]').val('');
-                 $('#tu_form input[name="country_code"]').val('');
-                 $('#tu_form input[name="operator_id"]').val(-1);
-
-                 $('#tu_form label[for="amount"]').html('Amount');
-
-             }
-             else {
-
-                 $('.operator_detail').removeClass('d-none');
-                 $('#operator_name').html(operator.name);
-                 $('#operator_id').val(operator.rid);
-                 $('#operator_image').prop('src',operator.logo_urls[0]);
-
-                 $('#tu_form').removeClass('d-none');
-                 $('#tu_form input[name="phone_number"]').val(phone);
-                 $('#tu_form input[name="country_code"]').val(country);
-                 $('#tu_form input[name="operator_id"]').val(operator.rid);
-
-                 $('#sender_currency').html(operator.sender_currency_code)
-
-                 $('#base_amount').html((operator.fx_rate - operator.fx_rate*0.11).toFixed(4)+ " " + operator.destination_currency_code + " / " + operator.sender_currency_code)
-                 $('#btn-sent-topup').prop('disabled', true);
-                 if (operator.denomination_type === 'RANGE') {
-                     $('#tu_form label[for="amount"]').html('Range Supported Min [' + operator.min_amount + '] Max [' + operator.max_amount + ']');
-                 }
-                 else {
-                     $('#tu_form label[for="amount"]').html('Fixed Amounts Supported [' + operator.fixed_amounts.toString() + ']');
-                 }
-             }*/
         }
     })
 }
@@ -295,7 +250,7 @@ function getFixedValues(where){
                $('#taxes').html('Pour les opérateurs de valeurs fixes, l\'acheteur doit payer des frais de: '+taxes+' '+$('#sender_currency').val())
                $('#taxes').css('color','red')
                $('#btn-sent-topup').removeClass('d-none');
-               $('#btn-sent-topup').html('Accepter et Envoyer '+total+' '+$('#sender_currency').val());
+               $('#btn-sent-topup').html('Accepter et Envoyer '+total.toFixed(2)+' '+$('#sender_currency').val());
                $('#btn-sent-topup').prop('disabled',false);
            }
        });

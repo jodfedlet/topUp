@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Country;
+use App\Events\Accueil;
 use App\Helpers\Helper;
 use App\User;
 use Illuminate\Database\QueryException;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
+    private $addBalance = false;
     public function index()
     {
         if(Auth::guest()){
@@ -141,6 +143,23 @@ class UsersController extends Controller
       ';
     }
 
+    private function rechargeHTML($data)
+    {
+        return '
+        <p>
+        Chèr(e) '.$data['resellerName'].', <br><br>
+            Le montant de '.number_format($data['amount'],2).' BRL(reais) est ajouté sur votre solde avec succès!<br><br>
+            <span><b><em>Nouveau solde: </em></b><span>'.number_format($data['balance'],2).'</span><b><em> BRL.</em></b></span>
+        </p>
+        <hr>
+        Merci d\'avoir utilisé les services de <em><b>toprecharging.com</b></em> !<br><br>
+        Pour toutes informations supplémentaires, veuillez nous contacter sur: <br><br>
+        <span><b>Téléphone: </b>+55 (49) 99966-9170 / (11) 97774-4854</span><br>
+        <span><b>Email: </b>contact@toprecharging.com</span><br>
+        <span><b>Website: </b><a href="https://toprecharging.com">www.toprecharging.com</a></b></span>
+      ';
+    }
+
     public function resetEmailView(Request $request, $slug)
     {
         $forgot = [
@@ -156,6 +175,7 @@ class UsersController extends Controller
             ->where('id','!=', Auth::id())
             ->where('level', '!=','1')
             ->get());
+        event(new Accueil);
         return view('adm.system.reseller.read',compact('resellers'));
     }
 
@@ -172,7 +192,8 @@ class UsersController extends Controller
         $reseller = User::find($data['id']);
         if (isset($data['operation']) && $data['operation'] == 'add'){
             $reseller->balance+=$data['amount'];
-            $message = 'Balance added successfully!';
+            $message = 'Balance added successfully';
+            $this->addBalance = true;
         }
         else{
             if ($data['amount'] <= $reseller->balance){
@@ -188,6 +209,18 @@ class UsersController extends Controller
 
         try {
             if($reseller->update()) {
+                 if($this->addBalance && Helper::sendEmail([
+                    'subject'=>'Recharge du solde',
+                    'body'=>$this->rechargeHTML([
+                        'resellerName'=>$reseller->name,
+                        'amount'=>$data['amount'],
+                        'balance'=>$reseller->balance,
+                    ]),
+                    'name'=>$reseller->name,
+                    'email'=>$reseller->email
+                 ])){
+                     $message = $message.' and an email has been sent to notice '.$reseller->name.'('.$reseller->email.')';
+                 }
                 $response = response()->json([
                     'redirect' => '/adm/reseller',
                     'message' => $message
